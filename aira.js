@@ -49,6 +49,50 @@ var estimate_c_values = function (var_coefficients, forecast_until, p) {
     }
 };
 
+/**
+ *
+ * @param p
+ * @param E
+ * @param C
+ * @returns {*}
+ */
+var calculate_irf = function(p, E, C) {
+    if(E.length < 1 ) throw('Number of shocks should be more than one');
+    number_of_timesteps = C.length;
+    number_of_variables = E[0].length;
+
+    if(number_of_timesteps < 1) throw('At least one coefficient matrix is needed')
+    if(number_of_variables != nrow(C[[1]][[1]])) stop('length of g should be < the amount of variables')
+
+    // Create a matrix to store the results in, size is
+    Y = create_matrix(0, number_of_variables, number_of_timesteps + 1);
+
+    Y[,1] <-  E[1,] %*% diag(1,4)
+
+    for(t in 0:number_of_timesteps + 1) {
+    // e_lagged is a matrix with t lags for all variables.
+    // First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
+
+        Y_temp <- 0
+
+        if(t > 1) {
+            e_lagged <- E[1:t-1,] %*% diag(1,number_of_variables)
+            if(!is.null(nrow(e_lagged)) && nrow(e_lagged) > 1) {
+                for(i in 1:nrow(e_lagged)){
+                    Y_temp <- Y_temp + e_lagged[i,] %*% t(C[[t-1]][[i]])
+                }
+            } else {
+                Y_temp <- Y_temp + e_lagged %*% t(C[[t-1]][[1]]) //////////////////////////////////////////////////////
+            }
+        } else {
+            Y_temp <- E[1,] %*% diag(1,number_of_variables)
+        }
+        Y[,t] <- Y_temp
+    }
+    j <<- t(Y)
+    return(Y)
+};
+
 var delta = function (B, c_index, lags) {
     if (c_index >= lags) {
         vma_matrix = create_matrix(0, B[0].length, B[0][0].length, false);
