@@ -1,5 +1,3 @@
-var DEBUG = true;
-
 var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
     if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
     var number_of_variables = var_coefficients.length;
@@ -45,8 +43,9 @@ var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
                 printMatrix(C[c][ci]);
             }
         }
-        return C;
     }
+
+    return C;
 };
 
 /**
@@ -56,41 +55,45 @@ var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
  * @param C
  * @returns {*}
  */
-var calculateImpulseResponse = function(p, E, C) {
-    if(E.length < 1 ) throw('Number of shocks should be more than one');
-    number_of_timesteps = C.length;
-    number_of_variables = E[0].length;
+var calculateImpulseResponse = function (p, E, C) {
+    if (E.length < 1) throw('Number of shocks should be more than one');
+    var number_of_timesteps = C.length;
+    var number_of_variables = E[0].length;
 
-    if(number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
-    if(number_of_variables != C[0][0].length) throw('length of g should be < the amount of variables');
+    if (number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
+    if (number_of_variables != C[0][0].length) throw('length of g should be < the amount of variables');
+
+    if (DEBUG) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + number_of_variables + ' variables.');
+
+    var Y_temp, e_lagged, t, i;
 
     // Create a matrix to store the results in, size is
-    Y = createMatrix(0, number_of_variables, number_of_timesteps + 1);
+    var Y = createMatrix(0, number_of_timesteps + 1, number_of_variables, false);
 
-    Y[,1] = multiplyMatrices(E[1], createMatrix(0, number_of_variables, number_of_variables, true);
+    var identity_matrix = createMatrix(0, number_of_variables, number_of_variables, true);
 
-    for(t in 0:number_of_timesteps + 1) {
-    // e_lagged is a matrix with t lags for all variables.
-    // First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
+    // The extra [] around E[0] are needed to properly perform the transform.
+    Y[0] = multiplyMatrices([E[0]], identity_matrix);
 
-        Y_temp <- 0
+    for (t = 0; t <= number_of_timesteps; t++) {
+        // TODO: check e_lagged is a matrix with t lags for all variables.
+        // TODO: check First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
+        Y_temp = [0,0,0,0];
 
-        if(t > 1) {
-            e_lagged <- E[1:t-1,] %*% diag(1,number_of_variables)
-            if(!is.null(nrow(e_lagged)) && nrow(e_lagged) > 1) {
-                for(i in 1:nrow(e_lagged)){
-                    Y_temp <- Y_temp + e_lagged[i,] %*% t(C[[t-1]][[i]])
-                }
-            } else {
-                Y_temp <- Y_temp + e_lagged %*% t(C[[t-1]][[1]]) //////////////////////////////////////////////////////
+        if (t > 0) {
+            e_lagged = multiplyMatrices(E.slice(0, t), identity_matrix);
+            for (i = 0; i < e_lagged.length; i++) {
+                var addition = multiplyMatrices([e_lagged[i]], transpose(C[t - 1][i]));
+
+                if(i == 0) Y_temp = sumMatrices([[Y_temp], addition]);
+                else Y_temp = sumMatrices([Y_temp, addition]);
             }
         } else {
-            Y_temp <- E[1,] %*% diag(1,number_of_variables)
+            Y_temp = multiplyMatrices([E[0]], identity_matrix);
         }
-        Y[,t] <- Y_temp
+        Y[t] = Y_temp
     }
-    j <<- t(Y)
-    return(Y)
+    return transpose(Y)
 };
 
 var delta = function (B, c_index, lags) {
