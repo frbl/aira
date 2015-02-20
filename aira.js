@@ -61,7 +61,6 @@ var calculateImpulseResponse = function (p, E, C) {
     var number_of_variables = E[0].length;
 
     if (number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
-    if (number_of_variables != C[0][0].length) throw('length of g should be < the amount of variables');
 
     if (DEBUG) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + number_of_variables + ' variables.');
 
@@ -103,4 +102,15 @@ var delta = function (B, c_index, lags) {
     } else {
         return B[c_index];
     }
+};
+
+var runImpulseResponseCalculation = function(var_model, variable_to_shock, lags, steps_ahead) {
+    var nr_of_variables = var_coefficients.length;
+    var shocks = createMatrix (0, nr_of_variables, steps_ahead, false);
+    shocks[variable_to_shock] = makeFilledArray (steps_ahead, 1);
+    shocks = transpose(shocks);
+    printMatrix(shocks);
+
+    var C = estimateVmaCoefficients(var_model, steps_ahead, lags);
+    return calculateImpulseResponse(lags, shocks, C);
 };
