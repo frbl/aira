@@ -58,8 +58,10 @@ var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
  */
 var calculateImpulseResponse = function(p, E, C) {
     if(E.length < 1 ) throw('Number of shocks should be more than one');
-    number_of_timesteps = C.length;
-    number_of_variables = E[0].length;
+    var number_of_timesteps = C.length;
+    var number_of_variables = E[0].length;
+
+    var t, Y, Y_temp;
 
     if(number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
     if(number_of_variables != C[0][0].length) throw('length of g should be < the amount of variables');
@@ -67,16 +69,18 @@ var calculateImpulseResponse = function(p, E, C) {
     // Create a matrix to store the results in, size is
     Y = createMatrix(0, number_of_variables, number_of_timesteps + 1);
 
+    // TODO: Is it possible to set it just to the rows of the Y matrix, and then transpose the matrix?
     Y[,1] = multiplyMatrices(E[1], createMatrix(0, number_of_variables, number_of_variables, true);
 
-    for(t in 0:number_of_timesteps + 1) {
+    for(t = 0; t <= number_of_timesteps ; t++) {
     // e_lagged is a matrix with t lags for all variables.
     // First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
 
-        Y_temp <- 0
+        Y_temp = 0;
 
         if(t > 1) {
-            e_lagged <- E[1:t-1,] %*% diag(1,number_of_variables)
+            var e_lagged = E[1:t-1,] %*% diag(1,number_of_variables); //////////////////////////////////
+            
             if(!is.null(nrow(e_lagged)) && nrow(e_lagged) > 1) {
                 for(i in 1:nrow(e_lagged)){
                     Y_temp <- Y_temp + e_lagged[i,] %*% t(C[[t-1]][[i]])

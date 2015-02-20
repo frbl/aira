@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9b87324f-8194-4f9c-92cf-0c10a6c2ef9c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aira.js" afterPath="$PROJECT_DIR$/aira.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/math_helpers.js" afterPath="$PROJECT_DIR$/math_helpers.js" />
     </list>
     <ignored path="wip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,8 +72,8 @@
       <file leaf-file-name="aira.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/aira.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5960265" vertical-offset="0" max-vertical-offset="1635">
-              <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.69536424" vertical-offset="600" max-vertical-offset="1695">
+              <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -404,8 +402,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/aira.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5960265" vertical-offset="0" max-vertical-offset="1635">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.69536424" vertical-offset="600" max-vertical-offset="1695">
+          <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
           <folding />
         </state>
       </provider>
