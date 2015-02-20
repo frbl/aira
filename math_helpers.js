@@ -86,7 +86,7 @@ var subset_matrix = function (matrix, from, to) {
  * @param ncol
  * @param identity
  */
-var create_matrix = function (value, nrow, ncol, identity) {
+var createMatrix = function (value, nrow, ncol, identity) {
     var matrix = new Array(nrow);
     for (var i = 0; i < nrow; i++) {
         matrix[i] = makeFilledArray(ncol, value);

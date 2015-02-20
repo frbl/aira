@@ -1,6 +1,6 @@
 var DEBUG = true;
 
-var estimate_c_values = function (var_coefficients, forecast_until, p) {
+var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
     if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
     var number_of_variables = var_coefficients.length;
 
@@ -56,18 +56,18 @@ var estimate_c_values = function (var_coefficients, forecast_until, p) {
  * @param C
  * @returns {*}
  */
-var calculate_irf = function(p, E, C) {
+var calculateImpulseResponse = function(p, E, C) {
     if(E.length < 1 ) throw('Number of shocks should be more than one');
     number_of_timesteps = C.length;
     number_of_variables = E[0].length;
 
-    if(number_of_timesteps < 1) throw('At least one coefficient matrix is needed')
-    if(number_of_variables != nrow(C[[1]][[1]])) stop('length of g should be < the amount of variables')
+    if(number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
+    if(number_of_variables != C[0][0].length) throw('length of g should be < the amount of variables');
 
     // Create a matrix to store the results in, size is
-    Y = create_matrix(0, number_of_variables, number_of_timesteps + 1);
+    Y = createMatrix(0, number_of_variables, number_of_timesteps + 1);
 
-    Y[,1] <-  E[1,] %*% diag(1,4)
+    Y[,1] = multiplyMatrices(E[1], createMatrix(0, number_of_variables, number_of_variables, true);
 
     for(t in 0:number_of_timesteps + 1) {
     // e_lagged is a matrix with t lags for all variables.
@@ -95,7 +95,7 @@ var calculate_irf = function(p, E, C) {
 
 var delta = function (B, c_index, lags) {
     if (c_index >= lags) {
-        vma_matrix = create_matrix(0, B[0].length, B[0][0].length, false);
+        vma_matrix = createMatrix(0, B[0].length, B[0][0].length, false);
         return vma_matrix;
     } else {
         return B[c_index];
