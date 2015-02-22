@@ -500,7 +500,6 @@ pre, code, kbd, samp, tt {
 
 /* line 363, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
 .fancybox-close {
-  background: url(/assets/close.png) no-repeat;
   width: 11px;
   height: 11px;
   top: 13px;
@@ -513,16 +512,12 @@ pre, code, kbd, samp, tt {
 /* fonts */
 @font-face {
   font-family: 'bold';
-  src: url(/assets/bold.eot);
-  src: url(/assets/bold.eot?#iefix) format("embedded-opentype"), url(/assets/bold.woff) format("woff"), url(/assets/bold.ttf) format("truetype"), url(/assets/bold.svg#bold) format("svg");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'medium';
-  src: url(/assets/medium.eot);
-  src: url(/assets/medium.eot?#iefix) format("embedded-opentype"), url(/assets/medium.woff) format("woff"), url(/assets/medium.ttf) format("truetype"), url(/assets/medium.svg#bold) format("svg");
   font-weight: normal;
   font-style: normal;
 }

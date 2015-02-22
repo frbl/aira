@@ -108,3 +108,23 @@ var makeFilledArray = function (len, value) {
     while (len-- > 0) row.push(value);
     return row;
 };
+
+/**
+ *
+ * @param data
+ * @returns {Array}
+ */
+var cumulativeSummation = function(data) {
+    var unused_sum = 0;
+    return data.map(function(variable, index) {
+        sum = 0;
+        // The if statement is needed so it also works with 1d arrays.
+        if(variable.length != undefined) {
+            return variable.map(function(value, index) {
+                return sum += value;
+            });
+        } else {
+            return unused_sum += variable;
+        }
+    });
+};

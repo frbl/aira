@@ -1,3 +1,5 @@
+var DEBUG = 1;
+
 var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
     if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
     var number_of_variables = var_coefficients.length;
@@ -10,7 +12,7 @@ var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
         B[lag] = subset_matrix(var_coefficients, x, x + number_of_variables);
     }
 
-    if (DEBUG) {
+    if (DEBUG > 2) {
         for (b = 0; b < B.length; b++) {
             printMatrix(B[b])
         }
@@ -36,7 +38,7 @@ var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
     }
 
     // TODO: Remove zero matrices if needed.
-    if (DEBUG) {
+    if (DEBUG > 3) {
         for (c = 0; c < C.length; c++) {
             for (ci = 0; ci < C[c].length; ci++) {
                 console.log(c + ':' + ci);
@@ -62,7 +64,7 @@ var calculateImpulseResponse = function (p, E, C) {
 
     if (number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
 
-    if (DEBUG) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + number_of_variables + ' variables.');
+    if (DEBUG > 0) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + number_of_variables + ' variables.');
 
     var Y_temp, e_lagged, t, i;
 
@@ -77,7 +79,7 @@ var calculateImpulseResponse = function (p, E, C) {
     for (t = 0; t <= number_of_timesteps; t++) {
         // TODO: check e_lagged is a matrix with t lags for all variables.
         // TODO: check First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
-        Y_temp = [0,0,0,0];
+        Y_temp = makeFilledArray(number_of_variables,0);
 
         if (t > 0) {
             e_lagged = multiplyMatrices(E.slice(0, t), identity_matrix);
@@ -95,6 +97,25 @@ var calculateImpulseResponse = function (p, E, C) {
     return transpose(Y)
 };
 
+var determineOptimalNode = function(var_model, lags, steps_ahead, threshold) {
+    var variable, irf, cumulative, cumulative_name;
+    var result = {};
+    var minimals = {};
+    var number_of_variables = var_model.length;
+    for(variable = 0 ; variable < number_of_variables ; variable++) {
+        cumulative_name = node_names[variable]+'_cumulative';
+        irf = runImpulseResponseCalculation(var_model, variable, lags, steps_ahead);
+        cumulative = cumulativeSummation(irf);
+
+        result[node_names[variable]] = irf;
+        result[cumulative_name] = cumulative;
+
+        minimals[node_names[variable]] = binarySearch(result[cumulative_name], threshold)
+    }
+
+    return minimals;
+};
+
 var delta = function (B, c_index, lags) {
     if (c_index >= lags) {
         vma_matrix = createMatrix(0, B[0].length, B[0][0].length, false);
@@ -105,12 +126,18 @@ var delta = function (B, c_index, lags) {
 };
 
 var runImpulseResponseCalculation = function(var_model, variable_to_shock, lags, steps_ahead) {
-    var nr_of_variables = var_coefficients.length;
+    if (DEBUG > 0) console.log('Running calculation for: '+ variable_to_shock + ' with ' + lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
+    var nr_of_variables = var_model.length;
     var shocks = createMatrix (0, nr_of_variables, steps_ahead, false);
     shocks[variable_to_shock] = makeFilledArray (steps_ahead, 1);
     shocks = transpose(shocks);
-    printMatrix(shocks);
 
     var C = estimateVmaCoefficients(var_model, steps_ahead, lags);
-    return calculateImpulseResponse(lags, shocks, C);
+    var result = calculateImpulseResponse(lags, shocks, C);
+    if (DEBUG > 2){
+        console.log('Impulse response:');
+        printMatrix(result[0]);
+    }
+
+    return result[0];
 };

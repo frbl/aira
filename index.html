@@ -2,27 +2,244 @@
 <head>
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <link rel="stylesheet" media="all" href="application.css" data-turbolinks-track="true" />
+    <link rel="stylesheet" media="all" href="application.css" data-turbolinks-track="true"/>
     <script>var DEBUG = false;</script>
     <script src='javascript.js'></script>
     <script src='math_helpers.js'></script>
+    <script src='simulation.js'></script>
+    <script src='searchers.js'></script>
     <script src='aira.js'></script>
+
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-
+    <style>
+        #netDynamisch {
+            padding-bottom: 50px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="warm" style="height:100%;">
-    <div id="netGelijk"></div>
-    <div id="netDynamisch" class="svg-container centered-svg" style="-webkit-transform: scale(1, 1); transform: scale(1, 1); height: 320px;"><svg width="515" height="320"><g class="network" transform="translate(130,70)"><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(24.72201736779794,137.49375277548097)">+</text><path class="arclink" style="stroke-width: 1px;" d="M175.06943202536587,22.526836497939225A215.59302952318762,215.59302952318762 0 0,1 0,148.34833048565918"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(104.39158630371094,108.89244079589844) rotate(-215.70460670857716) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(52.558714426782586,9.52951783300195)">-</text><path class="arclink" style="stroke-width: 1px;" d="M175.06943202536587,22.526836497939225A149.48026407831082,149.48026407831082 0 0,1 27.296325587432932,0"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(98.16488647460938,31.061256408691406) rotate(-171.33244294092046) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(156.44538641653577,146.8635056033937)">-</text><path class="arclink" style="stroke-width: 1px;" d="M175.06943202536587,22.526836497939225A152.00835176329048,152.00835176329048 0 0,1 145.86183277568713,171.7027566454698"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(180.45143127441406,101.02783203125) rotate(-258.9220269927393) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(150.34741465756795,33.38141420811742)">+</text><path class="arclink" style="stroke-width: 1px;" d="M0,148.34833048565918A215.59302952318762,215.59302952318762 0 0,1 175.06943202536587,22.526836497939225"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(70.67784881591797,61.98271179199219) rotate(-35.70460670857715) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(16.996144278527684,24.95809017139891)">-</text><path class="arclink" style="stroke-width: 1px;" d="M0,148.34833048565918A150.83871037786523,150.83871037786523 0 0,1 27.296325587432932,0"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(-6.2267374992370605,70.51710510253906) rotate(-79.57410451364856) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(120.67151211103132,161.9843336863774)">+</text><path class="arclink" style="stroke-width: 1px;" d="M0,148.34833048565918A147.71967872269613,147.71967872269613 0 0,1 145.86183277568713,171.7027566454698"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(76.05982971191406,140.4837646484375) rotate(9.096608976487783) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(149.80704318601622,12.997318664937273)">+</text><path class="arclink" style="stroke-width: 1px;" d="M27.296325587432932,0A149.48026407831082,149.48026407831082 0 0,1 175.06943202536587,22.526836497939225"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(104.20091247558594,-8.534414291381836) rotate(8.667557059079535) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(10.300181308905248,123.39024031426027)">-</text><path class="arclink" style="stroke-width: 1px;" d="M27.296325587432932,0A150.83871037786523,150.83871037786523 0 0,1 0,148.34833048565918"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(33.5230712890625,77.83119201660156) rotate(-259.57410451364854) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(135.47448223038282,146.7808195488281)">-</text><path class="arclink" style="stroke-width: 1px;" d="M27.296325587432932,0A208.6614869458698,208.6614869458698 0 0,1 145.86183277568713,171.7027566454698"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(109.58292388916016,69.96662902832031) rotate(55.373847034323695) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(164.48587838451726,47.36608754001536)">+</text><path class="arclink" style="stroke-width: 1px;" d="M145.86183277568713,171.7027566454698A152.00835176329048,152.00835176329048 0 0,1 175.06943202536587,22.526836497939225"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(140.47984313964844,93.20175170898438) rotate(-78.92202699273928) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(25.190320664655808,158.06675344475158)">+</text><path class="arclink" style="stroke-width: 1px;" d="M145.86183277568713,171.7027566454698A147.71967872269613,147.71967872269613 0 0,1 0,148.34833048565918"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(69.80201721191406,179.56732177734375) rotate(-170.90339102351223) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(37.68367613273725,24.92193709664171)">-</text><path class="arclink" style="stroke-width: 1px;" d="M145.86183277568713,171.7027566454698A208.6614869458698,208.6614869458698 0 0,1 27.296325587432932,0"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(63.57526779174805,101.73615264892578) rotate(-124.62615296567631) scale(1)"></path></g><g><circle class="node Neutraal" id="eating_a_lot_of_candy" r="10" cx="255" cy="210"></circle><circle class="nodeGrad" r="10" style="fill: url(#nodeGrad);" cx="255" cy="210"></circle></g><g><circle class="node Negatief" id="e" r="20" cx="175.06943202536587" cy="22.526836497939225"></circle><circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="175.06943202536587" cy="22.526836497939225"></circle></g><g><circle class="node Positief" id="prod" r="20" cx="0" cy="148.34833048565918"></circle><circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="0" cy="148.34833048565918"></circle></g><g><circle class="node Positief" id="rw" r="20" cx="27.296325587432932" cy="0"></circle><circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="27.296325587432932" cy="0"></circle></g><g><circle class="node Negatief" id="u" r="20" cx="145.86183277568713" cy="171.7027566454698"></circle><circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="145.86183277568713" cy="171.7027566454698"></circle></g><g class="labelNode" transform="translate(255,210)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(267.8545711002293,217.730459354343)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="0.4em" text-anchor="start">Eating a lot of candy</text></g><g class="labelNode" transform="translate(175.06943202536587,22.526836497939225)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(189.19582895007107,1.900520541722539)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="-0.1em" text-anchor="start">e</text></g><g class="labelNode" transform="translate(0,148.34833048565918)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(-22.508914495536104,159.22715249140248)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="0.4em" text-anchor="end">Prod</text></g><g class="labelNode" transform="translate(27.296325587432932,0)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(11.733333471909758,-19.565103536965083)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="-0.1em" text-anchor="end">rw</text></g><g class="labelNode" transform="translate(145.86183277568713,171.7027566454698)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(142.9012759255919,196.5268397732986)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="0.4em" text-anchor="end">U</text></g></g><defs><radialGradient id="nodeGrad" cx="30%" cy="30%" r="55%"><stop offset="0%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop><stop offset="5%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop><stop offset="100%" stop-opacity="0.0" style="stop-color: rgb(255, 255, 255);"></stop></radialGradient></defs></svg></div>
+    <div id="aira-input">
+        <div id="aira-buttons"></div>
+        <div id="panel">
+            <form>
+                <label> Prediction </label>
+                <select id='prediction' class="target">
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <span id="result"></span><br>
+
+
+    <div id="netDynamisch" class="svg-container centered-svg"
+         style="-webkit-transform: scale(0.767354368932039, 0.767354368932039); transform: scale(0.767354368932039, 0.767354368932039); height: 245.553398058252px;">
+        <div id="shock-div" style="height:30px;"><span id="shock" style="font-size:150%; display:none; background-color:#ff0000;">!SHOCK!</span></div>
+        <svg width="515" height="320">
+            <g class="network" transform="translate(130,70)">
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(248.23089196209892,26.447419123303288)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M255,196.9408269770093A196.94534889699744,196.94534889699744 0 0,1 253.6654132580671,0"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(227.9476318359375,98.6491470336914) rotate(-90.38826391874098) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(45.114191503530414,214.14937960980456)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M255,196.9408269770093A236.92524407589454,236.92524407589454 0 0,1 18.43493647544279,210.00000000000003"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(138.46707153320312,235.16412353515625) rotate(-183.15970927794552) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(17.548868903890572,22.06333189514605)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M255,196.9408269770093A321.2551399438468,321.2551399438468 0 0,1 0,1.5441408732255588"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(101.32176208496094,133.40597534179688) rotate(-142.53844343704534) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(260.4345212959682,170.493407853706)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M253.6654132580671,0A196.94534889699744,196.94534889699744 0 0,1 255,196.9408269770093"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(280.7177734375,98.29158020019531) rotate(89.61173608125902) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(41.874758291000816,196.59944951672176)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M253.6654132580671,0A315.33058400253657,315.33058400253657 0 0,1 18.43493647544279,210.00000000000003"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(164.1848602294922,136.514892578125) rotate(-221.7566115403841) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(26.4436671220929,6.996889642052434)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M253.6654132580671,0A253.67011304925603,253.67011304925603 0 0,1 0,1.5441408732255588"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(127.03953552246094,34.75679016113281) rotate(-180.3487730593624) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(228.32074497191235,192.79144736720477)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M18.43493647544279,210.00000000000003A236.92524407589454,236.92524407589454 0 0,1 255,196.9408269770093"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(134.96786499023438,171.77667236328125) rotate(-3.1597092779455136) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(230.22559144250909,13.400550483278288)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M18.43493647544279,210.00000000000003A315.33058400253657,315.33058400253657 0 0,1 253.6654132580671,0"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(107.91548156738281,73.48513793945312) rotate(-41.75661154038412) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(-3.2652867226465747,28.345967352383806)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M18.43493647544279,210.00000000000003A209.26942463517037,209.26942463517037 0 0,1 0,1.5441408732255588"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(-18.710329055786133,108.24189758300781) rotate(-95.05384366262123) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(237.45113109610944,176.42163595508882)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M0,1.5441408732255588A321.2551399438468,321.2551399438468 0 0,1 255,196.9408269770093"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(153.67808532714844,65.07888793945312) rotate(37.461556562954655) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(227.2217461359742,-5.4527487688268765)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M0,1.5441408732255588A253.67011304925603,253.67011304925603 0 0,1 253.6654132580671,0"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(126.62584686279297,-33.21265411376953) rotate(-0.3487730593624017) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(21.700223198089365,183.19817352084178)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M0,1.5441408732255588A209.26942463517037,209.26942463517037 0 0,1 18.43493647544279,210.00000000000003"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(37.145259857177734,103.30224609375) rotate(84.94615633737877) scale(1)"></path>
+                </g>
+                <g>
+                    <circle class="node Positief" id="e" r="20" cx="255" cy="196.9408269770093"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="255"
+                            cy="196.9408269770093"></circle>
+                </g>
+                <g>
+                    <circle class="node Negatief" id="prod" r="20" cx="253.6654132580671" cy="0"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="253.6654132580671"
+                            cy="0"></circle>
+                </g>
+                <g>
+                    <circle class="node Positief" id="rw" r="20" cx="18.43493647544279"
+                            cy="210.00000000000003"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="18.43493647544279"
+                            cy="210.00000000000003"></circle>
+                </g>
+                <g>
+                    <circle class="node Negatief" id="u" r="20" cx="0" cy="1.5441408732255588"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="0"
+                            cy="1.5441408732255588"></circle>
+                </g>
+                <g class="labelNode" transform="translate(255,196.9408269770093)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(272.7964813849756,214.49888069358667)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="0.4em" text-anchor="start">e</text>
+                </g>
+                <g class="labelNode" transform="translate(253.6654132580671,0)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(270.23112616156203,-18.723705722932685)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="-0.1em" text-anchor="start">prod</text>
+                </g>
+                <g class="labelNode" transform="translate(18.43493647544279,210.00000000000003)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(1.9674430480601792,228.8101477989704)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="0.4em" text-anchor="end">rw</text>
+                </g>
+                <g class="labelNode" transform="translate(0,1.5441408732255588)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(-18.03706940167313,-15.766668680322962)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="-0.1em" text-anchor="end">U</text>
+                </g>
+            </g>
+            <defs>
+                <radialGradient id="nodeGrad" cx="30%" cy="30%" r="55%">
+                    <stop offset="0%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop>
+                    <stop offset="5%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop>
+                    <stop offset="100%" stop-opacity="0.0" style="stop-color: rgb(255, 255, 255);"></stop>
+                </radialGradient>
+            </defs>
+        </svg>
+    </div>
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 </div>
 
 <script>
-    $(document).ready(function(){
+    var best;
+
+    $(document).ready(function () {
         inject_buttons();
+        max_steps = 100;
+
+        for (i = 1; i < max_steps; i += 1) {
+            $('#prediction')
+                    .append($("<option></option>")
+                            .attr("value", i)
+                            .text(i));
+        }
+
+        $("#prediction option[value='" + max_steps / 2 + "']").attr('selected', 'selected');
+        var lags = 4;
+        var prediction = $('#prediction').val();
+
+        var irf = runImpulseResponseCalculation(var_coefficients, 0, lags, prediction);
+        var transposed_irf = transpose(irf);
+        redraw(transposed_irf);
+
+        best = determineOptimalNode(var_coefficients, lags, prediction, 1);
+
+        $("#result").text('Best node:' + best);
     });
 </script>
 </body>
