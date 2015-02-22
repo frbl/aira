@@ -36,6 +36,7 @@ var sumMatrices = function (matrices) {
 var printMatrix = function(matrix) {
     var r, c, s;
     console.log('-----------------');
+    console.log('Dimensions: ' + matrix.length +"x" + matrix[0].length);
     s = '   ';
     for(r = 0 ; r < matrix.length;r++) {
         s += r + ', ';
@@ -49,6 +50,7 @@ var printMatrix = function(matrix) {
         console.log(s.slice(0, -2));
     }
     console.log('-----------------');
+    return true
 };
 
 /**
