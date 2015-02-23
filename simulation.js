@@ -6,13 +6,15 @@ var run_simulation = function (irf) {
 
     clearSimulation();
     intervals.push(setInterval(function () {
-        if(step == 0) shockdiv.show();
+        if (step == 0) shockdiv.show();
         else shockdiv.fadeOut("slow");
 
         var node_id;
         for (node_id in node_names) {
-            var value = (irf[node_id][step]) * 20;
-            plotValue(node_names[node_id], value);
+            if (node_names.hasOwnProperty(node_id)) {
+                var value = (irf[node_id][step]) * 20;
+                plotValue(node_names[node_id], value);
+            }
         }
         step++;
         step %= steps_ahead;
@@ -21,11 +23,11 @@ var run_simulation = function (irf) {
     return true;
 };
 
-var clearSimulation = function() {
-    for (var i = 0 ; i < intervals.length ; i++) clearTimeout(intervals[i]);
+var clearSimulation = function () {
+    for (var i = 0; i < intervals.length; i++) clearTimeout(intervals[i]);
 };
 
 var plotValue = function (node, value) {
     value = Math.abs(value);
-    $('#netDynamisch g .node').parent().find('#' + node).parent().children().attr('r', value)
+    $('#netDynamisch').find('g .node').parent().find('#' + node).parent().children().attr('r', value)
 };

@@ -10,7 +10,7 @@ var_coefficients = [[1.7882516, 0.1949013, -0.084094128, 0.11716910, -1.2175403,
 var lags = 4;
 
 var inject_buttons = function () {
-    var nodes = $('#netDynamisch g .node');
+    var nodes = $('#netDynamisch').find('g .node');
     var location = $('#aira-buttons');
     location.html('');
     for (var i = 0; i < nodes.length; i++) {
@@ -28,6 +28,16 @@ var inject_buttons = function () {
     console.log(node_values)
 };
 
+var inject_select = function(max_steps) {
+    for (i = 1; i < max_steps; i += 1) {
+        $("#prediction")
+            .append($("<option></option>")
+                .attr("value", i)
+                .text(i));
+    }
+
+};
+
 var clickNode = function(node_name, node_id) {
     if(DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
@@ -35,57 +45,6 @@ var clickNode = function(node_name, node_id) {
     var irf = transpose(runImpulseResponseCalculation(var_coefficients, node_id, lags, steps_ahead));
     redraw(irf);
     run_simulation(irf);
+    update_best(determineOptimalNode(var_coefficients, node_id, lags, steps_ahead, 1));
 };
 
-var redraw = function (transposed_irf) {
-    $('#container').highcharts({
-        plotOptions: {
-            series: {
-                marker: {
-                    enabled: false
-                }
-            }
-        },
-
-        title: {
-            text: 'Impulse response',
-            x: -20 //center
-        },
-        subtitle: {
-            text: 'Calculated using AIRA',
-            x: -20
-        },
-        credits: {
-            enabled: false
-        },
-        yAxis: {
-            title: {
-                text: 'Value'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: 'e',
-            data: transposed_irf[0]
-        }, {
-            name: 'prod',
-            data: transposed_irf[1]
-        }, {
-            name: 'rw',
-            data: transposed_irf[2]
-        }, {
-            name: 'U',
-            data: transposed_irf[3]
-        }]
-    });
-};

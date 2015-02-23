@@ -12,13 +12,7 @@ var estimateVmaCoefficients = function (var_coefficients, forecast_until, p) {
         B[lag] = subset_matrix(var_coefficients, x, x + number_of_variables);
     }
 
-    if (DEBUG > 2) {
-        for (b = 0; b < B.length; b++) {
-            printMatrix(B[b])
-        }
-    }
-
-    //B_average <<- (Reduce('+', B)) / p ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    if (DEBUG > 2) for (b = 0; b < B.length; b++) printMatrix(B[b]);
 
     // Create a list C of VMAcoefficient matrices for each VMAtime lag
     var C = [];
@@ -79,14 +73,14 @@ var calculateImpulseResponse = function (p, E, C) {
     for (t = 0; t <= number_of_timesteps; t++) {
         // TODO: check e_lagged is a matrix with t lags for all variables.
         // TODO: check First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
-        Y_temp = makeFilledArray(number_of_variables,0);
+        Y_temp = makeFilledArray(number_of_variables, 0);
 
         if (t > 0) {
             e_lagged = multiplyMatrices(E.slice(0, t), identity_matrix);
             for (i = 0; i < e_lagged.length; i++) {
                 var addition = multiplyMatrices([e_lagged[i]], transpose(C[t - 1][i]));
 
-                if(i == 0) Y_temp = sumMatrices([[Y_temp], addition]);
+                if (i == 0) Y_temp = sumMatrices([[Y_temp], addition]);
                 else Y_temp = sumMatrices([Y_temp, addition]);
             }
         } else {
@@ -97,21 +91,36 @@ var calculateImpulseResponse = function (p, E, C) {
     return transpose(Y)
 };
 
-var determineOptimalNode = function(var_model, lags, steps_ahead, threshold) {
-    var variable, irf, cumulative, cumulative_name;
+var variable, irf, cumulative, cumulative_name;
+
+var determineOptimalNode = function (var_model, variable_to_improve, lags, steps_ahead, threshold) {
     var result = {};
+    cumulative= {};
     var minimals = {};
+
     var number_of_variables = var_model.length;
-    for(variable = 0 ; variable < number_of_variables ; variable++) {
-        cumulative_name = node_names[variable]+'_cumulative';
+
+    if(DEBUG > 0 ) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of '+number_of_variables+') and a threshold of ' + threshold);
+    for (variable = 0; variable < number_of_variables; variable++) {
+        cumulative_name = node_names[variable] + '_cumulative';
+
         irf = runImpulseResponseCalculation(var_model, variable, lags, steps_ahead);
-        cumulative = cumulativeSummation(irf);
+        cumulative = cumulativeSummation(transpose(irf));
+        console.log(irf);
+        console.log(cumulative);
 
-        result[node_names[variable]] = irf;
-        result[cumulative_name] = cumulative;
 
-        minimals[node_names[variable]] = binarySearch(result[cumulative_name], threshold)
+        result[node_names[variable]] = transpose(irf)[variable_to_improve];
+        result[cumulative_name] = cumulative[variable_to_improve];
+
+        console.log(result[node_names[variable]]);
+        console.log(result[cumulative_name]);
+
+
+        minimals[node_names[variable]] = linearSearch(threshold, result[cumulative_name]);
     }
+
+    if (DEBUG > 0) console.log(minimals);
 
     return minimals;
 };
@@ -125,16 +134,16 @@ var delta = function (B, c_index, lags) {
     }
 };
 
-var runImpulseResponseCalculation = function(var_model, variable_to_shock, lags, steps_ahead) {
-    if (DEBUG > 0) console.log('Running calculation for: '+ variable_to_shock + ' with ' + lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
+var runImpulseResponseCalculation = function (var_model, variable_to_shock, lags, steps_ahead) {
+    if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
     var nr_of_variables = var_model.length;
-    var shocks = createMatrix (0, nr_of_variables, steps_ahead, false);
-    shocks[variable_to_shock] = makeFilledArray (steps_ahead, 1);
+    var shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
+    shocks[variable_to_shock] = makeFilledArray(steps_ahead, 1);
     shocks = transpose(shocks);
 
     var C = estimateVmaCoefficients(var_model, steps_ahead, lags);
     var result = calculateImpulseResponse(lags, shocks, C);
-    if (DEBUG > 2){
+    if (DEBUG > 2) {
         console.log('Impulse response:');
         printMatrix(result[0]);
     }

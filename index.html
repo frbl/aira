@@ -5,6 +5,7 @@
     <link rel="stylesheet" media="all" href="application.css" data-turbolinks-track="true"/>
     <script>var DEBUG = false;</script>
     <script src='javascript.js'></script>
+    <script src='drawing.js'></script>
     <script src='math_helpers.js'></script>
     <script src='simulation.js'></script>
     <script src='searchers.js'></script>
@@ -216,30 +217,23 @@
 </div>
 
 <script>
-    var best;
-
     $(document).ready(function () {
-        inject_buttons();
-        max_steps = 100;
-
-        for (i = 1; i < max_steps; i += 1) {
-            $('#prediction')
-                    .append($("<option></option>")
-                            .attr("value", i)
-                            .text(i));
-        }
-
-        $("#prediction option[value='" + max_steps / 2 + "']").attr('selected', 'selected');
         var lags = 4;
-        var prediction = $('#prediction').val();
+        var variable_to_improve = 0;
+        var max_steps = 100;
+        var prediction_select = $('#prediction');
 
-        var irf = runImpulseResponseCalculation(var_coefficients, 0, lags, prediction);
+        inject_buttons();
+        inject_select(max_steps);
+
+        prediction_select.find("option[value='" + max_steps / 2 + "']").attr('selected', 'selected');
+        var prediction = prediction_select.val();
+
+        var irf = runImpulseResponseCalculation(var_coefficients, variable_to_improve, lags, prediction);
         var transposed_irf = transpose(irf);
+
         redraw(transposed_irf);
-
-        best = determineOptimalNode(var_coefficients, lags, prediction, 1);
-
-        $("#result").text('Best node:' + best);
+        update_best(determineOptimalNode(var_coefficients, variable_to_improve, lags, prediction, 1));
     });
 </script>
 </body>
