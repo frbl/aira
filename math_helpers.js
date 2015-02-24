@@ -106,7 +106,7 @@ var createMatrix = function (value, nrow, ncol, identity) {
 var linearInterpolation = function (matrix, factor) {
     var i, r, c, row, row_result, length;
     var result = [];
-
+    if(factor <= 1) return matrix;
     for (r = 0; r < matrix.length; r++) {
         row = matrix[r];
         length = row.length * factor - (factor - 1);

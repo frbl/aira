@@ -14,8 +14,30 @@ var update_best = function (best) {
     }
 };
 
-var redraw = function (transposed_irf) {
-    $('#container').highcharts({
+
+var addPlotLine = function(x_value) {
+    chart.xAxis[0].addPlotLine({
+        value: x_value,
+        color: 'rgb(255, 0, 0)',
+        width: 1,
+        id: 'plot_line'
+    });
+};
+
+var removePlotLine = function () {
+    chart.xAxis[0].removePlotLine('plot_line');
+};
+
+var doAnimation = function(x_value) {
+    removePlotLine();
+    addPlotLine(x_value);
+};
+var chart;
+var redraw = function(transposed_irf) {
+     chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container'
+        },
         plotOptions: {
             series: {
                 marker: {

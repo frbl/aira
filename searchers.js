@@ -3,7 +3,6 @@ var linearSearch = function (value, data) {
     var i = 0;
     value = parseFloat(value.toPrecision(PRECISION));
     while (i < data.length && parseFloat(data[i].toPrecision(PRECISION)) < value) {
-        console.log(parseFloat(data[i].toPrecision(PRECISION)) <= value);
         i++
     }
     return i;

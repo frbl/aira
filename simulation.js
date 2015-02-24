@@ -5,6 +5,7 @@ var run_simulation = function (irf, steps_to_run) {
     shockdiv = $("#shock");
     clearSimulation();
     intervals.push(setInterval(function () {
+        doAnimation(((step/steps_to_run)*steps_ahead));
         if (step == 0) shockdiv.show();
         else shockdiv.fadeOut("slow");
 
@@ -18,7 +19,7 @@ var run_simulation = function (irf, steps_to_run) {
         step++;
         step %= steps_to_run;
 
-    }, 50));
+    }, 16));
     return true;
 };
 

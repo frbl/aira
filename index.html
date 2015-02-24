@@ -34,6 +34,10 @@
                 <label> Prediction </label>
                 <select id='prediction' class="target">
                 </select>
+
+                <label> Interpolation </label>
+                <select id='interpolation' class="target">
+                </select>
             </form>
         </div>
     </div>
@@ -230,7 +234,8 @@
         var prediction_select = $('#prediction');
 
         inject_buttons();
-        inject_select(max_steps);
+        generateSelectOptions(1, max_steps, 1, '#prediction');
+        generateSelectOptions(0, 1000, 1, '#interpolation');
 
         prediction_select.find("option[value='" + max_steps / 2 + "']").attr('selected', 'selected');
         var prediction = prediction_select.val();

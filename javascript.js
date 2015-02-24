@@ -28,14 +28,15 @@ var inject_buttons = function () {
     console.log(node_values)
 };
 
-var inject_select = function(max_steps) {
-    for (i = 1; i < max_steps; i += 1) {
-        $("#prediction")
-            .append($("<option></option>")
+
+var generateSelectOptions = function(from, to, stepsize, location) {
+    html = $(location);
+    for (i = from; i < to; i += stepsize) {
+            html.append($("<option></option>")
                 .attr("value", i)
                 .text(i));
     }
-
+    return html;
 };
 
 var clickNode = function(node_name, node_id) {
@@ -44,9 +45,11 @@ var clickNode = function(node_name, node_id) {
     steps_ahead = $('#prediction').val();
     var irf = transpose(runImpulseResponseCalculation(var_coefficients, node_id, lags, steps_ahead));
     redraw(irf);
-    var inter = true;
-    irf  = inter ? linearInterpolation(linearInterpolation(linearInterpolation(irf, 0),0),0) : irf;
-    run_simulation(irf, steps_ahead * 8);
+
+    var interpolation = $('#interpolation').val();
+    irf  = linearInterpolation(irf, interpolation);
+    interpolation = interpolation == 0 ? 1 : interpolation;
+    run_simulation(irf, steps_ahead * interpolation);
 
 
     update_best(determineOptimalNode(var_coefficients,
