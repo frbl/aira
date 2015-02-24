@@ -1,17 +1,30 @@
-var update_best = function (best) {
+var update_best = function (effects) {
     var result = $(".result");
-    result.html("<p>Best nodes: </p>");
-    for (var optimizer= 0 ; optimizer < best.length ; optimizer++) {
-        keys = getSortedKeys(best[optimizer]);
-        var key, html;
-        html = 'Result '+ optimizer + ' <ol>';
-        for (key in keys) {
-            if (keys.hasOwnProperty(key)) {
-                html += ('<li> <strong>' + keys[key] + '</strong>, at timestep: ' + best[optimizer][keys[key]] + '</li>');
+    var number_of_measurements_per_day = 3;
+    var number_of_options = 0;
+    for(effect in effects) {
+        if(effects.hasOwnProperty(effect)) {
+            number_of_options += effects[effect].length;
+        }
+    }
+
+    result.html("<p>If you would like to increase the variable you just clicked, you can do " + convertNumberToText(number_of_options) + " thing"+(number_of_options == 1 ? '' : 's') +":</p>");
+
+    var html = '<ol>';
+    var i, current;
+    for(effect in effects) {
+        if(effects.hasOwnProperty(effect)) {
+            for(i = 0 ; i < effects[effect].length ; i++ ){
+                current = effects[effect][i];
+                var length = current[1]-current[0];
+                var when = current[1] - (length);
+
+                html += ('<li>You could increase your level of '+ effect +', every ' + (when/number_of_measurements_per_day).toFixed(2) +' days. This has an effect that lasts for '+ (length/number_of_measurements_per_day).toFixed(2) + ' days </li>');
             }
         }
-        result.append(html + '</ol>');
     }
+
+    result.append(html + '</ol>');
 };
 
 

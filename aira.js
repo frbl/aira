@@ -101,13 +101,11 @@ var calculateImpulseResponse = function (p, E, C) {
  * @params options
  * @returns {{}}
  */
-var determineOptimalNode = function (var_model, variable_to_improve, lags, steps_ahead, optimizers, options) {
+var determineOptimalNode = function (var_model, variable_to_improve, lags, steps_ahead, options) {
     var variable, irf, cumulative, cumulative_name, name;
     var result = {};
     cumulative = {};
-    var minimals = [];
-
-    for (var i = 0; i < optimizers.length; i++) minimals.push({});
+    var effects = {};
 
     var number_of_variables = var_model.length;
 
@@ -125,25 +123,27 @@ var determineOptimalNode = function (var_model, variable_to_improve, lags, steps
 
         // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
         // if(-NODE = "Negatief") cumulative *= -1;
-        
-        for (optimizer in optimizers) {
-            if (optimizers.hasOwnProperty(optimizer)) {
-                minimals[optimizer][name] = optimizers[optimizer](options, result[name], result[cumulative_name]);
-            }
-        }
+
+        effects[name] = thresholdOptimizer(options, result[name], result[cumulative_name]);
+
     }
 
     if (DEBUG > 0) {
-        console.log('Minimals found:');
-        for (var optimizer = 0; optimizer < optimizers.length; optimizer++) {
-            console.log(minimals[0]);
-            for (var min in minimals[optimizer]) {
-                if (minimals[optimizer].hasOwnProperty(min)) console.log(min + ':' + minimals[optimizer][min]);
+        console.log('Effects found for variable: ' + variable_to_improve);
+        var interval;
+        for (var effect in effects) {
+            if (effects.hasOwnProperty(effect)) {
+
+                for(interval = 0 ; interval < effects[effect].length ; interval++) {
+                    console.log(effect + ':' + effects[effect][interval]);
+                }
             }
+
         }
+
     }
 
-    return minimals;
+    return effects;
 };
 
 /**

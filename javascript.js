@@ -34,31 +34,58 @@ var inject_buttons = function () {
 };
 
 
-var generateSelectOptions = function(from, to, stepsize, location) {
+var generateSelectOptions = function (from, to, stepsize, location) {
     html = $(location);
     for (i = from; i < to; i += stepsize) {
-            html.append($("<option></option>")
-                .attr("value", i)
-                .text(i));
+        html.append($("<option></option>")
+            .attr("value", i)
+            .text(i));
     }
     return html;
 };
 
-var clickNode = function(node_name, node_id) {
-    if(DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
+var convertNumberToText = function (number) {
+    if (number < 1) return 'very few';
+    if (number > 20) return 'alot of';
+    return {
+        1: 'one',
+        2: 'two',
+        3: 'three',
+        4: 'four',
+        5: 'five',
+        6: "six",
+        7: "seven",
+        8: "eight",
+        9: "nine",
+        11: "eleven",
+        12: "twelve",
+        13: "thirteen",
+        14: "fourteen",
+        15: "fifteen",
+        16: "sixteen",
+        17: "seventeen",
+        18: "eighteen",
+        19: "nineteen",
+        20: "twenty",
+    }[number]
+
+
+};
+
+var clickNode = function (node_name, node_id) {
+    if (DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
     steps_ahead = $('#prediction').val();
     var irf = transpose(runImpulseResponseCalculation(var_coefficients, node_id, lags, steps_ahead));
     redraw(irf);
 
     var interpolation = $('#interpolation').val();
-    irf  = linearInterpolation(irf, interpolation);
+    irf = linearInterpolation(irf, interpolation);
     interpolation = interpolation == 0 ? 1 : interpolation;
     run_simulation(irf, steps_ahead * interpolation);
 
 
     update_best(determineOptimalNode(var_coefficients,
-        node_id, lags, steps_ahead,
-        [maximumValueOptimizer, thresholdOptimizer], {threshold: 1}));
+        node_id, lags, steps_ahead, {threshold: 1}));
 };
 

@@ -231,22 +231,17 @@
         var lags = 4;
         var variable_to_improve = 0;
         var max_steps = 100;
+        var max_interpolation = 500;
+
         var prediction_select = $('#prediction');
+        var interpolation_select = $('#interpolation');
 
         inject_buttons();
         generateSelectOptions(1, max_steps, 1, '#prediction');
-        generateSelectOptions(0, 1000, 1, '#interpolation');
+        generateSelectOptions(0, max_interpolation, 1, '#interpolation');
 
         prediction_select.find("option[value='" + max_steps / 2 + "']").attr('selected', 'selected');
-        var prediction = prediction_select.val();
-
-        var irf = runImpulseResponseCalculation(var_coefficients, variable_to_improve, lags, prediction);
-        var transposed_irf = transpose(irf);
-
-        redraw(transposed_irf);
-        update_best(determineOptimalNode(var_coefficients,
-                variable_to_improve, lags, prediction,
-                [maximumValueOptimizer], {threshold: 1}));
+        interpolation_select.find("option[value='" + (25 > max_interpolation? max_interpolation : 25) + "']").attr('selected', 'selected');
     });
 </script>
 </body>
