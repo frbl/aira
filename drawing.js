@@ -1,14 +1,17 @@
-var update_best = function(best) {
-    keys = getSortedKeys(best);
-    var key, html;
-    html = '<ol>';
-    for(key in keys) {
-        if(keys.hasOwnProperty(key)){
-            html += "<li> <strong>" + keys[key] + "</strong>, at timestep: "+ best[keys[key]] + "</li>";
+var update_best = function (best) {
+    var result = $(".result");
+    result.html("<p>Best nodes: </p>");
+    for (var optimizer= 0 ; optimizer < best.length ; optimizer++) {
+        keys = getSortedKeys(best[optimizer]);
+        var key, html;
+        html = 'Result '+ optimizer + ' <ol>';
+        for (key in keys) {
+            if (keys.hasOwnProperty(key)) {
+                html += ('<li> <strong>' + keys[key] + '</strong>, at timestep: ' + best[optimizer][keys[key]] + '</li>');
+            }
         }
+        result.append(html + '</ol>');
     }
-    html += '</ol>';
-    $("#result").html("<p>Best nodes: </p>" + html);
 };
 
 var redraw = function (transposed_irf) {

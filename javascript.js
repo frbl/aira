@@ -44,7 +44,13 @@ var clickNode = function(node_name, node_id) {
     steps_ahead = $('#prediction').val();
     var irf = transpose(runImpulseResponseCalculation(var_coefficients, node_id, lags, steps_ahead));
     redraw(irf);
-    run_simulation(irf);
-    update_best(determineOptimalNode(var_coefficients, node_id, lags, steps_ahead, 1));
+    var inter = true;
+    irf  = inter ? linearInterpolation(linearInterpolation(linearInterpolation(irf, 0),0),0) : irf;
+    run_simulation(irf, steps_ahead * 8);
+
+
+    update_best(determineOptimalNode(var_coefficients,
+        node_id, lags, steps_ahead,
+        [maximumValueOptimizer, thresholdOptimizer], {threshold: 1}));
 };
 

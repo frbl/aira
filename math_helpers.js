@@ -18,11 +18,11 @@ var multiplyMatrices = function (first, second) {
 var sumMatrices = function (matrices) {
     var result = [];
     var r, c, m;
-    for(r = 0 ; r < matrices[0].length;r++) {
+    for (r = 0; r < matrices[0].length; r++) {
         var temp = [];
-        for(c = 0; c < matrices[0][r].length; c++){
+        for (c = 0; c < matrices[0][r].length; c++) {
             var val = 0;
-            for(m = 0 ; m < matrices.length; m++) {
+            for (m = 0; m < matrices.length; m++) {
                 val += matrices[m][r][c];
             }
             temp.push(val);
@@ -33,18 +33,18 @@ var sumMatrices = function (matrices) {
 };
 
 
-var printMatrix = function(matrix) {
+var printMatrix = function (matrix) {
     var r, c, s;
     console.log('-----------------');
-    console.log('Dimensions: ' + matrix.length +"x" + matrix[0].length);
+    console.log('Dimensions: ' + matrix.length + "x" + matrix[0].length);
     s = '   ';
-    for(r = 0 ; r < matrix.length;r++) {
+    for (r = 0; r < matrix.length; r++) {
         s += r + ', ';
     }
     console.log(s.slice(0, -2));
-    for(r = 0 ; r < matrix.length;r++) {
+    for (r = 0; r < matrix.length; r++) {
         s = r + ': ';
-        for(c = 0; c < matrix[r].length; c++){
+        for (c = 0; c < matrix[r].length; c++) {
             s += matrix[r][c] + ', ';
         }
         console.log(s.slice(0, -2));
@@ -99,6 +99,34 @@ var createMatrix = function (value, nrow, ncol, identity) {
 
 /**
  *
+ * @param matrix
+ * @param factor
+ * @returns {Array|*}
+ */
+var linearInterpolation = function (matrix, factor) {
+    var i, r, c, row, row_result, length;
+    var result = [];
+
+    for (r = 0; r < matrix.length; r++) {
+        row = matrix[r];
+        length = row.length * factor - (factor - 1);
+        row_result = [];
+        for (c = 0; c < row.length; c++) {
+            row_result[c * factor] = row[c];
+            if (length > (c * factor + 1)) {
+                var part = ((row[c + 1] - row[c]) / factor);
+                for(i = 0 ; i < factor ; i ++) {
+                    row_result.push(row[c] + part * i);
+                }
+            }
+        }
+        result.push(row_result);
+    }
+    return result;
+};
+
+/**
+ *
  * @param len
  * @param value
  * @returns {Array|*}
@@ -114,13 +142,13 @@ var makeFilledArray = function (len, value) {
  * @param data
  * @returns {Array}
  */
-var cumulativeSummation = function(data) {
+var cumulativeSummation = function (data) {
     var unused_sum = 0;
-    return data.map(function(variable, index) {
+    return data.map(function (variable, index) {
         sum = 0;
         // The if statement is needed so it also works with 1d arrays.
-        if(variable.length != undefined) {
-            return variable.map(function(value, index) {
+        if (variable.length != undefined) {
+            return variable.map(function (value, index) {
                 return sum += value;
             });
         } else {

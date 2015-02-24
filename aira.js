@@ -91,50 +91,84 @@ var calculateImpulseResponse = function (p, E, C) {
     return transpose(Y)
 };
 
-var determineOptimalNode = function (var_model, variable_to_improve, lags, steps_ahead, threshold) {
-    var variable, irf, cumulative, cumulative_name;
-
+/**
+ *
+ * @param var_model
+ * @param variable_to_improve
+ * @param lags
+ * @param steps_ahead
+ * @param optimizers
+ * @params options
+ * @returns {{}}
+ */
+var determineOptimalNode = function (var_model, variable_to_improve, lags, steps_ahead, optimizers, options) {
+    var variable, irf, cumulative, cumulative_name, name;
     var result = {};
     cumulative = {};
-    var minimals = {};
+    var minimals = [];
+
+    for (var i = 0; i < optimizers.length; i++) minimals.push({});
 
     var number_of_variables = var_model.length;
 
-    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + number_of_variables + ') and a threshold of ' + threshold);
+    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + number_of_variables + ')');
 
     for (variable = 0; variable < number_of_variables; variable++) {
-        cumulative_name = node_names[variable] + '_cumulative';
+        name = node_names[variable];
+        cumulative_name = name + '_cumulative';
 
         irf = runImpulseResponseCalculation(var_model, variable, lags, steps_ahead);
         cumulative = cumulativeSummation(transpose(irf));
 
-        result[node_names[variable]] = transpose(irf)[variable_to_improve];
+        result[name] = transpose(irf)[variable_to_improve];
         result[cumulative_name] = cumulative[variable_to_improve];
 
         // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
         // if(-NODE = "Negatief") cumulative *= -1;
-        minimals[node_names[variable]] = linearSearch(threshold, cumulative);
+
+        for (optimizer in optimizers) {
+            if (optimizers.hasOwnProperty(optimizer)) {
+                minimals[optimizer][name] = optimizers[optimizer](options, result[name], result[cumulative_name]);
+            }
+        }
     }
 
     if (DEBUG > 0) {
         console.log('Minimals found:');
-        for (min in minimals) {
-            if (minimals.hasOwnProperty(min)) console.log(min + ':' + minimals[min]);
+        for (var optimizer = 0; optimizer < optimizers.length; optimizer++) {
+            console.log(minimals[0]);
+            for (var min in minimals[optimizer]) {
+                if (minimals[optimizer].hasOwnProperty(min)) console.log(min + ':' + minimals[optimizer][min]);
+            }
         }
     }
 
     return minimals;
 };
 
-var delta = function (B, c_index, lags) {
-    if (c_index >= lags) {
-        vma_matrix = createMatrix(0, B[0].length, B[0][0].length, false);
-        return vma_matrix;
-    } else {
-        return B[c_index];
+/**
+ * Function that either returns an array of coefficients of the var model (if the asked index is included in the list
+ * of coefficients), or returns an empty matrix with the same size as the coefficient matrix it would return.
+ * @param B the list of coefficient matrices, indexed by lag
+ * @param index the index required from the matrix
+ * @param lags the total number of lags in the model
+ * @returns B at the index, or a zero-matrix with the same dimensions
+ */
+var delta = function (B, index, lags) {
+    if (index >= lags) {
+        return createMatrix(0, B[0].length, B[0][0].length, false);
     }
+    return B[index];
 };
 
+/**
+ *
+ * @param var_model
+ * @param variable_to_shock
+ * @param lags
+ * @param steps_ahead
+ * @returns {*}
+ */
 var runImpulseResponseCalculation = function (var_model, variable_to_shock, lags, steps_ahead) {
     if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
 

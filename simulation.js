@@ -1,7 +1,7 @@
 var step = 0;
 var shockdiv;
 
-var run_simulation = function (irf) {
+var run_simulation = function (irf, steps_to_run) {
     shockdiv = $("#shock");
     clearSimulation();
     intervals.push(setInterval(function () {
@@ -16,9 +16,9 @@ var run_simulation = function (irf) {
             }
         }
         step++;
-        step %= steps_ahead;
+        step %= steps_to_run;
 
-    }, 100));
+    }, 50));
     return true;
 };
 
