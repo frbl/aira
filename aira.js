@@ -117,15 +117,15 @@ var determineOptimalNode = function (var_model, variable_to_improve, lags, steps
         name = node_names[variable];
         cumulative_name = name + '_cumulative';
 
-        irf = runImpulseResponseCalculation(var_model, variable, lags, steps_ahead);
-        cumulative = cumulativeSummation(transpose(irf));
+        irf = transpose(runImpulseResponseCalculation(var_model, variable, lags, steps_ahead));
+        cumulative = cumulativeSummation(irf);
 
-        result[name] = transpose(irf)[variable_to_improve];
+        result[name] = irf[variable_to_improve];
         result[cumulative_name] = cumulative[variable_to_improve];
 
         // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
         // if(-NODE = "Negatief") cumulative *= -1;
-
+        
         for (optimizer in optimizers) {
             if (optimizers.hasOwnProperty(optimizer)) {
                 minimals[optimizer][name] = optimizers[optimizer](options, result[name], result[cumulative_name]);

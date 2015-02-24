@@ -25,7 +25,12 @@ var inject_buttons = function () {
             clickNode(name, myid);
         });
     }
-    console.log(node_values)
+
+    location.append($('<input class="button light button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
+    location.on("click", ".button_reset", function () {
+        clearSimulation();
+    });
+
 };
 
 
