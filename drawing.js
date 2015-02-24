@@ -34,7 +34,7 @@ var redraw = function (transposed_irf) {
         },
         yAxis: {
             title: {
-                text: 'Value'
+                text: 'Response'
             },
             plotLines: [{
                 value: 0,
@@ -42,14 +42,8 @@ var redraw = function (transposed_irf) {
                 color: '#808080'
             }]
         },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
         series: [{
-            name: 'e',
+            name: "e",
             data: transposed_irf[0]
         }, {
             name: 'prod',

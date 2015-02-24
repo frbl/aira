@@ -3,7 +3,6 @@ var shockdiv;
 
 var run_simulation = function (irf) {
     shockdiv = $("#shock");
-
     clearSimulation();
     intervals.push(setInterval(function () {
         if (step == 0) shockdiv.show();
@@ -23,8 +22,18 @@ var run_simulation = function (irf) {
     return true;
 };
 
+var resetNodes = function() {
+    for (node_id in node_names) {
+        if (node_names.hasOwnProperty(node_id)) {
+            plotValue(node_names[node_id], 20);
+        }
+    }
+};
+
 var clearSimulation = function () {
     for (var i = 0; i < intervals.length; i++) clearTimeout(intervals[i]);
+    step = 0;
+    resetNodes();
 };
 
 var plotValue = function (node, value) {

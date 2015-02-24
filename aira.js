@@ -91,36 +91,37 @@ var calculateImpulseResponse = function (p, E, C) {
     return transpose(Y)
 };
 
-var variable, irf, cumulative, cumulative_name;
-
 var determineOptimalNode = function (var_model, variable_to_improve, lags, steps_ahead, threshold) {
+    var variable, irf, cumulative, cumulative_name;
+
     var result = {};
-    cumulative= {};
+    cumulative = {};
     var minimals = {};
 
     var number_of_variables = var_model.length;
 
-    if(DEBUG > 0 ) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of '+number_of_variables+') and a threshold of ' + threshold);
+    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + number_of_variables + ') and a threshold of ' + threshold);
+
     for (variable = 0; variable < number_of_variables; variable++) {
         cumulative_name = node_names[variable] + '_cumulative';
 
         irf = runImpulseResponseCalculation(var_model, variable, lags, steps_ahead);
         cumulative = cumulativeSummation(transpose(irf));
-        console.log(irf);
-        console.log(cumulative);
-
 
         result[node_names[variable]] = transpose(irf)[variable_to_improve];
         result[cumulative_name] = cumulative[variable_to_improve];
 
-        console.log(result[node_names[variable]]);
-        console.log(result[cumulative_name]);
-
-
-        minimals[node_names[variable]] = linearSearch(threshold, result[cumulative_name]);
+        // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
+        // if(-NODE = "Negatief") cumulative *= -1;
+        minimals[node_names[variable]] = linearSearch(threshold, cumulative);
     }
 
-    if (DEBUG > 0) console.log(minimals);
+    if (DEBUG > 0) {
+        console.log('Minimals found:');
+        for (min in minimals) {
+            if (minimals.hasOwnProperty(min)) console.log(min + ':' + minimals[min]);
+        }
+    }
 
     return minimals;
 };
@@ -136,13 +137,16 @@ var delta = function (B, c_index, lags) {
 
 var runImpulseResponseCalculation = function (var_model, variable_to_shock, lags, steps_ahead) {
     if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
+
     var nr_of_variables = var_model.length;
     var shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
+
     shocks[variable_to_shock] = makeFilledArray(steps_ahead, 1);
     shocks = transpose(shocks);
 
     var C = estimateVmaCoefficients(var_model, steps_ahead, lags);
     var result = calculateImpulseResponse(lags, shocks, C);
+
     if (DEBUG > 2) {
         console.log('Impulse response:');
         printMatrix(result[0]);
