@@ -11,6 +11,8 @@ var var_coefficients = [[1.7882516, 0.1949013, -0.084094128, 0.11716910, -1.2175
 var lags = 4;
 
 
+var aira = new Aira(var_coefficients, lags);
+
 var inject_buttons = function () {
     var nodes = $('#netDynamisch').find('g .node');
     var location = $('#aira-buttons');
@@ -78,7 +80,7 @@ var clickNode = function (node_name, node_id) {
     if (DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
     steps_ahead = $('#prediction').val();
-    var irf = transpose(runImpulseResponseCalculation(var_coefficients, node_id, lags, steps_ahead));
+    var irf = transpose(aira.runImpulseResponseCalculation(node_id, steps_ahead));
     redraw(irf);
 
     var interpolation = $('#interpolation').val();
@@ -87,7 +89,6 @@ var clickNode = function (node_name, node_id) {
     run_simulation(irf, steps_ahead * interpolation);
 
 
-    update_best(determineOptimalNode(var_coefficients,
-        node_id, lags, steps_ahead, {threshold: 1}));
+    update_best(aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1}));
 };
 

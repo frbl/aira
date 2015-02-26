@@ -1,4 +1,10 @@
-var thresholdOptimizer = function (options, irf, cumulative_irf) {
+function AiraOptimalVariableFinder(irf, cumulative_irf) {
+    this.irf = irf;
+    this.cumulative_irf = cumulative_irf;
+}
+
+
+AiraOptimalVariableFinder.prototype.thresholdOptimizer = function (options) {
     var threshold_location = 'threshold';
 
     if(!options.hasOwnProperty(threshold_location)){
@@ -9,12 +15,12 @@ var thresholdOptimizer = function (options, irf, cumulative_irf) {
 
     var intervals = [];
     var above_threshold = -1;
-    for( i = 0 ; i < irf.length ; i++) {
-        if(irf[i] >= options[threshold_location] && above_threshold == -1) {
+    for( i = 0 ; i < this.irf.length ; i++) {
+        if(this.irf[i] >= options[threshold_location] && above_threshold == -1) {
             above_threshold = i;
         }
 
-        if(irf[i] < options[threshold_location] && above_threshold != -1) {
+        if(this.irf[i] < options[threshold_location] && above_threshold != -1) {
             intervals.push([above_threshold, i -1]);
             above_threshold = -1;
         }
@@ -23,11 +29,11 @@ var thresholdOptimizer = function (options, irf, cumulative_irf) {
     return intervals;
 };
 
-var maximumValueOptimizer = function (options, irf, cumulative_irf) {
+var maximumValueOptimizer = function (options) {
     if (DEBUG > 0) console.log('Optimization using Maximum optimizer.');
-    return linearSearch(Math.max.apply(null, irf), irf);
+    return linearSearch(Math.max.apply(null, this.irf), this.irf);
 };
 
-var longestSlopeOptimizer = function(options, irf, cumulative_irf) {
+var longestSlopeOptimizer = function(options) {
 
 };
