@@ -1,8 +1,8 @@
 var step = 0;
-var shockdiv;
 
 var run_simulation = function (irf, steps_to_run) {
-    shockdiv = $("#shock");
+    var shockdiv = $("#shock");
+
     clearSimulation();
     intervals.push(setInterval(function () {
         doAnimation(((step/steps_to_run)*steps_ahead));
@@ -19,7 +19,7 @@ var run_simulation = function (irf, steps_to_run) {
         step++;
         step %= steps_to_run;
 
-    }, 16));
+    }, Math.floor(1000/60))); // run on 60 fps
     return true;
 };
 

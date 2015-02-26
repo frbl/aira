@@ -1,3 +1,5 @@
+var chart;
+
 var update_best = function (effects) {
     var result = $(".result");
     var number_of_measurements_per_day = 3;
@@ -45,7 +47,7 @@ var doAnimation = function(x_value) {
     removePlotLine();
     addPlotLine(x_value);
 };
-var chart;
+
 var redraw = function(transposed_irf) {
      chart = new Highcharts.Chart({
         chart: {

@@ -1,5 +1,8 @@
-var PRECISION = 14;
+
+
 var linearSearch = function (value, data) {
+    var PRECISION = 14;
+
     var i = 0;
     value = parseFloat(value.toPrecision(PRECISION));
     while (i < data.length && parseFloat(data[i].toPrecision(PRECISION)) < value) {
