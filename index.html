@@ -6,22 +6,23 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <link rel="stylesheet" media="all" href="application.css" data-turbolinks-track="true"/>
-
-    <script src='drawing.js'></script>
-    <script src='math_helpers.js'></script>
-    <script src='aira.js'></script>
-    <script src='aira_optimal_variable_finder.js'></script>
-    <script src='simulation.js'></script>
-    <script src='searchers.js'></script>
-    <script src='javascript.js'></script>
     <style>
         #netDynamisch {
             padding-bottom: 50px;
         }
+
         .result {
-            position: absolute;
-            left:0;
+            left: 0;
+            height:200px;
             padding-left: 20px;
+            overflow: scroll;
+        }
+
+        footer {
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height:60px;   /* Height of the footer */
         }
     </style>
 </head>
@@ -43,7 +44,7 @@
         </div>
     </div>
 
-    <span class="result"></span><br>
+    <div class="result"></div>
 
 
     <div id="netDynamisch" class="svg-container centered-svg"
@@ -51,6 +52,9 @@
         <div id="shock-div" style="height:30px;"><span id="shock"
                                                        style="font-size:150%; display:none; background-color:#ff0000;">!SHOCK!</span>
         </div>
+
+        <!-- Synthetic network
+
         <svg width="515" height="320">
             <g class="network" transform="translate(130,70)">
                 <g class="link">
@@ -223,25 +227,147 @@
                 </radialGradient>
             </defs>
         </svg>
+        -->
+        <svg width="515" height="320">
+            <g class="network" transform="translate(130,70)">
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(201.0646411851805,26.969283071004202)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M255,210A217.1395151551016,217.1395151551016 0 0,1 199.7770967641813,0"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(199.2538604736328,112.3984146118164) rotate(-104.73329072151988) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(24.104708237482043,154.89973756705155)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M255,210A263.72235741643635,263.72235741643635 0 0,1 0,142.73573161564454"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(118.48831939697266,210.5313720703125) rotate(-165.22302942668017) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(253.7124555790008,183.03071692899582)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1.030136px;"
+                          d="M199.7770967641813,0A217.1395151551016,217.1395151551016 0 0,1 255,210"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(255.52322387695312,97.60150909423828) rotate(75.26670927848012) scale(1.0050226666666666)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(24.752185582942566,131.95012505562343)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 1px;"
+                          d="M199.7770967641813,0A245.52877116822452,245.52877116822452 0 0,1 0,142.73573161564454"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(119.0114517211914,98.13298797607422) rotate(-215.54485665637054) scale(1)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="negative"
+                          transform="translate(230.89529176251796,197.835994048593)">-
+                    </text>
+                    <path class="arclink" style="stroke-width: 5px;"
+                          d="M0,142.73573161564454A263.72235741643635,263.72235741643635 0 0,1 255,210"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(136.5116729736328,142.20433044433594) rotate(14.776970573319826) scale(1.6666666666666665)"></path>
+                </g>
+                <g class="link">
+                    <text text-anchor="middle" dy="0.3em" class="positive"
+                          transform="translate(175.02491118123874,10.785606560021105)">+
+                    </text>
+                    <path class="arclink" style="stroke-width: 5px;"
+                          d="M0,142.73573161564454A245.52877116822452,245.52877116822452 0 0,1 199.7770967641813,0"></path>
+                    <path class="arrow" d="M0,-5L10,0L0,5"
+                          transform="translate(80.76561737060547,44.60277557373047) rotate(-35.54485665637055) scale(1.6666666666666665)"></path>
+                </g>
+                <g>
+                    <circle class="node Positief" id="namean" r="20" cx="255" cy="210"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="255" cy="210"></circle>
+                </g>
+                <g>
+                    <circle class="node Negatief" id="cortisolnmoll" r="20" cx="199.7770967641813" cy="0"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="199.7770967641813"
+                            cy="0"></circle>
+                </g>
+                <g>
+                    <circle class="node Positief" id="eesom2" r="20" cx="0" cy="142.73573161564454"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="0"
+                            cy="142.73573161564454"></circle>
+                </g>
+                <g class="labelNode" transform="translate(255,210)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(271.7075924753984,228.59721359978448)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="0.4em" text-anchor="start">NAmean</text>
+                </g>
+                <g class="labelNode" transform="translate(199.7770967641813,0)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(207.41682545197594,-23.804086741080564)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="-0.1em" text-anchor="start">cortisolnmolL</text>
+                </g>
+                <g class="labelNode" transform="translate(0,142.73573161564454)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(-24.49599757458487,147.73033899019683)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="0.4em" text-anchor="end">EEsom2</text>
+                </g>
+            </g>
+            <defs>
+                <radialGradient id="nodeGrad" cx="30%" cy="30%" r="55%">
+                    <stop offset="0%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop>
+                    <stop offset="5%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop>
+                    <stop offset="100%" stop-opacity="0.0" style="stop-color: rgb(255, 255, 255);"></stop>
+                </radialGradient>
+            </defs>
+        </svg>
     </div>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <footer id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></footer>
 </div>
 
 <script>
+    var var_coefficients, lags, number_of_variables, aira, simulation, visualization_engine;
+    var synthetic = false;
     $(document).ready(function () {
+        var nodes = $('#netDynamisch').find('g .node');
+        var node_names = nodes.map(function(index,node) { return node.id }).get();
+
+        simulation = new Simulation(node_names);
+        aira = new Aira(var_coefficients, lags, number_of_variables, node_names);
+        visualization_engine = new Visualization(node_names);
+
         var max_steps = 100;
         var max_interpolation = 500;
 
         var prediction_select = $('#prediction');
         var interpolation_select = $('#interpolation');
 
-        injectButtons();
+        injectButtons(node_names);
         generateSelectOptions(1, max_steps, 1, '#prediction');
         generateSelectOptions(0, max_interpolation, 1, '#interpolation');
 
         prediction_select.find("option[value='" + max_steps / 2 + "']").attr('selected', 'selected');
-        interpolation_select.find("option[value='" + (25 > max_interpolation? max_interpolation : 25) + "']").attr('selected', 'selected');
+        interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 25) + "']").attr('selected', 'selected');
     });
 </script>
+
+<script src='visualization.js'></script>
+<script src='math_helpers.js'></script>
+<script src='aira.js'></script>
+<script src='aira_optimal_variable_finder.js'></script>
+<script src='simulation.js'></script>
+<script src='searchers.js'></script>
+<script src='javascript.js'></script>
+
 </body>
 </html>

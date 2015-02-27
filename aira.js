@@ -1,11 +1,12 @@
 var DEBUG = 1;
 
-
-function Aira(var_coefficients, lags) {
+function Aira(var_coefficients, lags, number_of_variables, node_names) {
     if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
     this.var_coefficients = var_coefficients;
-    this.number_of_variables = var_coefficients.length;
     this.lags = lags;
+    this.number_of_variables = number_of_variables;
+    this.node_names = node_names;
+    this.number_of_exogen_variables = var_coefficients[0].length - this.lags * number_of_variables;
 }
 
 /**
@@ -20,10 +21,14 @@ Aira.prototype.estimateVmaCoefficients = function (forecast_until) {
     var lag;
     for (lag = 0; lag < this.lags; lag++) {
         var x = (this.number_of_variables * (lag ));
-        B[lag] = subsetMatrix(var_coefficients, x, x + this.number_of_variables);
+        B[lag] = subsetMatrix(this.var_coefficients, x, x + this.number_of_variables);
     }
 
     if (DEBUG > 2) for (b = 0; b < B.length; b++) printMatrix(B[b]);
+
+    // Create a matrix of all exogenous coefficients
+    var exogenous_variables = subsetMatrix(this.var_coefficients, this.lags * this.number_of_variables,
+        (this.lags * this.number_of_variables) + this.number_of_exogen_variables);
 
     // Create a list C of VMAcoefficient matrices for each VMAtime lag
     var C = [];
@@ -119,7 +124,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
 
     for (variable = 0; variable < this.number_of_variables; variable++) {
-        name = node_names[variable];
+        name = this.node_names[variable];
         cumulative_name = name + '_cumulative';
 
         irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead));
