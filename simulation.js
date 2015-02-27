@@ -1,6 +1,6 @@
 var step = 0;
 
-var run_simulation = function (irf, steps_to_run) {
+var runSimulation = function (irf, steps_to_run) {
     var shockdiv = $("#shock");
 
     clearSimulation();

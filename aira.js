@@ -20,7 +20,7 @@ Aira.prototype.estimateVmaCoefficients = function (forecast_until) {
     var lag;
     for (lag = 0; lag < this.lags; lag++) {
         var x = (this.number_of_variables * (lag ));
-        B[lag] = subset_matrix(var_coefficients, x, x + this.number_of_variables);
+        B[lag] = subsetMatrix(var_coefficients, x, x + this.number_of_variables);
     }
 
     if (DEBUG > 2) for (b = 0; b < B.length; b++) printMatrix(B[b]);

@@ -13,7 +13,7 @@ var lags = 4;
 
 var aira = new Aira(var_coefficients, lags);
 
-var inject_buttons = function () {
+var injectButtons = function () {
     var nodes = $('#netDynamisch').find('g .node');
     var location = $('#aira-buttons');
     location.html('');
@@ -86,9 +86,9 @@ var clickNode = function (node_name, node_id) {
     var interpolation = $('#interpolation').val();
     irf = linearInterpolation(irf, interpolation);
     interpolation = interpolation == 0 ? 1 : interpolation;
-    run_simulation(irf, steps_ahead * interpolation);
+    runSimulation(irf, steps_ahead * interpolation);
 
 
-    update_best(aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1}));
+    updateBest(aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1}));
 };
 

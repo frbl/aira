@@ -73,7 +73,7 @@ var transpose = function (matrix) {
  * @param to
  * @returns {Array}
  */
-var subset_matrix = function (matrix, from, to) {
+var subsetMatrix = function (matrix, from, to) {
     var subset = [];
     for (row = 0; row < matrix.length; row++) {
         subset.push(matrix[row].slice(from, to));
