@@ -8,33 +8,41 @@ function Simulation(node_names) {
     this.use_absolute_value = false;
 }
 
-Simulation.prototype.run = function (steps_to_run, irf) {
-    this.clear();
+Simulation.prototype.run = function (clear_all) {
+    if(clear_all) this.clear();
     this.intervals.push(setInterval((function (self) {
         return function () {
-            self._test(steps_to_run, irf);
+            self.simulateStep(1);
         }
     })(this), Math.floor(1000 / this.frame_rate)));
     return true;
 };
 
 
-Simulation.prototype._test = function (steps_to_run, irf) {
+Simulation.prototype.setIrf = function(irf) {
+    this.irf = irf;
+};
+
+Simulation.prototype.setStepsToRun = function(steps_to_run) {
+    this.steps_to_run = steps_to_run;
+};
+
+Simulation.prototype.simulateStep = function (direction) {
     var shockdiv = $("#shock");
-    visualization_engine.setPlotlineLocation(((this.step / steps_to_run) * steps_ahead));
+    visualization_engine.setPlotlineLocation(((this.step / this.steps_to_run) * steps_ahead));
     if (this.step == 0) shockdiv.show();
     else shockdiv.fadeOut("slow");
 
     var node_id;
     for (node_id = 0; node_id < this.node_names.length; node_id++) {
         if (this.node_names.hasOwnProperty(node_id)) {
-            var value = (irf[node_id][this.step]) * this.size_factor;
+            var value = (this.irf[node_id][this.step]) * this.size_factor;
 
             this.plotValue(this.node_names[node_id], value);
         }
     }
-    this.step++;
-    this.step %= steps_to_run;
+    this.step += direction;
+    this.step %= this.steps_to_run;
 };
 
 Simulation.prototype.resetNodes = function (nodes_to_stop) {
@@ -46,8 +54,12 @@ Simulation.prototype.resetNodes = function (nodes_to_stop) {
     }
 };
 
-Simulation.prototype.clear = function () {
+Simulation.prototype.pause = function () {
     for (var i = 0; i < this.intervals.length; i++) clearTimeout(this.intervals[i]);
+};
+
+Simulation.prototype.clear = function () {
+    this.pause();
     this.step = 0;
     this.resetNodes(this.node_names);
 };

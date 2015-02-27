@@ -29,6 +29,7 @@ if(synthetic) {
 
 
 var injectButtons = function (node_names) {
+    injectSimulationFunctionality();
     var location = $('#aira-buttons');
     location.html('');
     for (var i = 0; i < node_names.length; i++) {
@@ -43,11 +44,25 @@ var injectButtons = function (node_names) {
         });
     }
 
+    location.append($('<input class="button red button_all" name="button_all" type="button" value="Shock ALL!" id="button_button_all"/>'));
+    location.on("click", ".button_all", function () {
+        clickNode('All', -1);
+    });
+
     location.append($('<input class="button green button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
     location.on("click", ".button_reset", function () {
         simulation.clear();
     });
 
+};
+
+var injectSimulationFunctionality = function() {
+    var location = $('#simulation-buttons');
+
+    location.on("click", ".button_pause", function(){simulation.pause()});
+    location.on("click", ".button_play", function(){simulation.run()});
+    location.on("click", ".button_next", function () {simulation.simulateStep(1)});
+    location.on("click", ".button_previous", function () {simulation.simulateStep(-1);});
 };
 
 
@@ -99,10 +114,10 @@ var clickNode = function (node_name, node_id) {
     var interpolation = $('#interpolation').val();
     irf = linearInterpolation(irf, interpolation);
     interpolation = interpolation == 0 ? 1 : interpolation;
+    simulation.setStepsToRun(steps_ahead * interpolation);
+    simulation.setIrf(irf);
+    simulation.run(true);
 
-    simulation.run(steps_ahead * interpolation, irf);
-
-
-    visualization_engine.updateAdvice(aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1}));
+    if(node_id != -1) visualization_engine.updateAdvice(aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1}));
 };
 

@@ -169,10 +169,16 @@ Aira.prototype.runImpulseResponseCalculation = function (variable_to_shock, step
     if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + this.lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
 
     var nr_of_variables = this.var_coefficients.length;
-    var shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
 
-    shocks[variable_to_shock] = makeFilledArray(steps_ahead, 1);
+    var shocks;
+    if(variable_to_shock == -1) {
+        shocks = createMatrix(1, nr_of_variables, steps_ahead, false);
+    } else{
+        shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
+        shocks[variable_to_shock] = makeFilledArray(steps_ahead, 1);
+    }
     shocks = transpose(shocks);
+
 
     var C = this.estimateVmaCoefficients(steps_ahead);
     var result = this.calculateImpulseResponse(shocks, C);
