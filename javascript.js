@@ -115,7 +115,7 @@ var clickNode = function (node_name, node_id) {
     if (DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
     steps_ahead = $('#prediction').val();
-    var irf = transpose(aira.runImpulseResponseCalculation(node_id, steps_ahead));
+    var irf = transpose(aira.runImpulseResponseCalculation(node_id, steps_ahead, 1));
     visualization_engine.draw(irf);
 
     var interpolation = $('#interpolation').val();

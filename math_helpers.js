@@ -15,6 +15,11 @@ var multiplyMatrices = function (first, second) {
     });
 };
 
+/**
+ *
+ * @param matrices
+ * @returns {Array}
+ */
 var sumMatrices = function (matrices) {
     var result = [];
     var r, c, m;
@@ -32,6 +37,14 @@ var sumMatrices = function (matrices) {
     return result;
 };
 
+/**
+ * from http://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-in-javascript
+ * @param places
+ * @returns {number}
+ */
+var roundToPlaces = function(number, places) {
+    return +(Math.round(number + "e+" + places)  + "e-" + places);
+};
 
 var printMatrix = function (matrix) {
     var r, c, s;
@@ -135,6 +148,22 @@ var makeFilledArray = function (len, value) {
     var row = [];
     while (len-- > 0) row.push(value);
     return row;
+};
+
+/**
+ *
+ * @param len
+ * @param value
+ * @returns {Array}
+ */
+var makeSequenceArray = function (stepsize, from, to) {
+    var sequence = [];
+    index = 0;
+    for(value = from ; value < to ; value += stepsize){
+        sequence[index] = roundToPlaces(value, 3);
+        index++;
+    }
+    return sequence;
 };
 
 /**

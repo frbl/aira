@@ -123,22 +123,28 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
 
+    var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 5);
+
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
     for (variable = 0; variable < this.number_of_variables; variable++) {
         name = this.node_names[variable];
         cumulative_name = name + '_cumulative';
-
-        irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead));
-        cumulative = cumulativeSummation(irf);
-
-        result[name] = irf[variable_to_improve];
-        result[cumulative_name] = cumulative[variable_to_improve];
-
-        // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
-        // if(-NODE = "Negatief") cumulative *= -1;
-        var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
-
-        effects[name] = airaOptimalVariableFinder.thresholdOptimizer(options);
+        //
+        //irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        //cumulative = cumulativeSummation(irf);
+        //
+        //result[name] = irf[variable_to_improve];
+        //result[cumulative_name] = cumulative[variable_to_improve];
+        //
+        //// TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
+        //// if(-NODE = "Negatief") cumulative *= -1;
+        //var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
+        //
+        //effects[name] = airaOptimalVariableFinder.thresholdOptimizer(options);
+        var i;
+        for (i = 0; i < impulse_response_strengths.length; i++) {
+            irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
+        }
 
     }
 
@@ -159,24 +165,24 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 };
 
 /**
- *
- * @param var_model
- * @param variable_to_shock
- * @param lags
- * @param steps_ahead
- * @returns {*}
+ * Runs the actual impulse response calculation on the var model provided to the constructor. It determines it for a
+ * given number of steps in the future, for a selected parameter and for a provided shock size
+ * @param variable_to_shock the variable to exert the shock on
+ * @param steps_ahead the number of steps to make a prediction for
+ * @param shock_size the size of the shock to give
+ * @returns {Array} an array of arrays containing the IRF
  */
-Aira.prototype.runImpulseResponseCalculation = function (variable_to_shock, steps_ahead) {
+Aira.prototype.runImpulseResponseCalculation = function (variable_to_shock, steps_ahead, shock_size) {
     if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + this.lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
 
     var nr_of_variables = this.var_coefficients.length;
 
     var shocks;
-    if(variable_to_shock == -1) {
-        shocks = createMatrix(1, nr_of_variables, steps_ahead, false);
-    } else{
+    if (variable_to_shock == -1) {
+        shocks = createMatrix(shock_size, nr_of_variables, steps_ahead, false);
+    } else {
         shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
-        shocks[variable_to_shock] = makeFilledArray(steps_ahead, 1);
+        shocks[variable_to_shock] = makeFilledArray(steps_ahead, shock_size);
     }
     shocks = transpose(shocks);
 
