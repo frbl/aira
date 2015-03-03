@@ -123,6 +123,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
 
+    // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
     for (variable = 0; variable < this.number_of_variables; variable++) {
         name = this.node_names[variable];
         cumulative_name = name + '_cumulative';
