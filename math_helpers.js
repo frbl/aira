@@ -42,8 +42,8 @@ var sumMatrices = function (matrices) {
  * @param places
  * @returns {number}
  */
-var roundToPlaces = function(number, places) {
-    return +(Math.round(number + "e+" + places)  + "e-" + places);
+var roundToPlaces = function (number, places) {
+    return +(Math.round(number + "e+" + places) + "e-" + places);
 };
 
 var printMatrix = function (matrix) {
@@ -119,7 +119,7 @@ var createMatrix = function (value, nrow, ncol, identity) {
 var linearInterpolation = function (matrix, factor) {
     var i, r, c, row, row_result, length;
     var result = [];
-    if(factor <= 1) return matrix;
+    if (factor <= 1) return matrix;
     for (r = 0; r < matrix.length; r++) {
         row = matrix[r];
         length = row.length * factor - (factor - 1);
@@ -128,7 +128,7 @@ var linearInterpolation = function (matrix, factor) {
             row_result[c * factor] = row[c];
             if (length > (c * factor + 1)) {
                 var part = ((row[c + 1] - row[c]) / factor);
-                for(i = 0 ; i < factor ; i ++) {
+                for (i = 0; i < factor; i++) {
                     row_result.push(row[c] + part * i);
                 }
             }
@@ -159,11 +159,117 @@ var makeFilledArray = function (len, value) {
 var makeSequenceArray = function (stepsize, from, to) {
     var sequence = [];
     index = 0;
-    for(value = from ; value < to ; value += stepsize){
+    for (value = from; value < to; value += stepsize) {
         sequence[index] = roundToPlaces(value, 3);
         index++;
     }
     return sequence;
+};
+
+/**
+ *
+ * @param data
+ * @param len
+ * @param value
+ * @returns {Array.<T>}
+ */
+var addPadding = function (data, len, value) {
+    var shifted_data = data.slice(len + 1, data.length);
+    return makeFilledArray(len, value).concat(shifted_data);
+};
+
+/**
+ *
+ * @param data
+ */
+var discreteDerivative = function (data) {
+    var shifted_data = data.slice(1, data.length);
+    shifted_data.push(0);
+    return data.map(function (value, index) {
+        return shifted_data[index] - value
+    });
+};
+
+/**
+ *
+ * @param data
+ * @param from
+ * @param to
+ * @returns {number}
+ */
+var findMinimumInRange = function (data, from, to) {
+    data = data.slice(from, to);
+    return findMinimum(data);
+};
+
+var findMinimum = function(data) {
+    return Math.min.apply(null, data);
+};
+
+/**
+ *
+ * @param data
+ * @param locations
+ */
+var selectionFromArray = function (data, locations) {
+    return locations.map(function (location, i) {
+        return data[location]
+    })
+};
+
+
+var average = function (data) {
+    return data.reduce(function (sum, a) {
+            return sum + a
+        }, 0) / (data.length == 0 ? 1 : data.length);
+};
+
+
+var findAllValleys = function (data) {
+    var first_derivative = discreteDerivative(data);
+    var i, prev;
+    valleys = [];
+
+    for (i = 0; i < first_derivative.length; i++) {
+        if (prev != undefined && first_derivative[i] > 0 && prev < 0) {
+            valleys.push(i);
+        }
+        prev = first_derivative[i];
+    }
+    return valleys;
+};
+
+/**
+ *
+ * @param matrix
+ * @param factor
+ * @returns {Array}
+ */
+var scaleMatrix = function (matrix, factor) {
+    return matrix.map(function (array, index) {
+        return array.map(function (value, index) {
+            return value * factor;
+        });
+    });
+};
+
+/**
+ *
+ * @param arrays_to_sum
+ * @returns {Array}
+ */
+var arraySum = function (arrays_to_sum) {
+    if (arrays_to_sum.length < 1) throw('At least one array is needed for summation');
+    var array_id, i, array;
+    var sum_array = [];
+    array = arrays_to_sum[0];
+    for (i = 0; i < array.length; i++) {
+        sum_array.push(0);
+        for (array_id = 0; array_id < arrays_to_sum.length; array_id++) {
+            sum_array[i] += arrays_to_sum[array_id][i];
+        }
+    }
+    return sum_array;
 };
 
 /**

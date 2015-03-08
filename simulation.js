@@ -1,7 +1,7 @@
 function Simulation(node_names) {
     this.node_names = node_names;
     this.default_size = 20;
-    this.size_factor = 10;
+    this.size_factor = 50;
     this.frame_rate = 60;
     this.step = 0;
     this.intervals = [];
@@ -74,7 +74,7 @@ Simulation.prototype.plotValue = function (node, value) {
         network.find('g .node').parent().find('#'+node).parent().children().first().attr("class", "node " + class_posneg)
     }
 
-    value = Math.abs(value);
+    value = isNaN(value) ? 0 : Math.abs(value);
     network.find('g .node').parent().find('#' + node).parent().children().attr('r', value)
 
 };

@@ -26,6 +26,23 @@ if (synthetic) {
     number_of_variables = 3;
 }
 
+var dataToMatrix = function(data){
+
+    // Undirected network
+    var links, nodes, i, source, target, coef;
+    links = data[0]['links'];
+    nodes = data[0]['nodes'];
+
+    var var_coef = createMatrix(0, nodes.length, nodes.length, false);
+    for(i = 0; i < links.length ; i++) {
+        source = links[i]['source'];
+        target = links[i]['target'];
+        coef = links[i]['coef'];
+        var_coef[target][source] = parseFloat(coef);
+    }
+    return var_coef;
+};
+
 
 var injectButtons = function (node_names) {
     injectSimulationFunctionality();
@@ -120,6 +137,8 @@ var clickNode = function (node_name, node_id) {
 
     var interpolation = $('#interpolation').val();
     irf = linearInterpolation(irf, interpolation);
+    console.log('Interpolation!');
+    printMatrix(irf);
     interpolation = interpolation == 0 ? 1 : interpolation;
     simulation.setStepsToRun(steps_ahead * interpolation);
     simulation.setIrf(irf);

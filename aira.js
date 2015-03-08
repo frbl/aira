@@ -1,4 +1,4 @@
-var DEBUG = 1;
+var DEBUG = 0;
 
 function Aira(var_coefficients, lags, number_of_variables, node_names) {
     if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
@@ -42,6 +42,7 @@ Aira.prototype.estimateVmaCoefficients = function (forecast_until) {
             if (forecast_step - c_array_index > 0) {
                 var reduced_matrix = sumMatrices(C[(forecast_step - c_array_index) - 1]);
                 temp[c_array_index] = multiplyMatrices(temp[c_array_index], reduced_matrix);
+
             }
         }
         C.push(temp)
@@ -115,7 +116,7 @@ Aira.prototype.calculateImpulseResponse = function (E, C) {
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead, options) {
+Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps_ahead, options) {
     var variable, irf, cumulative, cumulative_name, name;
     var result = {};
     cumulative = {};
@@ -141,11 +142,6 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
         //var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
         //
         //effects[name] = airaOptimalVariableFinder.thresholdOptimizer(options);
-        var i;
-        for (i = 0; i < impulse_response_strengths.length; i++) {
-            irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
-        }
-
     }
 
     if (DEBUG > 0) {
@@ -163,6 +159,65 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
     return effects;
 };
+
+Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead, options) {
+    var variable, irf, cumulative, cumulative_name, name, valleys, i, tempresult, sum_array, irf_on_var;
+    var result = {};
+    cumulative = {};
+    var effects = {};
+
+    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
+
+    var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 5);
+
+    // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
+    for (variable = 0; variable < this.number_of_variables; variable++) {
+        tempresult = {};
+        for (i = 0; i < impulse_response_strengths.length; i++) {
+            irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
+            irf_on_var = irf[variable_to_improve];
+            var frequency = 0;
+            var minimum = 10000;
+
+            while (minimum > 1 && frequency < steps_ahead/* options['threshold']*/) {
+                var impulses = [];
+                var range = frequency == 0 ? steps_ahead : Math.floor(steps_ahead / frequency);
+                for (j = 0; j < range; j++) {
+                    impulses.push(addPadding(irf_on_var, j * frequency, 0));
+                }
+                sum_array = arraySum(impulses);
+                valleys = findAllValleys(sum_array);
+
+                if (valleys.length > 0) {
+                    console.log('non doomed valleys:' + valleys);
+                    valleys = this.findValleyInMean(sum_array, valleys, 10);
+                    minimum = findMinimum(selectionFromArray(sum_array, valleys));
+                }
+                frequency++;
+            }
+            tempresult[impulse_response_strengths[i]] = frequency;
+
+        }
+        result[this.node_names[variable]] = tempresult;
+    }
+    console.log(result);
+    return result;
+};
+
+
+Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
+
+    var i, first, last;
+    var res = [];
+    var mean = average(selectionFromArray(data, valleys));
+    for (i = 0; i < valleys.length; i++) {
+        if (Math.abs(mean - data[i]) < (max_deviation * mean)) {
+            res.push[i];
+        }
+    }
+    return res;
+};
+
 
 /**
  * Runs the actual impulse response calculation on the var model provided to the constructor. It determines it for a
@@ -188,6 +243,7 @@ Aira.prototype.runImpulseResponseCalculation = function (variable_to_shock, step
 
 
     var C = this.estimateVmaCoefficients(steps_ahead);
+
     var result = this.calculateImpulseResponse(shocks, C);
 
     if (DEBUG > 2) {
