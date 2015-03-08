@@ -45,6 +45,10 @@
                 <label> Interpolation </label>
                 <select id='interpolation' class="target">
                 </select>
+
+                <label> Threshold </label>
+                <select id='threshold' class="target">
+                </select>
             </form>
         </div>
     </div>
@@ -371,16 +375,20 @@
 
         var max_steps = 100;
         var max_interpolation = 500;
+        var max_threshold = 1;
 
         var prediction_select = $('#prediction');
         var interpolation_select = $('#interpolation');
+        var threshold_select = $('#threshold');
 
         injectButtons(node_names);
         generateSelectOptions(1, max_steps, 1, '#prediction');
         generateSelectOptions(0, max_interpolation, 1, '#interpolation');
+        generateSelectOptions(0, max_threshold, 0.1, '#threshold');
 
         prediction_select.find("option[value='" + (3 > max_steps ? max_steps : 3) + "']").attr('selected', 'selected');
         interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 250) + "']").attr('selected', 'selected');
+        threshold_select.find("option[value='" + (0.1 > max_threshold ? max_threshold : 0.1) + "']").attr('selected', 'selected');
     });
 </script>
 

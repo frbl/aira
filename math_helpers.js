@@ -46,6 +46,11 @@ var roundToPlaces = function (number, places) {
     return +(Math.round(number + "e+" + places) + "e-" + places);
 };
 
+/**
+ * Prints the matrix to the console
+ * @param matrix
+ * @returns {boolean}
+ */
 var printMatrix = function (matrix) {
     var r, c, s;
     console.log('-----------------');

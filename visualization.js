@@ -5,7 +5,7 @@ function Visualization(node_names) {
 
 Visualization.prototype.updateAdvice = function (effects) {
     var result = $(".result");
-    var number_of_measurements_per_day = 3;
+    var number_of_measurements_per_day = 1;
     var number_of_options = 0;
     for (effect in effects) {
         if (effects.hasOwnProperty(effect)) {
@@ -24,7 +24,7 @@ Visualization.prototype.updateAdvice = function (effects) {
                 var length = current[1] - current[0];
                 var when = current[1] - (length);
 
-                html += ('<li>You could increase your level of ' + effect + ', every ' + (when / number_of_measurements_per_day).toFixed(2) + ' days. This has an effect that lasts for ' + (length / number_of_measurements_per_day).toFixed(2) + ' days </li>');
+                html += ('<li>You could increase your level of ' + effect + ', every ' + (when / number_of_measurements_per_day).toFixed(1) + ' measurement moments. This has an effect that lasts for ' + (length / number_of_measurements_per_day).toFixed(2) + ' days </li>');
             }
         }
     }

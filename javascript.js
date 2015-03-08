@@ -95,7 +95,7 @@ var generateSelectOptions = function (from, to, stepsize, location) {
     for (i = from; i < to; i += stepsize) {
         html.append($("<option></option>")
             .attr("value", i)
-            .text(i));
+            .text(roundToPlaces(i, 2)));
     }
     return html;
 };
@@ -132,6 +132,8 @@ var clickNode = function (node_name, node_id) {
     if (DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
     steps_ahead = $('#prediction').val();
+    var threshold = $('#threshold').val();
+
     var irf = transpose(aira.runImpulseResponseCalculation(node_id, steps_ahead, 1));
     visualization_engine.draw(irf);
 
@@ -145,7 +147,7 @@ var clickNode = function (node_name, node_id) {
     simulation.run(true);
 
     if (node_id != -1){
-        visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, {threshold: 1}));
+        visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, {threshold: threshold}));
         aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1})
     }
 
