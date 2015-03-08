@@ -144,6 +144,10 @@ var clickNode = function (node_name, node_id) {
     simulation.setIrf(irf);
     simulation.run(true);
 
-    if (node_id != -1) visualization_engine.updateAdvice(aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1}));
+    if (node_id != -1){
+        visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, {threshold: 1}));
+        aira.determineOptimalNode(node_id, steps_ahead, {threshold: 1})
+    }
+
 };
 

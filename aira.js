@@ -124,24 +124,22 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
 
-    var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 5);
-
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
     for (variable = 0; variable < this.number_of_variables; variable++) {
         name = this.node_names[variable];
         cumulative_name = name + '_cumulative';
-        //
-        //irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, 1));
-        //cumulative = cumulativeSummation(irf);
-        //
-        //result[name] = irf[variable_to_improve];
-        //result[cumulative_name] = cumulative[variable_to_improve];
-        //
-        //// TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
-        //// if(-NODE = "Negatief") cumulative *= -1;
-        //var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
-        //
-        //effects[name] = airaOptimalVariableFinder.thresholdOptimizer(options);
+
+        irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        cumulative = cumulativeSummation(irf);
+
+        result[name] = irf[variable_to_improve];
+        result[cumulative_name] = cumulative[variable_to_improve];
+
+        // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
+        // if(-NODE = "Negatief") cumulative *= -1;
+        var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
+
+        effects[name] = airaOptimalVariableFinder.thresholdOptimizer(options);
     }
 
     if (DEBUG > 0) {
@@ -168,18 +166,19 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
 
-    var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 5);
+    var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 10);
 
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
     for (variable = 0; variable < this.number_of_variables; variable++) {
+
         tempresult = {};
         for (i = 0; i < impulse_response_strengths.length; i++) {
             irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
             irf_on_var = irf[variable_to_improve];
             var frequency = 0;
-            var minimum = 10000;
+            var minimum = -10000;
 
-            while (minimum > 1 && frequency < steps_ahead/* options['threshold']*/) {
+            while (minimum < 1 && frequency < steps_ahead/* options['threshold']*/) {
                 var impulses = [];
                 var range = frequency == 0 ? steps_ahead : Math.floor(steps_ahead / frequency);
                 for (j = 0; j < range; j++) {
@@ -187,10 +186,10 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
                 }
                 sum_array = arraySum(impulses);
                 valleys = findAllValleys(sum_array);
-
+                console.log('Valleys; ' + valleys);
                 if (valleys.length > 0) {
-                    console.log('non doomed valleys:' + valleys);
                     valleys = this.findValleyInMean(sum_array, valleys, 10);
+                    console.log('non doomed valleys:' + valleys + ' (' + this.node_names[variable] + '), with data' + selectionFromArray(sum_array, valleys));
                     minimum = findMinimum(selectionFromArray(sum_array, valleys));
                 }
                 frequency++;
@@ -206,13 +205,14 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
 
 Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
-
-    var i, first, last;
+    var i, current;
     var res = [];
     var mean = average(selectionFromArray(data, valleys));
     for (i = 0; i < valleys.length; i++) {
-        if (Math.abs(mean - data[i]) < (max_deviation * mean)) {
-            res.push[i];
+        current = valleys[i];
+        console.log('data :' + data[current] + ', mean: ' + mean);
+        if (Math.abs(mean - data[current]) < max_deviation) {
+            res.push(current);
         }
     }
     return res;
