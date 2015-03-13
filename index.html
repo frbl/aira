@@ -13,21 +13,26 @@
 
         .result {
             left: 0;
-            height:200px;
+            height: 200px;
             padding-left: 20px;
-            overflow: scroll;
         }
 
         footer {
-            position:relative;
-            bottom:0;
-            width:100%;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
 
         #simulation-buttons {
-            margin-right:auto;
-            margin-left:auto;
-            width:100%;
+            margin-right: auto;
+            margin-left: auto;
+            width: 100%;
+        }
+
+        .result>section{
+            padding:10px;
+            margin:10px;
+            border: 1px solid #474747
         }
     </style>
 </head>
@@ -53,7 +58,20 @@
         </div>
     </div>
 
-    <div class="result"></div>
+
+    <div class="result">
+        <section class="result-item advice">
+            <h2>Advice</h2>
+            <div class="content">
+            </div>
+        </section>
+
+        <section class="result-item effect">
+            <h2>Net effect</h2>
+            <div class="content">
+            </div>
+        </section>
+    </div>
 
 
     <div id="netDynamisch" class="svg-container centered-svg"
@@ -61,171 +79,143 @@
         <div id="shock-div" style="height:30px;"><span id="shock"
                                                        style="font-size:150%; display:none; background-color:#ff0000;">!SHOCK!</span>
         </div>
-
-        <!-- Synthetic network
-
         <svg width="515" height="320">
             <g class="network" transform="translate(130,70)">
                 <g class="link">
                     <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(248.23089196209892,26.447419123303288)">+
+                          transform="translate(40.79985533048902,98.17776741314702)">+
                     </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M255,196.9408269770093A196.94534889699744,196.94534889699744 0 0,1 253.6654132580671,0"></path>
+                    <line style="stroke-width: 1.49333222326255px;" x1="122.71499076152142" y1="142.38611161492466"
+                          x2="21.316414389750843" y2="79.48564262464939"></line>
                     <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(227.9476318359375,98.6491470336914) rotate(-90.38826391874098) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(45.114191503530414,214.14937960980456)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M255,196.9408269770093A236.92524407589454,236.92524407589454 0 0,1 18.43493647544279,210.00000000000003"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(138.46707153320312,235.16412353515625) rotate(-183.15970927794552) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(17.548868903890572,22.06333189514605)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M255,196.9408269770093A321.2551399438468,321.2551399438468 0 0,1 0,1.5441408732255588"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(101.32176208496094,133.40597534179688) rotate(-142.53844343704534) scale(1)"></path>
+                          transform="translate(70.21700445984514,109.82009266695248) rotate(-148.18747641499561) scale(1.0822220372104254)"></path>
                 </g>
                 <g class="link">
                     <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(260.4345212959682,170.493407853706)">+
+                          transform="translate(19.8975518742311,52.52294934000045)">+
                     </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M253.6654132580671,0A196.94534889699744,196.94534889699744 0 0,1 255,196.9408269770093"></path>
+                    <line style="stroke-width: 1.90886891949543px;" x1="0" y1="0" x2="21.316414389750843"
+                          y2="79.48564262464939"></line>
                     <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(280.7177734375,98.29158020019531) rotate(89.61173608125902) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(41.874758291000816,196.59944951672176)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M253.6654132580671,0A315.33058400253657,315.33058400253657 0 0,1 18.43493647544279,210.00000000000003"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(164.1848602294922,136.514892578125) rotate(-221.7566115403841) scale(1)"></path>
+                          transform="translate(9.576806685409405,35.710444531788) rotate(74.9876927013334) scale(1.1514781532492386)"></path>
                 </g>
                 <g class="link">
                     <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(26.4436671220929,6.996889642052434)">+
+                          transform="translate(168.37076208918725,43.12317978632804)">+
                     </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M253.6654132580671,0A253.67011304925603,253.67011304925603 0 0,1 0,1.5441408732255588"></path>
+                    <line style="stroke-width: 2.11655120780779px;" x1="122.71499076152142" y1="142.38611161492466"
+                          x2="183.91245591728332" y2="24.183650939133337"></line>
                     <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(127.03953552246094,34.75679016113281) rotate(-180.3487730593624) scale(1)"></path>
+                          transform="translate(152.31997110126497,85.20430652693017) rotate(-62.627848684893124) scale(1.1860918679679653)"></path>
                 </g>
                 <g class="link">
                     <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(228.32074497191235,192.79144736720477)">+
+                          transform="translate(240.86265371447558,156.5072444645544)">+
                     </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M18.43493647544279,210.00000000000003A236.92524407589454,236.92524407589454 0 0,1 255,196.9408269770093"></path>
+                    <line style="stroke-width: 1px;" x1="209.05942010885275" y1="209.99999999999997" x2="255"
+                          y2="143.07647978032406"></line>
                     <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(134.96786499023438,171.77667236328125) rotate(-3.1597092779455136) scale(1)"></path>
+                          transform="translate(232.02971005442637,176.538239890162) rotate(-55.53180791884742) scale(1)"></path>
                 </g>
                 <g class="link">
                     <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(230.22559144250909,13.400550483278288)">-
+                          transform="translate(48.12736695368835,76.29615636283647)">-
                     </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M18.43493647544279,210.00000000000003A315.33058400253657,315.33058400253657 0 0,1 253.6654132580671,0"></path>
+                    <path class="arclink" style="stroke-width: 1.90184788573128px;"
+                          d="M183.91245591728332,24.183650939133337A171.74336378680823,171.74336378680823 0 0,1 21.316414389750843,79.48564262464939"></path>
                     <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(107.91548156738281,73.48513793945312) rotate(-41.75661154038412) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(-3.2652867226465747,28.345967352383806)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M18.43493647544279,210.00000000000003A209.26942463517037,209.26942463517037 0 0,1 0,1.5441408732255588"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(-18.710329055786133,108.24189758300781) rotate(-95.05384366262123) scale(1)"></path>
+                          transform="translate(110.02349090576172,73.61840057373047) rotate(-198.78414109867794) scale(1.1503079809552132)"></path>
                 </g>
                 <g class="link">
                     <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(237.45113109610944,176.42163595508882)">+
+                          transform="translate(159.58399896111783,27.077814398926535)">+
                     </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M0,1.5441408732255588A321.2551399438468,321.2551399438468 0 0,1 255,196.9408269770093"></path>
+                    <path class="arclink" style="stroke-width: 1.2636102484977px;"
+                          d="M21.316414389750843,79.48564262464939A171.74336378680823,171.74336378680823 0 0,1 183.91245591728332,24.183650939133337"></path>
                     <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(153.67808532714844,65.07888793945312) rotate(37.461556562954655) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(227.2217461359742,-5.4527487688268765)">+
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M0,1.5441408732255588A253.67011304925603,253.67011304925603 0 0,1 253.6654132580671,0"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(126.62584686279297,-33.21265411376953) rotate(-0.3487730593624017) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(21.700223198089365,183.19817352084178)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M0,1.5441408732255588A209.26942463517037,209.26942463517037 0 0,1 18.43493647544279,210.00000000000003"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(37.145259857177734,103.30224609375) rotate(84.94615633737877) scale(1)"></path>
+                          transform="translate(95.2053451538086,30.050920486450195) rotate(-18.784141098677942) scale(1.043935041416284)"></path>
                 </g>
                 <g>
-                    <circle class="node Positief" id="e" r="20" cx="255" cy="196.9408269770093"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="255"
-                            cy="196.9408269770093"></circle>
+                    <circle class="node Positief" id="cheerfulness" r="12.5" cx="209.05942010885275"
+                            cy="209.99999999999997"></circle>
+                    <circle class="nodeGrad" r="12.5" style="fill: url(#nodeGrad);" cx="209.05942010885275"
+                            cy="209.99999999999997"></circle>
+                </g>
+                <g class="fixed">
+                    <circle class="node Negatief" id="rumination" r="15" cx="122.71499076152142"
+                            cy="142.38611161492466"></circle>
+                    <circle class="nodeGrad" r="15" style="fill: url(#nodeGrad);" cx="122.71499076152142"
+                            cy="142.38611161492466"></circle>
                 </g>
                 <g>
-                    <circle class="node Negatief" id="prod" r="20" cx="253.6654132580671" cy="0"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="253.6654132580671"
-                            cy="0"></circle>
+                    <circle class="node Positief" id="humor" r="20" cx="21.316414389750843"
+                            cy="79.48564262464939"></circle>
+                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="21.316414389750843"
+                            cy="79.48564262464939"></circle>
                 </g>
                 <g>
-                    <circle class="node Positief" id="rw" r="20" cx="18.43493647544279"
-                            cy="210.00000000000003"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="18.43493647544279"
-                            cy="210.00000000000003"></circle>
+                    <circle class="node Negatief" id="falling_short_of_something" r="17.5" cx="183.91245591728332"
+                            cy="24.183650939133337"></circle>
+                    <circle class="nodeGrad" r="17.5" style="fill: url(#nodeGrad);" cx="183.91245591728332"
+                            cy="24.183650939133337"></circle>
                 </g>
                 <g>
-                    <circle class="node Negatief" id="u" r="20" cx="0" cy="1.5441408732255588"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="0"
-                            cy="1.5441408732255588"></circle>
+                    <circle class="node Positief" id="making_a_difference" r="12.5" cx="0" cy="0"></circle>
+                    <circle class="nodeGrad" r="12.5" style="fill: url(#nodeGrad);" cx="0" cy="0"></circle>
                 </g>
-                <g class="labelNode" transform="translate(255,196.9408269770093)">
+                <g>
+                    <circle class="node Negatief" id="physical_discomfort" r="12.5" cx="255"
+                            cy="143.07647978032406"></circle>
+                    <circle class="nodeGrad" r="12.5" style="fill: url(#nodeGrad);" cx="255"
+                            cy="143.07647978032406"></circle>
+                </g>
+                <g class="labelNode" transform="translate(209.05942010885275,209.99999999999997)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
                     <text></text>
                 </g>
-                <g class="labelNode" transform="translate(272.7964813849756,214.49888069358667)">
+                <g class="labelNode" transform="translate(213.01476153337921,227.04714856553505)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="0.4em" text-anchor="start">e</text>
+                    <text dy="0.4em" text-anchor="start">Cheerfulness</text>
                 </g>
-                <g class="labelNode" transform="translate(253.6654132580671,0)">
+                <g class="labelNode" transform="translate(122.71499076152142,142.38611161492466)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
                     <text></text>
                 </g>
-                <g class="labelNode" transform="translate(270.23112616156203,-18.723705722932685)">
+                <g class="labelNode" transform="translate(109.93197058275284,157.76773685770038)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="-0.1em" text-anchor="start">prod</text>
+                    <text dy="0.4em" text-anchor="end">Rumination</text>
                 </g>
-                <g class="labelNode" transform="translate(18.43493647544279,210.00000000000003)">
+                <g class="labelNode" transform="translate(21.316414389750843,79.48564262464939)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
                     <text></text>
                 </g>
-                <g class="labelNode" transform="translate(1.9674430480601792,228.8101477989704)">
+                <g class="labelNode" transform="translate(1.9600988499689045,63.66372590370826)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="0.4em" text-anchor="end">rw</text>
+                    <text dy="-0.1em" text-anchor="end">Humor</text>
                 </g>
-                <g class="labelNode" transform="translate(0,1.5441408732255588)">
+                <g class="labelNode" transform="translate(183.91245591728332,24.183650939133337)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
                     <text></text>
                 </g>
-                <g class="labelNode" transform="translate(-18.03706940167313,-15.766668680322962)">
+                <g class="labelNode" transform="translate(200.87627445702248,9.402620509870228)">
                     <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="-0.1em" text-anchor="end">U</text>
+                    <text dy="-0.1em" text-anchor="start">Falling short of something</text>
+                </g>
+                <g class="labelNode" transform="translate(0,0)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(-11.30145989433638,-13.361399786575742)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="-0.1em" text-anchor="end">Making a difference</text>
+                </g>
+                <g class="labelNode" transform="translate(255,143.07647978032406)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text></text>
+                </g>
+                <g class="labelNode" transform="translate(272.4651819539896,144.1798470419538)">
+                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
+                    <text dy="0.4em" text-anchor="start">Physical discomfort</text>
                 </g>
             </g>
             <defs>
@@ -236,116 +226,11 @@
                 </radialGradient>
             </defs>
         </svg>
-        -->
-        <!--
-        <svg width="515" height="320">
-            <g class="network" transform="translate(130,70)">
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(201.0646411851805,26.969283071004202)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M255,210A217.1395151551016,217.1395151551016 0 0,1 199.7770967641813,0"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(199.2538604736328,112.3984146118164) rotate(-104.73329072151988) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(24.104708237482043,154.89973756705155)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M255,210A263.72235741643635,263.72235741643635 0 0,1 0,142.73573161564454"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(118.48831939697266,210.5313720703125) rotate(-165.22302942668017) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(253.7124555790008,183.03071692899582)">+
-                    </text>
-                    <path class="arclink" style="stroke-width: 1.030136px;"
-                          d="M199.7770967641813,0A217.1395151551016,217.1395151551016 0 0,1 255,210"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(255.52322387695312,97.60150909423828) rotate(75.26670927848012) scale(1.0050226666666666)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(24.752185582942566,131.95012505562343)">+
-                    </text>
-                    <path class="arclink" style="stroke-width: 1px;"
-                          d="M199.7770967641813,0A245.52877116822452,245.52877116822452 0 0,1 0,142.73573161564454"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(119.0114517211914,98.13298797607422) rotate(-215.54485665637054) scale(1)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="negative"
-                          transform="translate(230.89529176251796,197.835994048593)">-
-                    </text>
-                    <path class="arclink" style="stroke-width: 5px;"
-                          d="M0,142.73573161564454A263.72235741643635,263.72235741643635 0 0,1 255,210"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(136.5116729736328,142.20433044433594) rotate(14.776970573319826) scale(1.6666666666666665)"></path>
-                </g>
-                <g class="link">
-                    <text text-anchor="middle" dy="0.3em" class="positive"
-                          transform="translate(175.02491118123874,10.785606560021105)">+
-                    </text>
-                    <path class="arclink" style="stroke-width: 5px;"
-                          d="M0,142.73573161564454A245.52877116822452,245.52877116822452 0 0,1 199.7770967641813,0"></path>
-                    <path class="arrow" d="M0,-5L10,0L0,5"
-                          transform="translate(80.76561737060547,44.60277557373047) rotate(-35.54485665637055) scale(1.6666666666666665)"></path>
-                </g>
-                <g>
-                    <circle class="node Positief" id="namean" r="20" cx="255" cy="210"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="255" cy="210"></circle>
-                </g>
-                <g>
-                    <circle class="node Negatief" id="cortisolnmoll" r="20" cx="199.7770967641813" cy="0"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="199.7770967641813"
-                            cy="0"></circle>
-                </g>
-                <g>
-                    <circle class="node Positief" id="eesom2" r="20" cx="0" cy="142.73573161564454"></circle>
-                    <circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="0"
-                            cy="142.73573161564454"></circle>
-                </g>
-                <g class="labelNode" transform="translate(255,210)">
-                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text></text>
-                </g>
-                <g class="labelNode" transform="translate(271.7075924753984,228.59721359978448)">
-                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="0.4em" text-anchor="start">NAmean</text>
-                </g>
-                <g class="labelNode" transform="translate(199.7770967641813,0)">
-                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text></text>
-                </g>
-                <g class="labelNode" transform="translate(207.41682545197594,-23.804086741080564)">
-                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="-0.1em" text-anchor="start">cortisolnmolL</text>
-                </g>
-                <g class="labelNode" transform="translate(0,142.73573161564454)">
-                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text></text>
-                </g>
-                <g class="labelNode" transform="translate(-24.49599757458487,147.73033899019683)">
-                    <circle r="0" style="fill: rgb(0, 0, 0);"></circle>
-                    <text dy="0.4em" text-anchor="end">EEsom2</text>
-                </g>
-            </g>
-            <defs>
-                <radialGradient id="nodeGrad" cx="30%" cy="30%" r="55%">
-                    <stop offset="0%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop>
-                    <stop offset="5%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop>
-                    <stop offset="100%" stop-opacity="0.0" style="stop-color: rgb(255, 255, 255);"></stop>
-                </radialGradient>
-            </defs>
-        </svg>-->
-        <svg width="515" height="320"><g class="network" transform="translate(130,70)"><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(40.79985533048902,98.17776741314702)">+</text><line style="stroke-width: 1.49333222326255px;" x1="122.71499076152142" y1="142.38611161492466" x2="21.316414389750843" y2="79.48564262464939"></line><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(70.21700445984514,109.82009266695248) rotate(-148.18747641499561) scale(1.0822220372104254)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(19.8975518742311,52.52294934000045)">+</text><line style="stroke-width: 1.90886891949543px;" x1="0" y1="0" x2="21.316414389750843" y2="79.48564262464939"></line><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(9.576806685409405,35.710444531788) rotate(74.9876927013334) scale(1.1514781532492386)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(168.37076208918725,43.12317978632804)">+</text><line style="stroke-width: 2.11655120780779px;" x1="122.71499076152142" y1="142.38611161492466" x2="183.91245591728332" y2="24.183650939133337"></line><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(152.31997110126497,85.20430652693017) rotate(-62.627848684893124) scale(1.1860918679679653)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(240.86265371447558,156.5072444645544)">+</text><line style="stroke-width: 1px;" x1="209.05942010885275" y1="209.99999999999997" x2="255" y2="143.07647978032406"></line><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(232.02971005442637,176.538239890162) rotate(-55.53180791884742) scale(1)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="negative" transform="translate(48.12736695368835,76.29615636283647)">-</text><path class="arclink" style="stroke-width: 1.90184788573128px;" d="M183.91245591728332,24.183650939133337A171.74336378680823,171.74336378680823 0 0,1 21.316414389750843,79.48564262464939"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(110.02349090576172,73.61840057373047) rotate(-198.78414109867794) scale(1.1503079809552132)"></path></g><g class="link"><text text-anchor="middle" dy="0.3em" class="positive" transform="translate(159.58399896111783,27.077814398926535)">+</text><path class="arclink" style="stroke-width: 1.2636102484977px;" d="M21.316414389750843,79.48564262464939A171.74336378680823,171.74336378680823 0 0,1 183.91245591728332,24.183650939133337"></path><path class="arrow" d="M0,-5L10,0L0,5" transform="translate(95.2053451538086,30.050920486450195) rotate(-18.784141098677942) scale(1.043935041416284)"></path></g><g><circle class="node Positief" id="cheerfulness" r="12.5" cx="209.05942010885275" cy="209.99999999999997"></circle><circle class="nodeGrad" r="12.5" style="fill: url(#nodeGrad);" cx="209.05942010885275" cy="209.99999999999997"></circle></g><g class="fixed"><circle class="node Negatief" id="rumination" r="15" cx="122.71499076152142" cy="142.38611161492466"></circle><circle class="nodeGrad" r="15" style="fill: url(#nodeGrad);" cx="122.71499076152142" cy="142.38611161492466"></circle></g><g><circle class="node Positief" id="humor" r="20" cx="21.316414389750843" cy="79.48564262464939"></circle><circle class="nodeGrad" r="20" style="fill: url(#nodeGrad);" cx="21.316414389750843" cy="79.48564262464939"></circle></g><g><circle class="node Negatief" id="falling_short_of_something" r="17.5" cx="183.91245591728332" cy="24.183650939133337"></circle><circle class="nodeGrad" r="17.5" style="fill: url(#nodeGrad);" cx="183.91245591728332" cy="24.183650939133337"></circle></g><g><circle class="node Positief" id="making_a_difference" r="12.5" cx="0" cy="0"></circle><circle class="nodeGrad" r="12.5" style="fill: url(#nodeGrad);" cx="0" cy="0"></circle></g><g><circle class="node Negatief" id="physical_discomfort" r="12.5" cx="255" cy="143.07647978032406"></circle><circle class="nodeGrad" r="12.5" style="fill: url(#nodeGrad);" cx="255" cy="143.07647978032406"></circle></g><g class="labelNode" transform="translate(209.05942010885275,209.99999999999997)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(213.01476153337921,227.04714856553505)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="0.4em" text-anchor="start">Cheerfulness</text></g><g class="labelNode" transform="translate(122.71499076152142,142.38611161492466)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(109.93197058275284,157.76773685770038)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="0.4em" text-anchor="end">Rumination</text></g><g class="labelNode" transform="translate(21.316414389750843,79.48564262464939)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(1.9600988499689045,63.66372590370826)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="-0.1em" text-anchor="end">Humor</text></g><g class="labelNode" transform="translate(183.91245591728332,24.183650939133337)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(200.87627445702248,9.402620509870228)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="-0.1em" text-anchor="start">Falling short of something</text></g><g class="labelNode" transform="translate(0,0)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(-11.30145989433638,-13.361399786575742)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="-0.1em" text-anchor="end">Making a difference</text></g><g class="labelNode" transform="translate(255,143.07647978032406)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text></text></g><g class="labelNode" transform="translate(272.4651819539896,144.1798470419538)"><circle r="0" style="fill: rgb(0, 0, 0);"></circle><text dy="0.4em" text-anchor="start">Physical discomfort</text></g></g><defs><radialGradient id="nodeGrad" cx="30%" cy="30%" r="55%"><stop offset="0%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop><stop offset="5%" stop-opacity="1.0" style="stop-color: rgb(255, 255, 255);"></stop><stop offset="100%" stop-opacity="0.0" style="stop-color: rgb(255, 255, 255);"></stop></radialGradient></defs></svg>
     </div>
     <footer>
         <div id="simulation-buttons">
-            <input class="button light button_previous" name="previous" type="button" value="<<<<" id="button_previous"/>
+            <input class="button light button_previous" name="previous" type="button" value="<<<<"
+                   id="button_previous"/>
             <input class="button light button_pause" name="pause" type="button" value="||" id="button_pause"/>
             <input class="button light button_play" name="play" type="button" value=">" id="button_play"/>
             <input class="button light button_next" name="next" type="button" value=">>>>" id="button_next"/>
@@ -361,15 +246,79 @@
 
 
     $(document).ready(function () {
-        var json_data = [{"links":[{"source":1,"target":2,"coef":"0.261666527907819"},{"source":3,"target":2,"coef":"-0.31273098571641"},{"source":4,"target":2,"coef":"0.313608614936929"},{"source":1,"target":3,"coef":"0.339568900975974"},{"source":2,"target":3,"coef":"0.232951281062213"},{"source":0,"target":5,"coef":"0.168380484444654"}],"nodes":[{"index":0,"name":"Opgewektheid","type":"Positief"},{"index":1,"name":"Piekeren","type":"Negatief"},{"index":2,"name":"Humor","type":"Positief"},{"index":3,"name":"Tekortschieten","type":"Negatief"},{"index":4,"name":"Iets betekenen","type":"Positief"},{"index":5,"name":"Lichamelijk ongemak","type":"Negatief"}]},{"links":[{"source":1,"target":0,"coef":"-0.480502536083973"},{"source":2,"target":0,"coef":"0.314806229316806"},{"source":5,"target":0,"coef":"-0.23975123913917"},{"source":2,"target":1,"coef":"-0.27471632213202"},{"source":3,"target":1,"coef":"0.435563601077538"},{"source":4,"target":1,"coef":"-0.224582145556571"},{"source":5,"target":1,"coef":"0.234923586847657"},{"source":4,"target":2,"coef":"0.218116889115806"}],"nodes":[{"index":0,"name":"Opgewektheid","type":"Positief"},{"index":1,"name":"Piekeren","type":"Negatief"},{"index":2,"name":"Humor","type":"Positief"},{"index":3,"name":"Tekortschieten","type":"Negatief"},{"index":4,"name":"Iets betekenen","type":"Positief"},{"index":5,"name":"Lichamelijk ongemak","type":"Negatief"}]},[{"source":"iets_betekenen","target":"humor","sign":1},{"source":"piekeren","target":"tekortschieten","sign":1},{"source":"tekortschieten","target":"humor","sign":-1}]]
+        var json_data = [{
+            "links": [{"source": 1, "target": 2, "coef": "0.261666527907819"}, {
+                "source": 3,
+                "target": 2,
+                "coef": "-0.31273098571641"
+            }, {"source": 4, "target": 2, "coef": "0.313608614936929"}, {
+                "source": 1,
+                "target": 3,
+                "coef": "0.339568900975974"
+            }, {"source": 2, "target": 3, "coef": "0.232951281062213"}, {
+                "source": 0,
+                "target": 5,
+                "coef": "0.168380484444654"
+            }],
+            "nodes": [{"index": 0, "name": "Opgewektheid", "type": "Positief"}, {
+                "index": 1,
+                "name": "Piekeren",
+                "type": "Negatief"
+            }, {"index": 2, "name": "Humor", "type": "Positief"}, {
+                "index": 3,
+                "name": "Tekortschieten",
+                "type": "Negatief"
+            }, {"index": 4, "name": "Iets betekenen", "type": "Positief"}, {
+                "index": 5,
+                "name": "Lichamelijk ongemak",
+                "type": "Negatief"
+            }]
+        }, {
+            "links": [{"source": 1, "target": 0, "coef": "-0.480502536083973"}, {
+                "source": 2,
+                "target": 0,
+                "coef": "0.314806229316806"
+            }, {"source": 5, "target": 0, "coef": "-0.23975123913917"}, {
+                "source": 2,
+                "target": 1,
+                "coef": "-0.27471632213202"
+            }, {"source": 3, "target": 1, "coef": "0.435563601077538"}, {
+                "source": 4,
+                "target": 1,
+                "coef": "-0.224582145556571"
+            }, {"source": 5, "target": 1, "coef": "0.234923586847657"}, {
+                "source": 4,
+                "target": 2,
+                "coef": "0.218116889115806"
+            }],
+            "nodes": [{"index": 0, "name": "Opgewektheid", "type": "Positief"}, {
+                "index": 1,
+                "name": "Piekeren",
+                "type": "Negatief"
+            }, {"index": 2, "name": "Humor", "type": "Positief"}, {
+                "index": 3,
+                "name": "Tekortschieten",
+                "type": "Negatief"
+            }, {"index": 4, "name": "Iets betekenen", "type": "Positief"}, {
+                "index": 5,
+                "name": "Lichamelijk ongemak",
+                "type": "Negatief"
+            }]
+        }, [{"source": "iets_betekenen", "target": "humor", "sign": 1}, {
+            "source": "piekeren",
+            "target": "tekortschieten",
+            "sign": 1
+        }, {"source": "tekortschieten", "target": "humor", "sign": -1}]]
         var_coefficients = dataToMatrix(json_data);
         lags = 1;
         number_of_variables = 6;
 
         var nodes = $('#netDynamisch').find('g .node');
-        var node_names = nodes.map(function(index,node) { return node.id }).get();
+        var node_names = nodes.map(function (index, node) {
+            return node.id
+        }).get();
 
-        var var_model = new VarModel(var_coefficients,lags,number_of_variables, node_names);
+        var var_model = new VarModel(var_coefficients, lags, number_of_variables, node_names);
         simulation = new Simulation(node_names);
         impulse_response_calculator = new ImpulseResponseCalculator(var_model);
         aira = new Aira(impulse_response_calculator, var_model);
