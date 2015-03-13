@@ -1,110 +1,9 @@
 var DEBUG = 0;
 
-function Aira(var_coefficients, lags, number_of_variables, node_names) {
-    if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
-    this.var_coefficients = var_coefficients;
-    this.lags = lags;
-    this.number_of_variables = number_of_variables;
-    this.node_names = node_names;
-    this.number_of_exogen_variables = var_coefficients[0].length - this.lags * number_of_variables;
+function Aira(impulse_response_calculator, var_model) {
+    this.impulse_response_calculator = impulse_response_calculator;
+    this.var_model = var_model;
 }
-
-/**
- *
- * @param forecast_until
- * @returns {Array}
- */
-Aira.prototype.estimateVmaCoefficients = function (forecast_until) {
-
-    // Create a list B of coefficient matrices for each time lag
-    var B = [];
-    var lag;
-    for (lag = 0; lag < this.lags; lag++) {
-        var x = (this.number_of_variables * (lag ));
-        B[lag] = subsetMatrix(this.var_coefficients, x, x + this.number_of_variables);
-    }
-
-    if (DEBUG > 2) for (b = 0; b < B.length; b++) printMatrix(B[b]);
-
-    // Create a matrix of all exogenous coefficients
-    var exogenous_variables = subsetMatrix(this.var_coefficients, this.lags * this.number_of_variables,
-        (this.lags * this.number_of_variables) + this.number_of_exogen_variables);
-
-    // Create a list C of VMAcoefficient matrices for each VMAtime lag
-    var C = [];
-    var forecast_step;
-    var c_array_index;
-    for (forecast_step = 0; forecast_step < forecast_until; forecast_step++) {
-        var temp = [];
-
-        for (c_array_index = 0; c_array_index <= forecast_step; c_array_index++) {
-            temp[c_array_index] = this.delta(B, c_array_index);
-            if (forecast_step - c_array_index > 0) {
-                var reduced_matrix = sumMatrices(C[(forecast_step - c_array_index) - 1]);
-                temp[c_array_index] = multiplyMatrices(temp[c_array_index], reduced_matrix);
-
-            }
-        }
-        C.push(temp)
-    }
-
-    // TODO: Remove zero matrices if needed.
-    if (DEBUG > 3) {
-        for (c = 0; c < C.length; c++) {
-            for (ci = 0; ci < C[c].length; ci++) {
-                console.log(c + ':' + ci);
-                printMatrix(C[c][ci]);
-            }
-        }
-    }
-
-    return C;
-};
-
-/**
- *
- * @param E
- * @param C
- * @returns {*}
- */
-Aira.prototype.calculateImpulseResponse = function (E, C) {
-    if (E.length < 1) throw('Number of shocks should be more than one');
-    var number_of_timesteps = C.length;
-
-    if (number_of_timesteps < 1) throw('At least one coefficient matrix is needed');
-
-    if (DEBUG > 0) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + this.number_of_variables + ' variables.');
-
-    var Y_temp, e_lagged, t, i;
-
-    // Create a matrix to store the results in, size is
-    var Y = createMatrix(0, number_of_timesteps + 1, this.number_of_variables, false);
-
-    var identity_matrix = createMatrix(0, this.number_of_variables, this.number_of_variables, true);
-
-    // The extra [] around E[0] are needed to properly perform the transform.
-    Y[0] = multiplyMatrices([E[0]], identity_matrix);
-
-    for (t = 0; t <= number_of_timesteps; t++) {
-        // TODO: check e_lagged is a matrix with t lags for all variables.
-        // TODO: check First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
-        Y_temp = makeFilledArray(this.number_of_variables, 0);
-
-        if (t > 0) {
-            e_lagged = multiplyMatrices(E.slice(0, t), identity_matrix);
-            for (i = 0; i < e_lagged.length; i++) {
-                var addition = multiplyMatrices([e_lagged[i]], transpose(C[t - 1][i]));
-
-                if (i == 0) Y_temp = sumMatrices([[Y_temp], addition]);
-                else Y_temp = sumMatrices([Y_temp, addition]);
-            }
-        } else {
-            Y_temp = multiplyMatrices([E[0]], identity_matrix);
-        }
-        Y[t] = Y_temp
-    }
-    return transpose(Y)
-};
 
 /**
  *
@@ -116,20 +15,26 @@ Aira.prototype.calculateImpulseResponse = function (E, C) {
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps_ahead, options) {
+Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps_ahead, optimizer) {
     var variable, irf, cumulative, cumulative_name, name;
     var result = {};
     cumulative = {};
     var effects = {};
 
-    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
+    var consider_shocked_variable = false;
+
+    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.number_of_variables + ')');
 
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
-    for (variable = 0; variable < this.number_of_variables; variable++) {
-        name = this.node_names[variable];
+    for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
+
+        // Don't take into account direct effects on the shocked variable
+        if (variable_to_improve == variable && !consider_shocked_variable) continue;
+
+        name = this.var_model.node_names[variable];
         cumulative_name = name + '_cumulative';
 
-        irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, 1));
         cumulative = cumulativeSummation(irf);
 
         result[name] = irf[variable_to_improve];
@@ -138,13 +43,13 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps
         // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
         // if(-NODE = "Negatief") cumulative *= -1;
         var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
-
-        effects[name] = airaOptimalVariableFinder.thresholdOptimizer(options);
+        effects[name] = airaOptimalVariableFinder.execute(optimizer);
     }
 
-    if (DEBUG > 0) {
+    if (DEBUG > -1) {
         console.log('Effects found for variable: ' + variable_to_improve);
         var interval;
+        console.log(effects);
         for (var effect in effects) {
             if (effects.hasOwnProperty(effect)) {
 
@@ -158,59 +63,100 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps
     return effects;
 };
 
+/**
+ *
+ * @param variable_to_improve
+ * @param steps_ahead
+ * @param options
+ * @returns {{}}
+ */
 Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead, options) {
-    var variable, irf, cumulative, cumulative_name, name, valleys, i, tempresult, sum_array, irf_on_var;
+    var variable, irf, valleys, i, temp_result, sum_array, irf_on_var, impulses, minimum, frequency, range, degradated_value;
     var result = {};
-    cumulative = {};
-    var effects = {};
+    var consider_shocked_variable = false;
 
-    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.number_of_variables + ')');
+    if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.number_of_variables + ')');
+
+
+    var degradation_location = 'degradation';
+    var degradation_effect = [];
+    if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == steps_ahead) {
+        console.log('Using degradation effect');
+        degradation_effect = options[degradation_location];
+    } else {
+        console.log('NOT Using degradation effect' + options[degradation_location].length);
+        degradation_effect = makeFilledArray(steps_ahead, 1);
+    }
 
     var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 10);
 
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
-    for (variable = 0; variable < this.number_of_variables; variable++) {
+    for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
 
-        tempresult = {};
+        // Don't take into account direct effects on the shocked variable
+        if (variable_to_improve == variable && !consider_shocked_variable) continue;
+
+        temp_result = {};
         for (i = 0; i < impulse_response_strengths.length; i++) {
-            irf = transpose(this.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
+            irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
             irf_on_var = irf[variable_to_improve];
-            var frequency = 0;
-            var minimum = -10000;
+            frequency = 0;
+            minimum = -10000;
 
-            while (minimum < 1 && frequency < steps_ahead/* options['threshold']*/) {
-                var impulses = [];
-                var range = frequency == 0 ? steps_ahead : Math.floor(steps_ahead / frequency);
+            while (minimum < 1/* options['threshold']*/ && frequency < steps_ahead) {
+                impulses = [];
+                /*
+                 * If the frequency is 0, sum all IRFs on timstep 0. If it is not zero, each timestep should have a
+                 * proportion of the IRFs, with regards to the frequency and the steps ahead. I.e., frequency = 0, all
+                 * impulses are at time 0. Frequency is 1, the difference between all IRFs is 1
+                 */
+                range = (frequency == 0 ? steps_ahead : Math.floor(steps_ahead / frequency));
+
                 for (j = 0; j < range; j++) {
-                    impulses.push(addPadding(irf_on_var, j * frequency, 0));
+                    // Add zero padding to all of the IRFs with regards to their position, to shift them
+                    degradated_value = addPadding(irf_on_var, j * frequency, 0);
+
+                    // Degrade subsequent responses (add a weight to the effect
+                    degradated_value *= degradation_effect[j];
+
+                    impulses.push(degradated_value);
                 }
+
                 sum_array = arraySum(impulses);
+
+                // Determine all valleys in the sum data. These should be kept > threshold
                 valleys = findAllValleys(sum_array);
-                console.log('Valleys; ' + valleys);
+
                 if (valleys.length > 0) {
                     valleys = this.findValleyInMean(sum_array, valleys, 10);
-                    console.log('non doomed valleys:' + valleys + ' (' + this.node_names[variable] + '), with data' + selectionFromArray(sum_array, valleys));
                     minimum = findMinimum(selectionFromArray(sum_array, valleys));
                 }
+
                 frequency++;
             }
-            tempresult[impulse_response_strengths[i]] = frequency;
+            temp_result[impulse_response_strengths[i]] = frequency;
 
         }
-        result[this.node_names[variable]] = tempresult;
+        result[this.var_model.node_names[variable]] = temp_result;
     }
     console.log(result);
     return result;
 };
 
-
+/**
+ *
+ * @param data
+ * @param valleys
+ * @param max_deviation
+ * @returns {Array}
+ */
 Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
     var i, current;
     var res = [];
     var mean = average(selectionFromArray(data, valleys));
     for (i = 0; i < valleys.length; i++) {
         current = valleys[i];
-        console.log('data :' + data[current] + ', mean: ' + mean);
+        //console.log('data :' + data[current] + ', mean: ' + mean);
         if (Math.abs(mean - data[current]) < max_deviation) {
             res.push(current);
         }
@@ -218,52 +164,3 @@ Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
     return res;
 };
 
-
-/**
- * Runs the actual impulse response calculation on the var model provided to the constructor. It determines it for a
- * given number of steps in the future, for a selected parameter and for a provided shock size
- * @param variable_to_shock the variable to exert the shock on
- * @param steps_ahead the number of steps to make a prediction for
- * @param shock_size the size of the shock to give
- * @returns {Array} an array of arrays containing the IRF
- */
-Aira.prototype.runImpulseResponseCalculation = function (variable_to_shock, steps_ahead, shock_size) {
-    if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + this.lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
-
-    var nr_of_variables = this.var_coefficients.length;
-
-    var shocks;
-    if (variable_to_shock == -1) {
-        shocks = createMatrix(shock_size, nr_of_variables, steps_ahead, false);
-    } else {
-        shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
-        shocks[variable_to_shock] = makeFilledArray(steps_ahead, shock_size);
-    }
-    shocks = transpose(shocks);
-
-
-    var C = this.estimateVmaCoefficients(steps_ahead);
-
-    var result = this.calculateImpulseResponse(shocks, C);
-
-    if (DEBUG > 2) {
-        console.log('Impulse response:');
-        printMatrix(result[0]);
-    }
-
-    return result[0];
-};
-
-/**
- * Function that either returns an array of coefficients of the var model (if the asked index is included in the list
- * of coefficients), or returns an empty matrix with the same size as the coefficient matrix it would return.
- * @param B the list of coefficient matrices, indexed by lag
- * @param index the index required from the matrix
- * @returns B at the index, or a zero-matrix with the same dimensions
- */
-Aira.prototype.delta = function (B, index) {
-    if (index >= this.lags) {
-        return createMatrix(0, B[0].length, B[0][0].length, false);
-    }
-    return B[index];
-};
