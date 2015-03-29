@@ -103,7 +103,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
             frequency = 0;
             minimum = -10000;
 
-            while (minimum < 1/* options['threshold']*/ && frequency < steps_ahead) {
+            while (minimum < options['threshold'] && frequency < steps_ahead) {
                 impulses = [];
                 /*
                  * If the frequency is 0, sum all IRFs on timstep 0. If it is not zero, each timestep should have a

@@ -124,7 +124,7 @@ var clickNode = function (node_name, node_id) {
         visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, thresholdOptimizer));
         visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, steps_ahead, netEffectOptimizer));
 
-        var options = {degradation: []};
+        var options = {degradation: [], threshold: threshold};
         aira.determineOptimalNode(node_id, steps_ahead, options)
     }
 
