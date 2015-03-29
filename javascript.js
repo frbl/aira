@@ -117,7 +117,7 @@ var clickNode = function (node_name, node_id) {
     simulation.setIrf(irf);
     simulation.run(true);
 
-    if (node_id != -1){
+    if (node_id != -1 && false){
         var thresholdOptimizer = new ThresholdOptimizer({threshold: threshold});
         var netEffectOptimizer = new NetEffectOptimizer({});
 
