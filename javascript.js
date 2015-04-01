@@ -110,22 +110,25 @@ var clickNode = function (node_name, node_id) {
 
     var interpolation = $('#interpolation').val();
     irf = linearInterpolation(irf, interpolation);
-    console.log('Interpolation!');
-    printMatrix(irf);
+
     interpolation = interpolation == 0 ? 1 : interpolation;
     simulation.setStepsToRun(steps_ahead * interpolation);
     simulation.setIrf(irf);
     simulation.run(true);
 
-    if (node_id != -1 && false){
+    if (node_id != -1){
+        var threshold = $('#threshold').val();
         var thresholdOptimizer = new ThresholdOptimizer({threshold: threshold});
         var netEffectOptimizer = new NetEffectOptimizer({});
 
-        visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, thresholdOptimizer));
-        visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, steps_ahead, netEffectOptimizer));
+        if($('#chk-threshold').prop('checked'))
+            visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, thresholdOptimizer));
 
-        var options = {degradation: [], threshold: threshold};
-        aira.determineOptimalNode(node_id, steps_ahead, options)
+        if($('#chk-stability').prop('checked'))
+            visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, steps_ahead, netEffectOptimizer));
+
+        if($('#chk-frequency').prop('checked'))
+            aira.determineOptimalNode(node_id, steps_ahead, {degradation: [], threshold: threshold})
     }
 
 };

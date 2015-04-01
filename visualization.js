@@ -4,7 +4,7 @@ function Visualization(node_names) {
 }
 
 Visualization.prototype.updateAdvice = function (effects) {
-    var result = $(".result").find('.advice .content');
+    var result = $(".aira-result").find('.advice .content');
     var number_of_measurements_per_day = 1;
     var number_of_options = 0;
 
@@ -35,7 +35,7 @@ Visualization.prototype.updateAdvice = function (effects) {
 Visualization.prototype.updateNetEffect = function (effects) {
     var number_of_neg_options = 0;
     var number_of_pos_options = 0;
-    var result = $(".result").find('.effect .content');
+    var result = $(".aira-result").find('.effect .content');
     result.html('');
     var current, text;
     var positive_html = '<ol>';
@@ -82,13 +82,24 @@ Visualization.prototype.setPlotlineLocation = function (x_value) {
     this._addPlotLine(x_value);
 };
 
+
+Visualization.prototype.addData = function(name, data) {
+    // find the clicked values and the series
+    this.chart.addSeries({
+        name: name,
+        data: data,
+        visible: false
+    });
+};
+
 Visualization.prototype.draw = function (transposed_irf) {
     var i;
     var series_var = [];
     for (i = 0; i < transposed_irf.length; i++) {
         series_var.push({
             name: this.node_names[i],
-            data: transposed_irf[i]
+            data: transposed_irf[i],
+            visible: false
         })
     }
 

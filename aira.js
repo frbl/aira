@@ -77,16 +77,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.number_of_variables + ')');
 
-
-    var degradation_location = 'degradation';
-    var degradation_effect = [];
-    if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == steps_ahead) {
-        console.log('Using degradation effect');
-        degradation_effect = options[degradation_location];
-    } else {
-        console.log('NOT Using degradation effect' + options[degradation_location].length);
-        degradation_effect = makeFilledArray(steps_ahead, 1);
-    }
+    var degradation_effect = this.getDegradationEffect(options);
 
     var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 10);
 
@@ -97,48 +88,57 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
         if (variable_to_improve == variable && !consider_shocked_variable) continue;
 
         temp_result = {};
-        for (i = 0; i < impulse_response_strengths.length; i++) {
-            irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, impulse_response_strengths[i]));
-            irf_on_var = irf[variable_to_improve];
-            frequency = 0;
-            minimum = -10000;
 
-            while (minimum < options['threshold'] && frequency < steps_ahead) {
-                impulses = [];
-                /*
-                 * If the frequency is 0, sum all IRFs on timstep 0. If it is not zero, each timestep should have a
-                 * proportion of the IRFs, with regards to the frequency and the steps ahead. I.e., frequency = 0, all
-                 * impulses are at time 0. Frequency is 1, the difference between all IRFs is 1
-                 */
-                range = (frequency == 0 ? steps_ahead : Math.floor(steps_ahead / frequency));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        irf_on_var = irf[variable_to_improve];
 
-                for (j = 0; j < range; j++) {
-                    // Add zero padding to all of the IRFs with regards to their position, to shift them
-                    degradated_value = addPadding(irf_on_var, j * frequency, 0);
+        for (frequency = 0; frequency < steps_ahead; frequency++) {
+            minimum = 0;
+            impulses = [];
 
-                    // Degrade subsequent responses (add a weight to the effect
-                    degradated_value *= degradation_effect[j];
+            /*
+             * If the frequency is 0, sum all IRFs on timstep 0. If it is not zero, each timestep should have a
+             * proportion of the IRFs, with regards to the frequency and the steps ahead. I.e., frequency = 0, all
+             * impulses are at time 0. Frequency is 1, the difference between all IRFs is 1
+             */
+            range = (frequency == 0 ? steps_ahead : Math.ceil(steps_ahead / frequency));
 
-                    impulses.push(degradated_value);
-                }
+            for (j = 0; j < range; j++) {
+                // Add zero padding to all of the IRFs with regards to their position, to shift them
+                degradated_value = addPadding(irf_on_var, j * frequency, 0);
 
-                sum_array = arraySum(impulses);
+                // Degrade subsequent responses (add a weight to the effect
+                degradated_value = scaleArray(degradated_value, degradation_effect[j]);
 
-                // Determine all valleys in the sum data. These should be kept > threshold
-                valleys = findAllValleys(sum_array);
-
-                if (valleys.length > 0) {
-                    valleys = this.findValleyInMean(sum_array, valleys, 10);
-                    minimum = findMinimum(selectionFromArray(sum_array, valleys));
-                }
-
-                frequency++;
+                impulses.push(degradated_value);
             }
-            temp_result[impulse_response_strengths[i]] = frequency;
+
+            sum_array = arraySum(impulses);
+
+            if(variable == 0)
+                visualization_engine.addData('Sum '+frequency + ' ' + this.var_model.node_names[variable], sum_array);
+
+            // Determine all valleys in the sum data. These should be kept > threshold
+            valleys = findAllValleys(sum_array);
+
+            if (valleys.length > 0) {
+                valleys = this.findValleyInMean(sum_array, valleys, 5);
+                if(variable == 0)
+                    console.log(valleys);
+                minimum = findMinimum(selectionFromArray(sum_array, valleys));
+            }
+
+            if (minimum > 0) {
+                temp_result[frequency] = options['threshold'] / minimum;
+            } else {
+                temp_result[frequency] = -1;
+            }
 
         }
+
         result[this.var_model.node_names[variable]] = temp_result;
     }
+
     console.log(result);
     return result;
 };
@@ -162,5 +162,20 @@ Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
         }
     }
     return res;
+};
+
+/**
+ *
+ * @param options
+ */
+Aira.prototype.getDegradationEffect = function(options) {
+    var degradation_location = 'degradation';
+    if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == steps_ahead) {
+        console.log('Using degradation effect');
+        return options[degradation_location];
+    } else {
+        console.log('NOT Using degradation effect');
+        return makeFilledArray(steps_ahead, 1);
+    }
 };
 

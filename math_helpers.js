@@ -179,7 +179,7 @@ var makeSequenceArray = function (stepsize, from, to) {
  * @returns {Array.<T>}
  */
 var addPadding = function (data, len, value) {
-    var shifted_data = data.slice(len + 1, data.length);
+    var shifted_data = data.slice(0, data.length - len);
     return makeFilledArray(len, value).concat(shifted_data);
 };
 
@@ -252,9 +252,19 @@ var findAllValleys = function (data) {
  */
 var scaleMatrix = function (matrix, factor) {
     return matrix.map(function (array, index) {
-        return array.map(function (value, index) {
-            return value * factor;
-        });
+        return scaleArray(array, factor);
+    });
+};
+
+/**
+ *
+ * @param array
+ * @param factor
+ * @returns {Array}
+ */
+var scaleArray = function(array, factor) {
+    return array.map(function (value, i) {
+        return value * factor;
     });
 };
 
