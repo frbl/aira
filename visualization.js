@@ -99,7 +99,7 @@ Visualization.prototype.draw = function (transposed_irf) {
         series_var.push({
             name: this.node_names[i],
             data: transposed_irf[i],
-            visible: false
+            visible: true
         })
     }
 
