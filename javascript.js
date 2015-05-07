@@ -1,19 +1,30 @@
-var dataToMatrix = function(data){
+var dataToMatrix = function (data) {
     // Undirected network
     var links, nodes, i, source, target, coef;
     links = data[0]['links'];
     nodes = data[0]['nodes'];
-
+    console.log(data[0]);
     var var_coef = createMatrix(0, nodes.length, nodes.length, false);
-    for(i = 0; i < links.length ; i++) {
+    for (i = 0; i < links.length; i++) {
         source = links[i]['source'];
         target = links[i]['target'];
+        console.log("Source:" + source + " target: " + target);
         coef = links[i]['coef'];
         var_coef[target][source] = parseFloat(coef);
     }
     return var_coef;
 };
 
+
+var getJsonKeys = function (jsondata) {
+    var keys = [], name;
+    for (name in jsondata) {
+        if (jsondata.hasOwnProperty(name)) {
+            keys.push(name);
+        }
+    }
+    return keys;
+};
 
 var injectButtons = function (node_names) {
     injectSimulationFunctionality();
@@ -37,6 +48,7 @@ var injectButtons = function (node_names) {
     });
 
     location.append($('<input class="button green button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
+
     location.on("click", ".button_reset", function () {
         simulation.clear();
     });
@@ -67,6 +79,16 @@ var generateSelectOptions = function (from, to, stepsize, location) {
         html.append($("<option></option>")
             .attr("value", i)
             .text(roundToPlaces(i, 2)));
+    }
+    return html;
+};
+
+var appendSelectOptions = function(data, location) {
+    html = $(location);
+    for (i = 0; i < data.length; i++) {
+        html.append($("<option></option>")
+            .attr("value", data[i])
+            .text(data[i]));
     }
     return html;
 };
@@ -116,18 +138,18 @@ var clickNode = function (node_name, node_id) {
     simulation.setIrf(irf);
     simulation.run(true);
 
-    if (node_id != -1){
+    if (node_id != -1) {
         var threshold = $('#threshold').val();
         var thresholdOptimizer = new ThresholdOptimizer({threshold: threshold});
         var netEffectOptimizer = new NetEffectOptimizer({});
 
-        if($('#chk-threshold').prop('checked'))
+        if ($('#chk-threshold').prop('checked'))
             visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, steps_ahead, thresholdOptimizer));
 
-        if($('#chk-stability').prop('checked'))
+        if ($('#chk-stability').prop('checked'))
             visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, steps_ahead, netEffectOptimizer));
 
-        if($('#chk-frequency').prop('checked'))
+        if ($('#chk-frequency').prop('checked'))
             aira.determineOptimalNode(node_id, steps_ahead, {degradation: [], threshold: threshold})
     }
 
