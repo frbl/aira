@@ -186,15 +186,16 @@
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(thrownError);
-                console.log('error');
+                console.log('Error!');
             },
             success: function (data, text) {
-                console.log('success!');
+                console.log('Successfully loaded network data');
                 main(data);
             }
         });
     });
 </script>
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js'></script>
 <script src='d3hgi.js'></script>
 <script src='d3hgi_render.js'></script>
