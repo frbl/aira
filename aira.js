@@ -10,12 +10,11 @@ function Aira(impulse_response_calculator, var_model) {
  * @param var_model
  * @param variable_to_improve
  * @param lags
- * @param steps_ahead
  * @param optimizers
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineBestNodeFromAll = function (steps_ahead) {
+Aira.prototype.determineBestNodeFromAll = function () {
     var effects, result, variable, irf, cumulative, cumulative_name, name, max, max_var;
     result = {};
     cumulative = {};
@@ -30,7 +29,7 @@ Aira.prototype.determineBestNodeFromAll = function (steps_ahead) {
         console.log(name);
 
         // Shock the current variable in the loop
-        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
         cumulative = cumulativeSummation(irf);
 
         result[name] = 0;
@@ -39,7 +38,7 @@ Aira.prototype.determineBestNodeFromAll = function (steps_ahead) {
         // Check the response this variable has on all other variables, and sum the result
         for(var current = 0 ; current < irf.length ; current++){
           if(current == variable) continue;
-          result[cumulative_name] += cumulative[current][steps_ahead];
+          result[cumulative_name] += cumulative[current][view_model.get_steps()];
         }
         console.log(result[cumulative_name]);
 
@@ -58,12 +57,11 @@ Aira.prototype.determineBestNodeFromAll = function (steps_ahead) {
  * @param var_model
  * @param variable_to_improve
  * @param lags
- * @param steps_ahead
  * @param optimizers
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps_ahead, optimizer) {
+Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optimizer) {
     var effects, result, variable, irf, cumulative, cumulative_name, name;
     result = {};
     cumulative = {};
@@ -82,7 +80,7 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps
         name = this.var_model.node_names[variable];
         cumulative_name = name + '_cumulative';
 
-        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
         cumulative = cumulativeSummation(irf);
 
         result[name] = irf[variable_to_improve];
@@ -114,11 +112,10 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps
 /**
  *
  * @param variable_to_improve
- * @param steps_ahead
  * @param options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead, options) {
+Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
     var variable, irf, valleys, i, temp_result, sum_array, irf_on_var, impulses, minimum, frequency, range, degradated_value;
     var result = {};
     var consider_shocked_variable = false;
@@ -137,10 +134,10 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
 
         temp_result = {};
 
-        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
         irf_on_var = irf[variable_to_improve];
 
-        for (frequency = 0; frequency < steps_ahead; frequency++) {
+        for (frequency = 0; frequency < view_model.get_steps(); frequency++) {
             minimum = 0;
             impulses = [];
 
@@ -149,7 +146,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, steps_ahead
              * proportion of the IRFs, with regards to the frequency and the steps ahead. I.e., frequency = 0, all
              * impulses are at time 0. Frequency is 1, the difference between all IRFs is 1
              */
-            range = (frequency == 0 ? steps_ahead : Math.ceil(steps_ahead / frequency));
+            range = (frequency == 0 ? view_model.get_steps() : Math.ceil(view_model.get_steps() / frequency));
 
             for (j = 0; j < range; j++) {
                 // Add zero padding to all of the IRFs with regards to their position, to shift them
@@ -218,12 +215,12 @@ Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
  */
 Aira.prototype.getDegradationEffect = function(options) {
     var degradation_location = 'degradation';
-    if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == steps_ahead) {
+    if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == view_model.get_steps()) {
         console.log('Using degradation effect');
         return options[degradation_location];
     } else {
         console.log('NOT Using degradation effect');
-        return makeFilledArray(steps_ahead, 1);
+        return makeFilledArray(view_model.get_steps(), 1);
     }
 };
 

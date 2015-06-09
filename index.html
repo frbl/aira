@@ -125,13 +125,13 @@
 
 
 <script>
-    var var_coefficients, lags, number_of_variables, aira, simulation, visualization_engine, impulse_response_calculator;
+    var var_coefficients, lags, number_of_variables, aira, simulation, visualization_engine, impulse_response_calculator, view_model;
     var synthetic = false;
     var data;
+    var testdataset;
 
-    var start_simulation = function(json_data) {
+    var start_simulation = function (json_data) {
         data_directedNetwerk = json_data[0];
-        var_coefficients = dataToMatrix(json_data);
         render_netDynamisch();
 
         lags = 1;
@@ -141,6 +141,9 @@
         var node_names = nodes.map(function (index, node) {
             return node.id
         }).get();
+
+        var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
+        console.log(var_coefficients);
         injectButtons(node_names);
 
         var var_model = new VarModel(var_coefficients, lags, number_of_variables, node_names);
@@ -153,7 +156,9 @@
 
     var main = function (json_data) {
         data = json_data;
-        var data_keys = getJsonKeys(json_data);
+        view_model = new ViewModel();
+
+        var data_keys = getHgiNetworkJsonKeys(json_data);
         var max_steps = 100;
         var max_interpolation = 500;
         var max_threshold = 1;
@@ -172,15 +177,16 @@
         threshold_select.find("option[value='" + (0.1 > max_threshold ? max_threshold : 0.1) + "']").attr('selected', 'selected');
 
         $('body').on("change", ".data_select", function () {
-            if(simulation != null) simulation.clear();
+            if (simulation != null) simulation.clear();
             $('#netDynamisch').html('');
+            testdataset = data[$('#data_select').val()];
             start_simulation(data[$('#data_select').val()]);
         });
     };
 
     $(document).ready(function () {
         $.ajax({
-            url: "all_networks.json",
+            url: "one_network.json",
             type: "GET",
             dataType: 'json',
             error: function (xhr, ajaxOptions, thrownError) {
@@ -199,6 +205,8 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js'></script>
 <script src='d3hgi.js'></script>
 <script src='d3hgi_render.js'></script>
+<script src='variable_mapping.js'></script>
+<script src='view_model.js'></script>
 <script src='visualization.js'></script>
 <script src='math_helpers.js'></script>
 <script src='var_model.js'></script>
@@ -208,6 +216,7 @@
 <script src='simulation.js'></script>
 <script src='searchers.js'></script>
 <script src='javascript.js'></script>
+
 
 </body>
 </html>
