@@ -53,7 +53,7 @@ var injectButtons = function (node_names) {
         simulation.clear();
     });
 
-    location.append($('<input class="button blue button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
+    location.append($('<input class="button dark button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
     location.on("click", ".button_optimize", function () {
         alert("Best node: "+ aira.determineBestNodeFromAll(get_steps()).max_var);
     });
