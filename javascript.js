@@ -30,6 +30,7 @@ var injectButtons = function (node_names) {
     injectSimulationFunctionality();
     var location = $('#aira-buttons');
     location.html('');
+    location.unbind();
     for (var i = 0; i < node_names.length; i++) {
         var node = node_names[i];
         var html = $('<input class="button light button_' + node + '" name="' + node + '" type="button" value="' + node + '" id="button_' + node + '"/>');
@@ -48,9 +49,13 @@ var injectButtons = function (node_names) {
     });
 
     location.append($('<input class="button green button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
-
     location.on("click", ".button_reset", function () {
         simulation.clear();
+    });
+
+    location.append($('<input class="button blue button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
+    location.on("click", ".button_optimize", function () {
+        alert("Best node: "+ aira.determineBestNodeFromAll(get_steps()).max_var);
     });
 
 };
@@ -121,10 +126,14 @@ var convertNumberToText = function (number) {
 
 };
 
+var get_steps = function() {
+  return parseInt($('#prediction').val());
+}
+
 var clickNode = function (node_name, node_id) {
     if (DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
-    steps_ahead = parseInt($('#prediction').val());
+    steps_ahead = get_steps();
     var threshold = $('#threshold').val();
 
     var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, steps_ahead, 1));
@@ -151,6 +160,7 @@ var clickNode = function (node_name, node_id) {
 
         if ($('#chk-frequency').prop('checked'))
             aira.determineOptimalNode(node_id, steps_ahead, {degradation: [], threshold: threshold})
+
     }
 
 };

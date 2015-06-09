@@ -33,8 +33,9 @@ var Optimizers = (function () {
             net_effect = cumulative_irf[length - 1];
 
             for (i = 0; i < length; i++) {
+                console.log(i + " " + cumulative_irf);
                 if (prev != undefined) {
-                    if (Math.sign(irf[i]) != Math.sign(prev)) {
+                    if (sign(irf[i]) != sign(prev)) {
                         sign_switches++
                     }
                     total++;

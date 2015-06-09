@@ -306,3 +306,15 @@ var cumulativeSummation = function (data) {
         }
     });
 };
+
+/**
+ * Check the sign of a number
+ * @params x the number to check the sign of
+ * @returns 1 if +, 0 if 0, -1 if -, nan otherwise
+ */
+function sign(x){
+  if( +x === x ) { // check if a number was given
+    return (x === 0) ? x : (x > 0) ? 1 : -1;
+  }
+  return NaN;
+}

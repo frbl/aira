@@ -44,7 +44,7 @@ Visualization.prototype.updateNetEffect = function (effects) {
         if (effects.hasOwnProperty(effect) && effects[effect].net_effect != 0) {
             current = effects[effect].net_effect;
             text = ('<li>You could increase your level of ' + effect + '. This has a net-effect of ' + current.toFixed(2) + '</li>');
-            if (Math.sign(current) > 0) {
+            if (sign(current) > 0) {
                 number_of_pos_options += 1;
                 positive_html += text
             } else {

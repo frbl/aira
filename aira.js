@@ -15,11 +15,59 @@ function Aira(impulse_response_calculator, var_model) {
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps_ahead, optimizer) {
-    var variable, irf, cumulative, cumulative_name, name;
-    var result = {};
+Aira.prototype.determineBestNodeFromAll = function (steps_ahead) {
+    var effects, result, variable, irf, cumulative, cumulative_name, name, max, max_var;
+    result = {};
     cumulative = {};
-    var effects = {};
+    effects = {};
+    max = -Infinity;
+    // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
+    for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
+
+        // Set the names for the nodes in the var model
+        name = this.var_model.node_names[variable];
+        cumulative_name = name + '_cumulative';
+        console.log(name);
+
+        // Shock the current variable in the loop
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, steps_ahead, 1));
+        cumulative = cumulativeSummation(irf);
+
+        result[name] = 0;
+        result[cumulative_name] = 0;
+
+        // Check the response this variable has on all other variables, and sum the result
+        for(var current = 0 ; current < irf.length ; current++){
+          if(current == variable) continue;
+          result[cumulative_name] += cumulative[current][steps_ahead];
+        }
+        console.log(result[cumulative_name]);
+
+        if(result[cumulative_name] > max) {
+          max_var = name;
+          max = result[cumulative_name];
+        }
+    }
+    var d = {max_var: max_var, val: max};
+    console.log(d);
+    return d;
+};
+
+/**
+ *
+ * @param var_model
+ * @param variable_to_improve
+ * @param lags
+ * @param steps_ahead
+ * @param optimizers
+ * @params options
+ * @returns {{}}
+ */
+Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, steps_ahead, optimizer) {
+    var effects, result, variable, irf, cumulative, cumulative_name, name;
+    result = {};
+    cumulative = {};
+    effects = {};
 
     var consider_shocked_variable = false;
 
