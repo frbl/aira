@@ -23,7 +23,7 @@ VarModel.prototype.to_json = function () {
                 nodes.push({
                     "index": i,
                     "name": variable_mapping.get_value(this.node_names[i]),
-                    "type": "Neutraal"
+                    "type": "Positief"
                 });
             }
             for (var j = 0; j < this.number_of_variables; j++) {

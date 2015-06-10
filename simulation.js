@@ -68,7 +68,8 @@ Simulation.prototype.plotValue = function (node, value) {
 
     var positive_class = "Positief";
     var negative_class = "Negatief";
-    var network = $('#netDynamisch');
+
+    var network = $('body');
 
     if (!this.use_absolute_value) {
         var class_posneg = value >= 0 ? positive_class : negative_class;
@@ -78,6 +79,6 @@ Simulation.prototype.plotValue = function (node, value) {
     value = isNaN(value) ? 0 : Math.abs(value);
 
     node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
-    network.find('g .node').parent().find('#' + node).parent().children().attr('r', value)
+    network.find('g .node').parent().find('#' + node).parent().children().attr('r', value);
 
 };
