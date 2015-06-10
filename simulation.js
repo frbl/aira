@@ -9,7 +9,7 @@ function Simulation(node_names) {
 }
 
 Simulation.prototype.run = function (clear_all) {
-    if(clear_all) this.clear();
+    if (clear_all) this.clear();
     this.intervals.push(setInterval((function (self) {
         return function () {
             self.simulateStep(1);
@@ -19,27 +19,26 @@ Simulation.prototype.run = function (clear_all) {
 };
 
 
-Simulation.prototype.setIrf = function(irf) {
+Simulation.prototype.setIrf = function (irf) {
     this.irf = irf;
+    console.log(irf);
 };
 
-Simulation.prototype.setStepsToRun = function(steps_to_run) {
+Simulation.prototype.setStepsToRun = function (steps_to_run) {
     this.steps_to_run = steps_to_run;
 };
 
 Simulation.prototype.simulateStep = function (direction) {
     var shockdiv = $("#shock");
-    visualization_engine.setPlotlineLocation(((this.step / this.steps_to_run) * steps_ahead));
+    visualization_engine.setPlotlineLocation(((this.step / this.steps_to_run) * view_model.get_steps()));
     if (this.step == 0) shockdiv.show();
     else shockdiv.fadeOut("slow");
 
     var node_id;
     for (node_id = 0; node_id < this.node_names.length; node_id++) {
-        if (this.node_names.hasOwnProperty(node_id)) {
-            var value = (this.irf[node_id][this.step]) * this.size_factor;
+        var value = (this.irf[node_id][this.step]) * this.size_factor;
 
-            this.plotValue(this.node_names[node_id], value);
-        }
+        this.plotValue(this.node_names[node_id], value);
     }
     this.step += direction;
     this.step %= this.steps_to_run;
@@ -65,16 +64,20 @@ Simulation.prototype.clear = function () {
 };
 
 Simulation.prototype.plotValue = function (node, value) {
+    // Convert node back to network node
+
     var positive_class = "Positief";
     var negative_class = "Negatief";
     var network = $('#netDynamisch');
 
     if (!this.use_absolute_value) {
         var class_posneg = value >= 0 ? positive_class : negative_class;
-        network.find('g .node').parent().find('#'+node).parent().children().first().attr("class", "node " + class_posneg)
+        network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg)
     }
 
     value = isNaN(value) ? 0 : Math.abs(value);
+
+    node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
     network.find('g .node').parent().find('#' + node).parent().children().attr('r', value)
 
 };

@@ -1,4 +1,4 @@
-var DEBUG = 0;
+var DEBUG = 5;
 
 function Aira(impulse_response_calculator, var_model) {
     this.impulse_response_calculator = impulse_response_calculator;

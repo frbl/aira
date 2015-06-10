@@ -1,5 +1,6 @@
 function ImpulseResponseCalculator(var_model) {
     this.var_model = var_model;
+    console.log(var_model)
 }
 
 /**
@@ -16,7 +17,12 @@ ImpulseResponseCalculator.prototype.estimateVmaCoefficients = function (forecast
         B[lag] = subsetMatrix(this.var_model.var_coefficients, x, x + this.var_model.number_of_variables);
     }
 
-    if (DEBUG > 2) for (b = 0; b < B.length; b++) printMatrix(B[b]);
+    if (DEBUG > 2){
+        console.log('printing B matrix');
+        for (b = 0; b < B.length; b++) printMatrix(B[b]);
+        console.log('Done printing B matrix');
+    }
+
 
     // Create a matrix of all exogenous coefficients
     var exogenous_variables = subsetMatrix(this.var_model.var_coefficients, this.var_model.lags * this.var_model.number_of_variables,
@@ -49,7 +55,8 @@ ImpulseResponseCalculator.prototype.estimateVmaCoefficients = function (forecast
             }
         }
     }
-
+    console.log('+=+=++=+=+=+=');
+    console.log(C);
     return C;
 };
 
@@ -107,22 +114,22 @@ ImpulseResponseCalculator.prototype.calculateImpulseResponse = function (E, C) {
  * @param shock_size the size of the shock to give
  * @returns {Array} an array of arrays containing the IRF
  */
-ImpulseResponseCalculator.prototype.runImpulseResponseCalculation = function (variable_to_shock, steps_ahead, shock_size) {
-    if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + this.var_model.lags + ' lags, and doing it for ' + steps_ahead + ' steps in the future');
+ImpulseResponseCalculator.prototype.runImpulseResponseCalculation = function (variable_to_shock, shock_size) {
+    if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + this.var_model.lags + ' lags, and doing it for ' + view_model.get_steps() + ' steps in the future');
 
     var nr_of_variables = this.var_model.var_coefficients.length;
 
     var shocks;
     if (variable_to_shock == -1) {
-        shocks = createMatrix(shock_size, nr_of_variables, steps_ahead, false);
+        shocks = createMatrix(shock_size, nr_of_variables, view_model.get_steps(), false);
     } else {
-        shocks = createMatrix(0, nr_of_variables, steps_ahead, false);
-        shocks[variable_to_shock] = makeFilledArray(steps_ahead, shock_size);
+        shocks = createMatrix(0, nr_of_variables, view_model.get_steps(), false);
+        shocks[variable_to_shock] = makeFilledArray(view_model.get_steps(), shock_size);
     }
     shocks = transpose(shocks);
 
 
-    var C = this.estimateVmaCoefficients(steps_ahead);
+    var C = this.estimateVmaCoefficients(view_model.get_steps());
 
     var result = this.calculateImpulseResponse(shocks, C);
 

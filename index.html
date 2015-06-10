@@ -128,18 +128,22 @@
     var var_coefficients, lags, number_of_variables, aira, simulation, visualization_engine, impulse_response_calculator, view_model;
     var synthetic = false;
     var data;
-    var testdataset;
+    var variable_mapping;
 
     var start_simulation = function (json_data) {
         data_directedNetwerk = json_data[0];
         render_netDynamisch();
 
-        lags = 1;
+        lags = 2;
         number_of_variables = 6;
 
         var nodes = $('#netDynamisch').find('g .node');
         var node_names = nodes.map(function (index, node) {
-            return node.id
+            node_id = node.id;
+            node_id = variable_mapping.get_value_from_network(node.id);
+            node_id = variable_mapping.get_key(node_id);
+
+            return node_id;
         }).get();
 
         var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
@@ -157,6 +161,7 @@
     var main = function (json_data) {
         data = json_data;
         view_model = new ViewModel();
+        variable_mapping = new VariableMapping();
 
         var data_keys = getHgiNetworkJsonKeys(json_data);
         var max_steps = 100;

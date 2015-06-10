@@ -15,8 +15,17 @@ var hgiNetworkDataToMatrix = function (data) {
     return var_coef;
 };
 
-var fullNetworkDataToMatrix = function (data, node_names) {
+var getHgiNetworkJsonKeys = function (jsondata) {
+    var keys = ['--'], name;
+    for (name in jsondata) {
+        if (jsondata.hasOwnProperty(name)) {
+            keys.push(name);
+        }
+    }
+    return keys;
+};
 
+var fullNetworkDataToMatrix = function (data, node_names) {
     var column, row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
     var full_network_location = 3;
     var estimate = data[full_network_location]['coefs']['header'].indexOf("Estimate");
@@ -31,7 +40,6 @@ var fullNetworkDataToMatrix = function (data, node_names) {
     for (row = 0; row < node_names.length; row++) {
         node_name = node_names[row];
         current_row = coefficients[node_name];
-        column = 0;
 
         for (column_node_name in current_row) {
             if (current_row.hasOwnProperty(column_node_name)) {
@@ -42,34 +50,19 @@ var fullNetworkDataToMatrix = function (data, node_names) {
 
                 lag = parseInt(current[1].substring(1));
 
-                if (lag > highest_lag) var_coef.push(createMatrix(0, node_names.length, node_names.length, false));
-                console.log(current[0]);
-                console.log(((lag - 1) * node_names.length));
-                current_index = node_names.indexOf(current[0]) + ((lag - 1) * node_names.length);
+                // Check if we already had this lag, otherwise, add until we are at the current lag.
+                // This is needed, in case we have e.g. lag 1 effects and lag 3 effects.
+                while (lag > highest_lag ) {
+                    var_coef.push(createMatrix(0, node_names.length, node_names.length, false));
+                    highest_lag++;
+                }
 
-                console.log(node_name + " " + column_node_name);
-                console.log(current_index);
-
-
-                var_coef[row][current_index] = current_row[column_node_name][estimate];
-                column++;
+                current_index = node_names.indexOf(current[0]);
+                var_coef[lag - 1][row][current_index] = current_row[column_node_name][estimate];
             }
         }
-        row++;
-
     }
     return var_coef;
-};
-
-
-var getHgiNetworkJsonKeys = function (jsondata) {
-    var keys = ['--'], name;
-    for (name in jsondata) {
-        if (jsondata.hasOwnProperty(name)) {
-            keys.push(name);
-        }
-    }
-    return keys;
 };
 
 var injectButtons = function (node_names) {
@@ -168,15 +161,13 @@ var convertNumberToText = function (number) {
         19: "nineteen",
         20: "twenty"
     }[number]
-
-
 };
 
 
 var clickNode = function (node_name, node_id) {
-    if (DEBUG > 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
+    if (DEBUG >= 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
-
+    console.log(node_id + " < id and name > " + node_name );
     var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1));
     visualization_engine.draw(irf);
 
