@@ -392,8 +392,10 @@ function render_netGelijk() {
     d3.select('#netGelijk').datum(data_undirectedNetwerk).call(plotN);
 }
 
-function render_netDynamisch() {
+function render_netDynamisch(location) {
     var plotN = hgiNetwork().doStaticLayout(true).maxStrokeWidth(4).minStrokeWidth(1).isDirectedGraph(true).linkDistance(175).linkStrength(2).charge(-3000).gravity(0.3).friction(0.6);
-    d3.select('#netDynamisch').datum(data_directedNetwerk).call(plotN);
+    if (location === undefined) location = "#netDynamisch";
+
+    d3.select(location).datum(data_directedNetwerk).call(plotN);
 }
 

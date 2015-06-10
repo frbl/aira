@@ -109,6 +109,9 @@
                 <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
                 </div>
             </div>
+
+            <div id="netFullDynamisch" class="svg-container centered-svg">
+            </div>
         </div>
         <div class="row">
             <div id="container" style="min-width: 310px; height: 400px;"></div>
@@ -134,7 +137,6 @@
         data_directedNetwerk = json_data[0];
         render_netDynamisch();
 
-
         var nodes = $('#netDynamisch').find('g .node');
         var node_names = nodes.map(function (index, node) {
             node_id = node.id;
@@ -145,8 +147,12 @@
         }).get();
 
         var var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
-        injectButtons(node_names);
         var_model = new VarModel(var_coefficients, node_names);
+
+        data_directedNetwerk = var_model.to_json();
+        render_netDynamisch('#netFullDynamisch');
+
+        injectButtons(node_names);
         simulation = new Simulation(node_names);
         impulse_response_calculator = new ImpulseResponseCalculator(var_model);
         aira = new Aira(impulse_response_calculator, var_model);
