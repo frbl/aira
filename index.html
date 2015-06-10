@@ -125,7 +125,7 @@
 
 
 <script>
-    var var_coefficients, lags, number_of_variables, aira, simulation, visualization_engine, impulse_response_calculator, view_model;
+    var lags, number_of_variables, aira, simulation, visualization_engine, impulse_response_calculator, view_model;
     var synthetic = false;
     var data;
     var variable_mapping;
@@ -134,8 +134,6 @@
         data_directedNetwerk = json_data[0];
         render_netDynamisch();
 
-        lags = 2;
-        number_of_variables = 6;
 
         var nodes = $('#netDynamisch').find('g .node');
         var node_names = nodes.map(function (index, node) {
@@ -146,11 +144,9 @@
             return node_id;
         }).get();
 
-        var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
-        console.log(var_coefficients);
+        var var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
         injectButtons(node_names);
-
-        var var_model = new VarModel(var_coefficients, lags, number_of_variables, node_names);
+        var_model = new VarModel(var_coefficients, node_names);
         simulation = new Simulation(node_names);
         impulse_response_calculator = new ImpulseResponseCalculator(var_model);
         aira = new Aira(impulse_response_calculator, var_model);
