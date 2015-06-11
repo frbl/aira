@@ -18,7 +18,7 @@ Aira.prototype.determineBestNodeFromAll = function () {
     var effects, result, variable, irf, cumulative, cumulative_name, name, max, max_var;
     result = {};
     cumulative = {};
-    effects = {};
+    effects = [];
     max = -Infinity;
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
     for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
@@ -36,20 +36,24 @@ Aira.prototype.determineBestNodeFromAll = function () {
         result[cumulative_name] = 0;
 
         // Check the response this variable has on all other variables, and sum the result
-        for(var current = 0 ; current < irf.length ; current++){
-          if(current == variable) continue;
-          result[cumulative_name] += cumulative[current][view_model.get_steps()];
+        for (var current = 0; current < irf.length; current++) {
+            if (current == variable) continue;
+            result[cumulative_name] += cumulative[current][view_model.get_steps()];
         }
         console.log(result[cumulative_name]);
 
-        if(result[cumulative_name] > max) {
-          max_var = name;
-          max = result[cumulative_name];
+        if (result[cumulative_name] > max) {
+            max_var = name;
+            max = result[cumulative_name];
         }
+        effects.push({name: name, val: result[cumulative_name]});
     }
     var d = {max_var: max_var, val: max};
     console.log(d);
-    return d;
+
+    return effects.sort(function (a, b) {
+        return a.val - b.val;
+    }).reverse();
 };
 
 /**
@@ -160,15 +164,15 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
 
             sum_array = arraySum(impulses);
 
-            if(variable == 0)
-                visualization_engine.addData('Sum '+frequency + ' ' + this.var_model.node_names[variable], sum_array);
+            if (variable == 0)
+                visualization_engine.addData('Sum ' + frequency + ' ' + this.var_model.node_names[variable], sum_array);
 
             // Determine all valleys in the sum data. These should be kept > threshold
             valleys = findAllValleys(sum_array);
 
             if (valleys.length > 0) {
                 valleys = this.findValleyInMean(sum_array, valleys, 5);
-                if(variable == 0)
+                if (variable == 0)
                     console.log(valleys);
                 minimum = findMinimum(selectionFromArray(sum_array, valleys));
             }
@@ -213,7 +217,7 @@ Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
  *
  * @param options
  */
-Aira.prototype.getDegradationEffect = function(options) {
+Aira.prototype.getDegradationEffect = function (options) {
     var degradation_location = 'degradation';
     if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == view_model.get_steps()) {
         console.log('Using degradation effect');

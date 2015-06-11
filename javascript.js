@@ -52,7 +52,7 @@ var fullNetworkDataToMatrix = function (data, node_names) {
 
                 // Check if we already had this lag, otherwise, add until we are at the current lag.
                 // This is needed, in case we have e.g. lag 1 effects and lag 3 effects.
-                while (lag > highest_lag ) {
+                while (lag > highest_lag) {
                     var_coef.push(createMatrix(0, node_names.length, node_names.length, false));
                     highest_lag++;
                 }
@@ -94,7 +94,13 @@ var injectButtons = function (node_names) {
 
     location.append($('<input class="button dark button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
     location.on("click", ".button_optimize", function () {
-        alert("Best node: " + aira.determineBestNodeFromAll().max_var);
+        var res = aira.determineBestNodeFromAll();
+        var html = '<ol>';
+        for( var i = 0 ; i < res.length ; i++ ) {
+            html = html + '<li><strong>'+ res[i].name + '</strong>: '+ res[i].val + '</li>';
+        }
+        html += '</ol>';
+        $(".effect .content").html(html);
     });
 
 };
@@ -167,7 +173,7 @@ var convertNumberToText = function (number) {
 var clickNode = function (node_name, node_id) {
     if (DEBUG >= 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
 
-    console.log(node_id + " < id and name > " + node_name );
+    console.log(node_id + " < id and name > " + node_name);
     var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1));
     visualization_engine.draw(irf);
 
