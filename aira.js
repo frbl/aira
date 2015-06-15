@@ -1,4 +1,4 @@
-var DEBUG = 5;
+var DEBUG = 0;
 
 function Aira(impulse_response_calculator, var_model) {
     this.impulse_response_calculator = impulse_response_calculator;
@@ -6,12 +6,8 @@ function Aira(impulse_response_calculator, var_model) {
 }
 
 /**
+ * Determines the node which has the most positive effect of all nodes in the network.
  *
- * @param var_model
- * @param variable_to_improve
- * @param lags
- * @param optimizers
- * @params options
  * @returns {{}}
  */
 Aira.prototype.determineBestNodeFromAll = function () {
@@ -52,7 +48,7 @@ Aira.prototype.determineBestNodeFromAll = function () {
     console.log(d);
 
     return effects.sort(function (a, b) {
-        return a.val - b.val;
+        return Math.abs(a.val) - Math.abs(b.val);
     }).reverse();
 };
 

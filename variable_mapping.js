@@ -1,22 +1,22 @@
 function VariableMapping() {
   this.mapping = {
-    "beweging": "Beweging",
-    "buiten_zijn": "Buiten zijn",
-    "concentratie": "Concentratie",
-    "eenzaamheid": "Eenzaamheid",
-    "ontspanning": "Ontspanning",
-    "eigenwaarde": "Eigenwaarde",
-    "humor": "Humor",
-    "iets_betekenen": "Iets betekenen",
-    "hier_en_nu": "In het hier en nu leven",
-    "levenslust": "Levenslust",
-    "lichamelijk_ongemak": "Lichamelijk ongemak",
-    "uw_eigen_factor": "Mijn eigen factor",
-    "onrust": "Onrust",
-    "opgewektheid": "Opgewektheid",
-    "piekeren": "Piekeren",
-    "somberheid": "Somberheid",
-    "tekortschieten": "Tekortschieten"
+    "beweging": {"name": "Beweging", "type": "Positief"},
+    "buiten_zijn": {"name": "Buiten zijn", "type": "Positief"},
+    "concentratie": {"name": "Concentratie", "type": "Positief"},
+    "eenzaamheid":{"name": "Eenzaamheid", "type": "Negatief"},
+    "ontspanning":{"name": "Ontspanning", "type": "Positief"},
+    "eigenwaarde":{"name": "Eigenwaarde", "type": "Positief"},
+    "humor": {"name": "Humor", "type": "Positief"},
+    "iets_betekenen": {"name": "Iets betekenen", "type": "Positief"},
+    "hier_en_nu": {"name": "In het hier en nu leven", "type": "Positief"},
+    "levenslust": {"name": "Levenslust", "type": "Positief"},
+    "lichamelijk_ongemak": {"name": "Lichamelijk ongemak", "type": "Negatief"},
+    "uw_eigen_factor": {"name": "Mijn eigen factor", "type": "Neutraal"},
+    "onrust": {"name": "Onrust", "type": "Negatief"},
+    "opgewektheid": {"name": "Opgewektheid", "type": "Positief"},
+    "piekeren": {"name": "Piekeren", "type": "Negatief"},
+    "somberheid": {"name": "Somberheid", "type": "Negatief"},
+    "tekortschieten": {"name": "Tekortschieten", "type": "Negatief"}
   }
 }
 
@@ -34,17 +34,22 @@ VariableMapping.prototype.get_value = function (key) {
   if (key.constructor === Array) {
     var mapping = this.mapping;
     return key.map(function (current, id) {
-      return mapping(current);
+      return mapping[current].name;
     });
   }
-  return this.mapping[key];
+  return this.mapping[key].name;
 };
 
-/**
- * TODO quick and dirty solution, we should revise this to a O(1) solution
- * @param value
- * @returns {*}
- */
+VariableMapping.prototype.get_type = function (key) {
+  if (key.constructor === Array) {
+    var mapping = this.mapping;
+    return key.map(function (current, id) {
+      return mapping[current].type;
+    });
+  }
+  return this.mapping[key].type;
+};
+
 VariableMapping.prototype.get_keys = function (value) {
   result = [];
   for(var i = 0 ; i < value.length; i++) {
@@ -53,20 +58,6 @@ VariableMapping.prototype.get_keys = function (value) {
   return result;
 };
 
-/**
- * TODO quick and dirty solution, we should revise this to a O(1) solution
- * @param value
- * @returns {*}
- */
-VariableMapping.prototype.get_key_linear = function (value) {
-  for(key in this.mapping) {
-    if(this.mapping.hasOwnProperty(key)) {
-      if(this.mapping[key] === value)
-        return key;
-    }
-  }
-  return null;
-};
 
 VariableMapping.prototype.get_key = function(value) {
   var keys = Object.keys(this.mapping);
@@ -75,9 +66,19 @@ VariableMapping.prototype.get_key = function(value) {
   var max = keys.length;
   while(min <= max) {
     middle = Math.floor(((max + min) / 2));
-    if(this.mapping[keys[middle]] == value) return keys[middle];
-    if(this.mapping[keys[middle]] < value) min = middle + 1;
-    if(this.mapping[keys[middle]] > value) max = middle - 1;
+    if(this.mapping[keys[middle]].name == value) return keys[middle];
+    if(this.mapping[keys[middle]].name < value) min = middle + 1;
+    if(this.mapping[keys[middle]].name > value) max = middle - 1;
+  }
+  return null;
+};
+
+VariableMapping.prototype.get_key_linear = function (value) {
+  for(key in this.mapping) {
+    if(this.mapping.hasOwnProperty(key)) {
+      if(this.mapping[key].name === value)
+        return key;
+    }
   }
   return null;
 };

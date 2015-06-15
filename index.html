@@ -150,7 +150,7 @@
         }).get();
 
         var var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
-        var_model = new VarModel(var_coefficients, node_names);
+        var_model = new VarModel(var_coefficients, node_names, true);
 
         data_directedNetwerk = var_model.to_json();
         render_netDynamisch('#netFullDynamisch');
