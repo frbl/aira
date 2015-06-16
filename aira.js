@@ -22,7 +22,6 @@ Aira.prototype.determineBestNodeFromAll = function () {
         // Set the names for the nodes in the var model
         name = this.var_model.node_names[variable];
         cumulative_name = name + '_cumulative';
-        console.log(name);
 
         // Shock the current variable in the loop
         irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
