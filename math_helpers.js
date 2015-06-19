@@ -46,6 +46,20 @@ var roundToPlaces = function (number, places) {
     return +(Math.round(number + "e+" + places) + "e-" + places);
 };
 
+
+var calculateMean = function (data) {
+    return data.reduce(function (total, current) {
+        return (total + current / data.length)
+    }, 0)
+};
+
+var standardDeviation = function (data, mean) {
+    if (mean == undefined) mean = calculateMean(data);
+    return Math.sqrt(data.reduce(function (total, current) {
+            return total + Math.pow((current - mean), 2)
+        }, 0) / (data.length - 1))
+};
+
 /**
  * Prints the matrix to the console
  * @param matrix
@@ -207,7 +221,7 @@ var findMinimumInRange = function (data, from, to) {
     return findMinimum(data);
 };
 
-var findMinimum = function(data) {
+var findMinimum = function (data) {
     return Math.min.apply(null, data);
 };
 
@@ -262,7 +276,7 @@ var scaleMatrix = function (matrix, factor) {
  * @param factor
  * @returns {Array}
  */
-var scaleArray = function(array, factor) {
+var scaleArray = function (array, factor) {
     return array.map(function (value, i) {
         return value * factor;
     });
@@ -312,9 +326,9 @@ var cumulativeSummation = function (data) {
  * @params x the number to check the sign of
  * @returns 1 if +, 0 if 0, -1 if -, nan otherwise
  */
-function sign(x){
-  if( +x === x ) { // check if a number was given
-    return (x === 0) ? x : (x > 0) ? 1 : -1;
-  }
-  return NaN;
+function sign(x) {
+    if (+x === x) { // check if a number was given
+        return (x === 0) ? x : (x > 0) ? 1 : -1;
+    }
+    return NaN;
 }

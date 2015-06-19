@@ -148,7 +148,7 @@
 
             return node_id;
         }).get();
-
+        console.log(data_summary_from_json(json_data, node_names));
         var var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
         var_model = new VarModel(var_coefficients, node_names, true);
 
@@ -216,6 +216,7 @@
 <script src='d3hgi.js'></script>
 <script src='d3hgi_render.js'></script>
 <script src='variable_mapping.js'></script>
+<script src='json_parser.js'></script>
 <script src='view_model.js'></script>
 <script src='visualization.js'></script>
 <script src='math_helpers.js'></script>

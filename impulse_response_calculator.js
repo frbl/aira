@@ -55,8 +55,7 @@ ImpulseResponseCalculator.prototype.estimateVmaCoefficients = function (forecast
             }
         }
     }
-    console.log('+=+=++=+=+=+=');
-    console.log(C);
+
     return C;
 };
 
