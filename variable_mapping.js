@@ -64,6 +64,7 @@ VariableMapping.prototype.get_key = function(value) {
   var middle = 0;
   var min = 0;
   var max = keys.length;
+  // Apply binary search to find the definition
   while(min <= max) {
     middle = Math.floor(((max + min) / 2));
     if(this.mapping[keys[middle]].name == value) return keys[middle];

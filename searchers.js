@@ -12,19 +12,16 @@ var linearSearch = function (value, data) {
 };
 
 var binarySearch = function (value, data) {
-    var res, split, modifier;
-    split = res = Math.floor(data.length / 2);
-
-    while (split <= data.length && data[split + 1] != undefined && !(data[split + 1] > value && data[split] <= value)) {
-        res = Math.max(Math.floor(res / 2), 0);
-
-        modifier = 0;
-        if (data[split + res] > value) modifier = -1;
-        else                        modifier = 1;
-
-        split = split + (res * modifier);
+    var middle = 0;
+    var min = 0;
+    var max = data.length;
+    while(min <= max) {
+        middle = Math.floor(((max + min) / 2));
+        if(data[middle] == value) return middle;
+        if(data[middle] < value) min = middle + 1;
+        if(data[middle] > value) max = middle - 1;
     }
-    return split;
+    return null;
 };
 
 function getSortedKeys(obj) {
