@@ -15,6 +15,11 @@ var hgiNetworkDataToMatrix = function (data) {
     return var_coef;
 };
 
+/**
+ * Used for generating the dropdown menu
+ * @param jsondata
+ * @returns {string[]}
+ */
 var getHgiNetworkJsonKeys = function (jsondata) {
     var keys = ['--'], name;
     for (name in jsondata) {
@@ -32,10 +37,10 @@ var data_summary_from_json = function (data, node_names) {
         BODY_LOCATION = 'body',
         HEADER_LOCATION = 'header',
         result = {},
-    // The data needs to be transposed so we don't have 1 array with 90 arrays, but
+        // The data needs to be transposed so we don't have 1 array with 90 arrays, but x arrays with 90 measurements
         raw_data = transpose(data[EXTENDED_NETWORK_LOCATION][DATA_LOCATION][BODY_LOCATION]);
 
-    for(var i = 0; i< node_names.length; i++) {
+    for(var i = 0; i < node_names.length; i++) {
         node_name = node_names[i];
         data[EXTENDED_NETWORK_LOCATION][DATA_LOCATION][HEADER_LOCATION].indexOf(node_name);
 

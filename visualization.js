@@ -33,34 +33,28 @@ Visualization.prototype.updateAdvice = function (effects) {
 
 
 Visualization.prototype.updateNetEffect = function (effects) {
-    var number_of_neg_options = 0;
-    var number_of_pos_options = 0;
+    var number_of_options = 0;
+
     var result = $(".aira-result").find('.effect .content');
     result.html('');
     var current, text;
-    var positive_html = '<ol>';
-    var negative_html = '<ol>';
+    var html = '<ol>';
+
     for (effect in effects) {
-        if (effects.hasOwnProperty(effect) && effects[effect].net_effect != 0) {
-            current = effects[effect].net_effect;
-            text = ('<li>You could increase your level of ' + effect + '. This has a net-effect of ' + current.toFixed(2) + '</li>');
-            if (sign(current) > 0) {
-                number_of_pos_options += 1;
-                positive_html += text
-            } else {
-                number_of_neg_options += 1;
-                negative_html += text
-            }
+        if (effects.hasOwnProperty(effect)) {
+            current = effects[effect].needed_difference * 100;
+            //if(current > 100) continue;
+            text = current > 0 ? 'increase' : 'decrease';
+            text = ('<li>You could '+text+' your average amount of ' + effect + ' with ' + current.toFixed(0) + '%</li>');
+
+            number_of_options += 1;
+            html += text
+
         }
     }
-    if (number_of_pos_options > 0) {
-        result.append("<p>If you would like to <strong>increase</strong> the variable you just clicked, you can do " + convertNumberToText(number_of_pos_options) + " thing" + (number_of_pos_options == 1 ? '' : 's') + ":</p>");
-        result.append(positive_html + '</ol>');
-    }
-    if (number_of_neg_options > 0) {
-        result.append("<p>If you would like to <strong>decrease</strong> the variable you just clicked, you can do " + convertNumberToText(number_of_neg_options) + " thing" + (number_of_neg_options == 1 ? '' : 's') + ":</p>");
-        result.append(negative_html + '</ol>');
-    }
+    result.append("<p>If you would like to change the variable you just clicked with " + view_model.get_improvement() + "%, you can do " + convertNumberToText(number_of_options) + " thing" + (number_of_options == 1 ? '' : 's') + ":</p>");
+    result.append(html + '</ol>');
+
 };
 
 
@@ -83,7 +77,7 @@ Visualization.prototype.setPlotlineLocation = function (x_value) {
 };
 
 
-Visualization.prototype.addData = function(name, data) {
+Visualization.prototype.addData = function (name, data) {
     // find the clicked values and the series
     this.chart.addSeries({
         name: name,

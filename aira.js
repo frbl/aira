@@ -11,16 +11,16 @@ function Aira(impulse_response_calculator, var_model) {
  * @returns {{}}
  */
 Aira.prototype.determineBestNodeFromAll = function () {
-    var effects, result, variable, irf, cumulative, cumulative_name, name, max, max_var;
-    result = {};
-    cumulative = {};
-    effects = [];
-    max = -Infinity;
+    var variable, irf, cumulative_name, name, max, max_var,
+        result = {},
+        cumulative = {},
+        effects = [];
+
     // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
     for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
 
         // Set the names for the nodes in the var model
-        name = this.var_model.node_names[variable];
+        name = this.var_model.get_node_name(variable);
         cumulative_name = name + '_cumulative';
 
         // Shock the current variable in the loop
@@ -35,16 +35,9 @@ Aira.prototype.determineBestNodeFromAll = function () {
             if (current == variable) continue;
             result[cumulative_name] += cumulative[current][view_model.get_steps()];
         }
-        console.log(result[cumulative_name]);
 
-        if (result[cumulative_name] > max) {
-            max_var = name;
-            max = result[cumulative_name];
-        }
         effects.push({name: name, val: result[cumulative_name]});
     }
-    var d = {max_var: max_var, val: max};
-    console.log(d);
 
     return effects.sort(function (a, b) {
         return Math.abs(a.val) - Math.abs(b.val);
@@ -61,12 +54,13 @@ Aira.prototype.determineBestNodeFromAll = function () {
  * @returns {{}}
  */
 Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optimizer) {
-    var effects, result, variable, irf, cumulative, cumulative_name, name;
-    result = {};
-    cumulative = {};
-    effects = {};
+    var variable, irf, cumulative_name, name,
+        result = {},
+        cumulative = {},
+        effects = {};
 
     var consider_shocked_variable = false;
+    variable_to_improve_name = this.var_model.get_node_name(variable_to_improve);
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.number_of_variables + ')');
 
@@ -76,7 +70,8 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
         // Don't take into account direct effects on the shocked variable
         if (variable_to_improve == variable && !consider_shocked_variable) continue;
 
-        name = this.var_model.node_names[variable];
+        name = this.var_model.get_node_name(variable);
+
         cumulative_name = name + '_cumulative';
 
         irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
@@ -87,7 +82,11 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
 
         // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
         // if(-NODE = "Negatief") cumulative *= -1;
-        var airaOptimalVariableFinder = new AiraOptimalVariableFinder(result[name], result[cumulative_name]);
+        var airaOptimalVariableFinder = new AiraOptimalVariableFinder(
+            result[name],
+            result[cumulative_name],
+            this.var_model.get_data_summary(variable_to_improve_name),
+            this.var_model.get_data_summary(name));
         effects[name] = airaOptimalVariableFinder.execute(optimizer);
     }
 

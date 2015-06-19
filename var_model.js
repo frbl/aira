@@ -4,10 +4,11 @@
  * @param node_names names of the nodes in the network
  * @param make_positive whether to convert negative nodes to positive ones
  */
-var VarModel = function (var_coefficients, node_names, make_positive) {
+var VarModel = function (var_coefficients, node_names, data_summary, make_positive) {
   this.lags = var_coefficients.length;
   this.number_of_variables = node_names.length;
   this.node_names = node_names;
+  this.data_summary = data_summary;
 
   // Merge all var coefficients into one matrix
   var concatted_var_coefficients = [];
@@ -23,6 +24,15 @@ var VarModel = function (var_coefficients, node_names, make_positive) {
 
   if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
   this.number_of_exogen_variables = var_coefficients[0].length - this.lags * number_of_variables;
+};
+
+VarModel.prototype.get_data_summary = function(node_name){
+  return this.data_summary[node_name];
+};
+
+
+VarModel.prototype.get_node_name = function(integer_id) {
+  return this.node_names[integer_id];
 };
 
 /**
@@ -41,7 +51,7 @@ VarModel.prototype.convert_coefficients = function(){
       }
     }
   }
-}
+};
 
 /**
  * Converts the current, full var model, to json
@@ -77,9 +87,9 @@ VarModel.prototype.to_json = function () {
 
 VarModel.prototype.set_coefficient = function(lag, source, target, value) {
   this.var_coefficients[target][lag + source] = value;
-}
+};
 
 VarModel.prototype.get_coefficient = function(lag, source, target) {
   return this.var_coefficients[target][lag + source];
-}
+};
 

@@ -29,8 +29,27 @@ var Optimizers = (function () {
             var i, prev;
             var sign_switches = 0;
             var total = 0;
+
+            // The number of steps
             var length = cumulative_irf.length;
-            net_effect = cumulative_irf[length - 1];
+
+            // The cumulative effect the variable has on the variable to improve
+            var net_effect = cumulative_irf[length - 1];
+            // If the effect is to extremely low, skip this variable, it is not suitable
+            if (Math.abs(net_effect) < 0.001) return {
+                net_effect: Infinity,
+                sign_switches: Infinity,
+                stability: Infinity
+            };
+
+            // The average of the variable to improve should differ with x%.
+            var needed_difference = options['variable_to_improve_summary'].average * (options['wanted_increase'] / 100);
+
+            // In order to induce this difference the current variable should differ with:
+            needed_difference /= net_effect;
+
+            // Which is x percentage of its average
+            needed_difference /= options['variable_summary'].average;
 
             for (i = 0; i < length; i++) {
                 console.log(i + " " + cumulative_irf);
@@ -42,7 +61,13 @@ var Optimizers = (function () {
                 }
                 prev = irf[i];
             }
-            return {net_effect: net_effect, sign_switches: sign_switches, stability: 1 - (sign_switches / total)};
+            
+            return {
+                net_effect: net_effect,
+                sign_switches: sign_switches,
+                stability: 1 - (sign_switches / total),
+                needed_difference: needed_difference
+            };
         },
         maximumValueOptimizer: function (irf, cumulative_irf, options) {
             if (DEBUG > 0) console.log('Optimization using Maximum optimizer.');
@@ -57,9 +82,12 @@ var FinderCommand = function (command, options) {
     this.execute = command;
 };
 
-var AiraOptimalVariableFinder = function (irf, cumulative_irf) {
+var AiraOptimalVariableFinder = function (irf, cumulative_irf, variable_to_improve_summary, variable_summary) {
     return {
         execute: function (command) {
+            command.options['variable_to_improve_summary'] = variable_to_improve_summary;
+            command.options['variable_summary'] = variable_summary;
+
             return command.execute(irf, cumulative_irf, command.options);
         }
     }

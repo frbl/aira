@@ -57,6 +57,10 @@
                         <select id='threshold' class="target">
                         </select>
 
+                        <label> Improvement (percentage) </label>
+                        <select id='improvement' class="target">
+                        </select>
+
                         <label> Data </label>
                         <select id='data_select' class="data_select target">
                         </select>
@@ -148,9 +152,9 @@
 
             return node_id;
         }).get();
-        console.log(data_summary_from_json(json_data, node_names));
+        var data_summary = data_summary_from_json(json_data, node_names);
         var var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
-        var_model = new VarModel(var_coefficients, node_names, true);
+        var_model = new VarModel(var_coefficients, node_names, data_summary,  true);
 
         data_directedNetwerk = var_model.to_json();
         render_netDynamisch('#netFullDynamisch');
@@ -176,15 +180,18 @@
         var prediction_select = $('#prediction');
         var interpolation_select = $('#interpolation');
         var threshold_select = $('#threshold');
+        var improvement_select = $('#improvement');
 
         appendSelectOptions(data_keys, '#data_select');
         generateSelectOptions(1, max_steps, 1, '#prediction');
         generateSelectOptions(0, max_interpolation, 1, '#interpolation');
         generateSelectOptions(0, max_threshold, 0.1, '#threshold');
+        generateSelectOptions(-100, 100, 1, '#improvement');
 
         prediction_select.find("option[value='" + (10 > max_steps ? max_steps : 5) + "']").attr('selected', 'selected');
         interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 300) + "']").attr('selected', 'selected');
         threshold_select.find("option[value='" + (0.1 > max_threshold ? max_threshold : 0.1) + "']").attr('selected', 'selected');
+        improvement_select.find("option[value='10']").attr('selected', 'selected');
 
         $('body').on("change", ".data_select", function () {
             if (simulation != null) simulation.clear();

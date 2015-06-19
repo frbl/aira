@@ -21,3 +21,10 @@ ViewModel.prototype.get_interpolation = function() {
     }
     return this.interpolation.val()
 };
+
+ViewModel.prototype.get_improvement = function() {
+    if (typeof this.improvement === 'undefined') {
+        this.improvement = $('#improvement');
+    }
+    return this.improvement.val()
+};

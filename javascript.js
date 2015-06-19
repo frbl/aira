@@ -119,7 +119,7 @@ var clickNode = function (node_name, node_id) {
 
     if (node_id != -1) {
         var thresholdOptimizer = new ThresholdOptimizer({threshold: view_model.get_threshold()});
-        var netEffectOptimizer = new NetEffectOptimizer({});
+        var netEffectOptimizer = new NetEffectOptimizer({wanted_increase: view_model.get_improvement()});
 
         if ($('#chk-threshold').prop('checked'))
             visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, thresholdOptimizer));
