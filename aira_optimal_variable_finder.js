@@ -51,8 +51,8 @@ var Optimizers = (function () {
             // Which is x percentage of its average
             needed_difference /= options['variable_summary'].average;
 
+            // Count the number of sign switches
             for (i = 0; i < length; i++) {
-                console.log(i + " " + cumulative_irf);
                 if (prev != undefined) {
                     if (sign(irf[i]) != sign(prev)) {
                         sign_switches++

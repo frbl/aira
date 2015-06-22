@@ -5,7 +5,7 @@ var injectButtons = function (node_names) {
     location.unbind();
     for (var i = 0; i < node_names.length; i++) {
         var node = node_names[i];
-        var html = $('<input class="button light button_' + node + '" name="' + node + '" type="button" value="' + node + '" id="button_' + node + '"/>');
+        var html = $('<input class="button light button_' + node + '" name="' + node + '" type="button" value="' + variable_mapping.get_value(node) + '" id="button_' + node + '"/>');
 
         location.append(html);
         location.on("click", ".button_" + node, {current_id: i, current_node: node}, function (event) {
@@ -103,10 +103,10 @@ var convertNumberToText = function (number) {
 };
 
 
-var clickNode = function (node_name, node_id) {
-    if (DEBUG >= 1) console.log('Impulse given on: ' + node_name + ' (' + node_id + ')');
+var clickNode = function (node_name_id, node_id) {
+    if (DEBUG >= 1) console.log('Impulse given on: ' + node_name_id + ' (' + node_id + ')');
 
-    console.log(node_id + " < id and name > " + node_name);
+    console.log(node_id + " < id and name > " + node_name_id);
     var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1));
     visualization_engine.draw(irf);
 
@@ -125,7 +125,7 @@ var clickNode = function (node_name, node_id) {
             visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, thresholdOptimizer));
 
         if ($('#chk-stability').prop('checked'))
-            visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, netEffectOptimizer));
+            visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, netEffectOptimizer), node_name_id);
 
         if ($('#chk-frequency').prop('checked'))
             aira.determineOptimalNode(node_id, {
