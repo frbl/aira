@@ -109,15 +109,18 @@
         </div>
 
         <div class="row" style="height:500px">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div id="netDynamisch" class="svg-container centered-svg">
                     <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div id="netFullDynamisch" class="svg-container centered-svg">
                 </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bubble_chart" id="bubble_chart"></div>
             </div>
         </div>
         <div class="row">
@@ -220,6 +223,7 @@
 </script>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js'></script>
+<script src='bubble_chart_visualization.js'></script>
 <script src='d3hgi.js'></script>
 <script src='d3hgi_render.js'></script>
 <script src='variable_mapping.js'></script>
