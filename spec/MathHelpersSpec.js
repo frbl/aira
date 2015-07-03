@@ -96,6 +96,7 @@ describe("MathHelpers", function() {
   });
 
   describe('subsetMatrix', function () {
+    pending();
   });
 
   describe('createMatrix', function () {
@@ -218,34 +219,121 @@ describe("MathHelpers", function() {
   });
 
   describe("discreteDerivative", function() {
-
+    pending();
   });
 
   describe("findMinimumInRange", function() {
+    it("should find the minimum in a specified range", function() {
+      var array = [1,5,3,4,2,6,7,3,123,123,13,0,123,13333],
+          from = 1,
+          to = 10,
+          expected = 2;
+      var result = findMinimumInRange(array, from, to);
 
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe("findMinimum", function() {
+    it("should find the minimum in an array", function() {
+      var array = [1,2,3,4,5,6,7,3,123,123,13,0,123,13333]
+          expected = 0;
+      var result = findMinimum(array);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe("selectionFromArray", function() {
+    pending();
   });
 
   describe("findAllValleys", function() {
-
+    pending();
   });
 
   describe("scaleMatrix", function() {
+    it("should scale a matrix with the given integer value", function() {
+      var matrix = [[1,2],[3,4],[5,6]],
+          expected = [[10,20],[30,40],[50,60]];
+      var result = scaleMatrix(matrix,10);
 
+      expect(result).toEqual(expected);
+      expect(result.length).toEqual(matrix.length);
+    });
+
+    it("should scale a matrix with the given double value", function() {
+      var matrix = [[1,2],[3,4],[5,6]],
+          expected = [[0.5,1],[1.5,2],[2.5,3]];
+      var result = scaleMatrix(matrix, 0.5);
+
+      expect(result).toEqual(expected);
+      expect(result.length).toEqual(matrix.length);
+    });
   });
 
   describe("scaleArray", function() {
+    it("should scale an array with the given integer value", function() {
+      var array = [1,2,3,4,5,6],
+        expected = [10,20,30,40,50,60];
+      var result = scaleArray(array,10);
 
+      expect(result).toEqual(expected);
+      expect(result.length).toEqual(array.length);
+    });
+
+    it("should scale an array with the given double value", function() {
+      var array = [1,2,3,4,5,6],
+        expected = [0.5,1,1.5,2,2.5,3];
+      var result = scaleArray(array, 0.5);
+
+      expect(result).toEqual(expected);
+      expect(result.length).toEqual(array.length);
+    });
   });
 
   describe("arraySum", function() {
+    it("should sum the an array of arrays", function() {
+      var array = [1,2,3,4,5,6],
+        array_two = [1,2,3,4,5,6],
+        expected = [2,4,6,8,10,12];
+      var result = arraySum([array, array_two]);
 
+      expect(result).toEqual(expected);
+    });
   });
-  describe("cumulativeSummation", function() {
 
+  describe("cumulativeSummation", function() {
+    pending();
   });
 
   describe("sign", function() {
+    it('should return - when it is a negative number', function() {
+      var result = -1;
+      expect(sign(-1)).toEqual(result);
+      expect(sign(-100)).toEqual(result);
+      expect(sign(-0.124)).toEqual(result);
+    });
 
+    it('should return 0 when it zero', function() {
+      var result = 0;
+      expect(sign(-0)).toEqual(result);
+      expect(sign(0)).toEqual(result);
+    });
+
+    it('should return 1 when it is a negative number', function() {
+      var result = 1;
+      expect(sign(1)).toEqual(result);
+      expect(sign(100)).toEqual(result);
+      expect(sign(0.124)).toEqual(result);
+    });
+
+    it('should return NaN when not a number is given', function() {
+      var result = NaN;
+      expect(sign('xdada')).toEqual(result);
+      expect(sign('100')).toEqual(result);
+      expect(sign()).toEqual(result);
+    });
   });
 
 });

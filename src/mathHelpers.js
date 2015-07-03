@@ -268,7 +268,7 @@ var findAllValleys = function (data) {
  * @returns {Array}
  */
 var scaleMatrix = function (matrix, factor) {
-  return matrix.map(function (array, index) {
+  return matrix.map(function (array, _index) {
     return scaleArray(array, factor);
   });
 };
@@ -331,7 +331,7 @@ var cumulativeSummation = function (data) {
  */
 function sign(x) {
   if (+x === x) { // check if a number was given
-    return (x === 0) ? x : (x > 0) ? 1 : -1;
+    return (x === 0) ? 0 : (x > 0) ? 1 : -1;
   }
   return NaN;
 }
