@@ -17,7 +17,7 @@ function VariableMapping() {
     "piekeren": {"name": "Piekeren", "type": "Negatief"},
     "somberheid": {"name": "Somberheid", "type": "Negatief"},
     "tekortschieten": {"name": "Tekortschieten", "type": "Negatief"}
-  }
+  };
 }
 
 VariableMapping.prototype.get_value_from_network = function (id) {

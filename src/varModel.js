@@ -4,26 +4,25 @@
  * @param node_names names of the nodes in the network
  * @param make_positive whether to convert negative nodes to positive ones
  */
-var VarModel = function (var_coefficients, node_names, data_summary, make_positive) {
+var VarModel = function (var_coefficients, node_names, data_summary, make_positive, variable_mapping) {
   this.lags = var_coefficients.length;
   this.number_of_variables = node_names.length;
   this.node_names = node_names;
   this.data_summary = data_summary;
+  this.variable_mapping = variable_mapping;
 
   // Merge all var coefficients into one matrix
   var concatted_var_coefficients = [];
   for (var i = 0; i < this.lags; i++) {
-    for (var j = 0; j < this.number_of_variables; j++) {
-      concatted_var_coefficients = concatted_var_coefficients.concat(transpose(var_coefficients[i]));
-    }
+    concatted_var_coefficients = concatted_var_coefficients.concat(transpose(var_coefficients[i]));
   }
   this.var_coefficients = transpose(concatted_var_coefficients);
-
   // Convert the coefficients to always have a positive effect (decrease neg, increase pos)
   if(make_positive) this.convert_coefficients();
 
   if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
-  this.number_of_exogen_variables = var_coefficients[0].length - this.lags * number_of_variables;
+  this.number_of_exogen_variables = var_coefficients[0].length - this.lags * this.number_of_variables;
+  this.number_of_exogen_variables = this.number_of_exogen_variables > 0 ? this.number_of_exogen_variable : 0;
 };
 
 VarModel.prototype.get_data_summary = function(node_name){
@@ -44,9 +43,7 @@ VarModel.prototype.convert_coefficients = function(){
   for (var k = 0; k < this.lags; k++) {
     for (var i = 0; i < this.number_of_variables; i++) {
       for (var j = 0; j < this.number_of_variables; j++) {
-        console.log(this.node_names[i])
-        multiplier = variable_mapping.get_type(this.node_names[i]) == 'Negatief' ? -1 : 1;
-        console.log(multiplier)
+        multiplier = this.variable_mapping.get_type(this.node_names[i]) == 'Negatief' ? -1 : 1;
         this.set_coefficient(k,j,i, multiplier * this.get_coefficient(k, j, i));
       }
     }
@@ -61,10 +58,10 @@ VarModel.prototype.to_json = function () {
   var nodes = [];
   for (var k = 0; k < this.lags; k++) {
     for (var i = 0; i < this.number_of_variables; i++) {
-      if (k == 0) {
+      if (k === 0) {
         nodes.push({
           "index": i,
-          "name": variable_mapping.get_value(this.node_names[i]),
+          "name": this.variable_mapping.get_value(this.node_names[i]),
           "type": "Positief"
         });
       }
@@ -74,7 +71,7 @@ VarModel.prototype.to_json = function () {
           "source": j,
           "target": i,
           "coef": this.get_coefficient(k, j, i)
-        })
+        });
 
       }
     }
