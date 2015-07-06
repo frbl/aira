@@ -144,7 +144,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
              * proportion of the IRFs, with regards to the frequency and the steps ahead. I.e., frequency = 0, all
              * impulses are at time 0. Frequency is 1, the difference between all IRFs is 1
              */
-            range = (frequency == 0 ? view_model.get_steps() : Math.ceil(view_model.get_steps() / frequency));
+            range = (frequency === 0 ? view_model.get_steps() : Math.ceil(view_model.get_steps() / frequency));
 
             for (j = 0; j < range; j++) {
                 // Add zero padding to all of the IRFs with regards to their position, to shift them
@@ -158,7 +158,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
 
             sum_array = arraySum(impulses);
 
-            if (variable == 0)
+            if (variable === 0)
                 visualization_engine.addData('Sum ' + frequency + ' ' + this.var_model.node_names[variable], sum_array);
 
             // Determine all valleys in the sum data. These should be kept > threshold
@@ -166,13 +166,13 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
 
             if (valleys.length > 0) {
                 valleys = this.findValleyInMean(sum_array, valleys, 5);
-                if (variable == 0)
+                if (variable === 0)
                     console.log(valleys);
                 minimum = findMinimum(selectionFromArray(sum_array, valleys));
             }
 
             if (minimum > 0) {
-                temp_result[frequency] = options['threshold'] / minimum;
+                temp_result[frequency] = options.threshold / minimum;
             } else {
                 temp_result[frequency] = -1;
             }
