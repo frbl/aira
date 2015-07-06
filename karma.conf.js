@@ -6,7 +6,8 @@ module.exports = function(config) {
     files: [
       'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js',
       'src/**.js',
-      'spec/**.js'
+      'spec/**.js',
+      'spec/factories/**.js'
     ]
   });
 };

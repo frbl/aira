@@ -50,7 +50,7 @@ var hide_links = function (d, i) {
 var draw_arc = function(d, reverse) {
     var dx = d.target.x - d.source.x,
         dy = d.target.y - d.source.y,
-        dr = 75/2;
+        dr = 75;
     if(reverse)
         return "M" + (offset_x+ d.target.x) + "," + (offset_y + d.target.y) + "A" + dr + "," + dr + " 0 0,1 " + (offset_x+ d.source.x) + "," + (offset_y+ d.source.y);
     return "M" + (offset_x+ d.source.x) + "," + (offset_y + d.source.y) + "A" + dr + "," + dr + " 0 0,1 " + (offset_x+ d.target.x) + "," + (offset_y+ d.target.y);
