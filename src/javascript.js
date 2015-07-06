@@ -8,7 +8,11 @@ var injectButtons = function (node_names) {
     var html = $('<input class="button light button_' + node + '" name="' + node + '" type="button" value="' + variable_mapping.get_value(node) + '" id="button_' + node + '"/>');
 
     location.append(html);
-    location.on("click", ".button_" + node, {current_id: i, current_node: node}, appendNodeClick(event));
+    location.on("click", ".button_" + node, {current_id: i, current_node: node}, function(event){
+      var name = event.data.current_node;
+      var myid = event.data.current_id;
+      clickNode(name, myid);
+    });
   }
 
   location.append($('<input class="button red button_all" name="button_all" type="button" value="Shock ALL!" id="button_button_all"/>'));
@@ -35,11 +39,6 @@ var injectButtons = function (node_names) {
 
 };
 
-var appendNodeClick = function(event){
-  var name = event.data.current_node;
-  var myid = event.data.current_id;
-  clickNode(name, myid);
-};
 
 var injectSimulationFunctionality = function () {
   var location = $('#simulation-buttons');
