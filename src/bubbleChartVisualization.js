@@ -57,8 +57,6 @@ var draw_arc = function(d, reverse) {
 };
 
 var render = function (data) {
-    console.log(data);
-
     svg.append("text")
         .attr("id", "bubbleItemNote")
         .attr("x", 0)
@@ -78,7 +76,6 @@ var render = function (data) {
         .attr("class", "node")
         .attr("opacity", "1.3")
         .attr("id", function (d, i) {
-            console.log('i: ' + i);
             return "bubble" + i;
         })
         .attr("r", function (d, i) {

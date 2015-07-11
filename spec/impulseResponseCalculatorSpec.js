@@ -1,4 +1,4 @@
-fdescribe("ImpulseResponseCalculator", function() {
+describe("ImpulseResponseCalculator", function() {
   describe("constructor", function() {
 
   });
@@ -39,6 +39,8 @@ fdescribe("ImpulseResponseCalculator", function() {
       });
 
       it('should return the correct matrix, for the test dataset', function(){
+        var precision = 6;
+        var i,j;
         var expected = [
           [-0.0366, -0.1773, -0.9122,  0.2478,  0.3648,  0.1045],
           [-0.1724, -0.0669, -1.0035,  0.1977,  0.1498, -0.1872],
@@ -65,18 +67,57 @@ fdescribe("ImpulseResponseCalculator", function() {
           [0,0,0,0,0,0.5]
         ]];
 
-        var steps = 5;
+        var C3 =[[
+
+        ]];
+
+        var steps = 3;
         var result = impulse_response_calculator.estimateVmaCoefficients(steps);
 
+        //C1
         expect(result[0][0]).toEqual(expected);
 
-        expect(result[1][0]).toBeCloseTo(C2[0],2);
-        expect(result[1][1]).toBeCloseTo(C2[1],2);
+        //C2
+        for (i = 0, l = C2[0].length; i < l; i ++) {
+          for (j = 0; j < C2[0][i].length; j++) {
+            expect(result[1][0][i][j]).toBeCloseTo(C2[0][i][j], precision);
+            expect(result[1][1][i][j]).toBeCloseTo(C2[1][i][j], precision);
+          }
+        }
+
+        //C3
+        for (i = 0, l = C3[0].length; i < l; i ++) {
+          for (j = 0; j < C3[0][i].length; j++) {
+            expect(result[2][0][i][j]).toBeCloseTo(C3[0][i][j], precision);
+            expect(result[2][1][i][j]).toBeCloseTo(C3[1][i][j], precision);
+            expect(result[2][2][i][j]).toBeCloseTo(C3[2][i][j], precision);
+          }
+        }
       });
 
     });
 
-    describe("calculateImpulseResponse", function() {
+    fdescribe("calculateImpulseResponse", function() {
+      var C_matrix, steps = 5;
+      beforeEach(function () {
+        C_matrix = impulse_response_calculator.estimateVmaCoefficients(steps);
+      });
+
+      it('Should return a result and should contain actual values', function(){
+        expect(impulse_response_calculator).not.toBeUndefined();
+        var E = createMatrix(0, var_model.number_of_variables, steps, false);
+
+        // Give a shock to the first node
+        E[0] = makeFilledArray(steps, 1);
+
+        // Transpose E to have the correct input format
+        E = transpose(E);
+
+        var result = impulse_response_calculator.calculateImpulseResponse(E, C_matrix);
+        expect(result).not.toBeUndefined();
+        result = mergeMatrix(result);
+        expect(result).not.toContain(NaN);
+      });
 
     });
 

@@ -1,4 +1,14 @@
 describe("MathHelpers", function() {
+  describe("MergeMatrix", function() {
+    it("should correctly merge a matrix into one array", function() {
+     var matrix = [[[[1,2,3],[31,1,5]]]];
+     var expected = [1,2,3,31,1,5];
+     var result = mergeMatrix(matrix);
+     expect(result).toEqual(expected);
+    });
+
+  });
+
   describe('multiplyMatrices', function () {
     it('correctly multiplies two matrices', function() {
       var matrix_one = [[1,2,3],[4,5,6]];

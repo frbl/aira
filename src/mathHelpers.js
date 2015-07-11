@@ -38,6 +38,18 @@ var sumMatrices = function (matrices) {
 };
 
 /**
+ * merge matrix into an array
+ */
+var mergeMatrix = function(matrix) {
+  var merged = [].concat.apply([], matrix);
+  if(merged[0].constructor === Array){
+    return mergeMatrix(merged);
+  }else{
+    return merged;
+  }
+};
+
+/**
  * from http://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-in-javascript
  * @param places
  * @returns {number}
@@ -49,15 +61,15 @@ var roundToPlaces = function (number, places) {
 
 var calculateMean = function (data) {
   return data.reduce(function (total, current) {
-    return (total + current / data.length)
-  }, 0)
+    return (total + current / data.length);
+  }, 0);
 };
 
 var standardDeviation = function (data, mean) {
-  if (mean == undefined) mean = calculateMean(data);
+  if (mean === undefined) mean = calculateMean(data);
   return Math.sqrt(data.reduce(function (total, current) {
-    return total + Math.pow((current - mean), 2)
-  }, 0) / (data.length - 1))
+    return total + Math.pow((current - mean), 2);
+  }, 0) / (data.length - 1));
 };
 
 /**
