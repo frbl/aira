@@ -24,7 +24,7 @@ Aira.prototype.determineBestNodeFromAll = function () {
         cumulative_name = name + '_cumulative';
 
         // Shock the current variable in the loop
-        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, view_model.get_steps()));
         cumulative = cumulativeSummation(irf);
 
         result[name] = 0;
@@ -74,7 +74,7 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
 
         cumulative_name = name + '_cumulative';
 
-        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable,1, view_model.get_steps()));
         cumulative = cumulativeSummation(irf);
 
         result[name] = irf[variable_to_improve];
@@ -132,7 +132,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
 
         temp_result = {};
 
-        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, view_model.get_steps(), 1));
+        irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, view_model.get_steps()));
         irf_on_var = irf[variable_to_improve];
 
         for (frequency = 0; frequency < view_model.get_steps(); frequency++) {

@@ -109,7 +109,7 @@ var clickNode = function (node_name_id, node_id) {
   if (DEBUG >= 1) console.log('Impulse given on: ' + node_name_id + ' (' + node_id + ')');
 
   console.log(node_id + " < id and name > " + node_name_id);
-  var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1));
+  var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
   visualization_engine.draw(irf);
 
   irf = linearInterpolation(irf, view_model.get_interpolation());
