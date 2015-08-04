@@ -1,22 +1,22 @@
 function VariableMapping() {
   this.mapping = {
-    "beweging": {"name": "Beweging", "type": "Positief"},
-    "buiten_zijn": {"name": "Buiten zijn", "type": "Positief"},
-    "concentratie": {"name": "Concentratie", "type": "Positief"},
-    "eenzaamheid":{"name": "Eenzaamheid", "type": "Negatief"},
-    "ontspanning":{"name": "Ontspanning", "type": "Positief"},
-    "eigenwaarde":{"name": "Eigenwaarde", "type": "Positief"},
-    "humor": {"name": "Humor", "type": "Positief"},
-    "iets_betekenen": {"name": "Iets betekenen", "type": "Positief"},
-    "hier_en_nu": {"name": "In het hier en nu leven", "type": "Positief"},
-    "levenslust": {"name": "Levenslust", "type": "Positief"},
-    "lichamelijk_ongemak": {"name": "Lichamelijk ongemak", "type": "Negatief"},
-    "uw_eigen_factor": {"name": "Mijn eigen factor", "type": "Neutraal"},
-    "onrust": {"name": "Onrust", "type": "Negatief"},
-    "opgewektheid": {"name": "Opgewektheid", "type": "Positief"},
-    "piekeren": {"name": "Piekeren", "type": "Negatief"},
-    "somberheid": {"name": "Somberheid", "type": "Negatief"},
-    "tekortschieten": {"name": "Tekortschieten", "type": "Negatief"}
+    "beweging": {"name": "Beweging", "translation":"Physical activity", "type": "Positief"},
+    "buiten_zijn": {"name": "Buiten zijn", "translation":"Being outside",  "type": "Positief"},
+    "concentratie": {"name": "Concentratie", "translation":"Concentration",  "type": "Positief"},
+    "eenzaamheid":{"name": "Eenzaamheid", "translation":"Loneliness",  "type": "Negatief"},
+    "ontspanning":{"name": "Ontspanning", "translation":"Relaxation", "type": "Positief"},
+    "eigenwaarde":{"name": "Eigenwaarde", "translation":"Self-esteem", "type": "Positief"},
+    "humor": {"name": "Humor", "translation":"Humor", "type": "Positief"},
+    "iets_betekenen": {"name": "Iets betekenen", "translation":"", "type": "Positief"},
+    "hier_en_nu": {"name": "In het hier en nu leven", "translation":"Mindfulness", "type": "Positief"},
+    "levenslust": {"name": "Levenslust", "translation":"", "type": "Positief"},
+    "lichamelijk_ongemak": {"name": "Lichamelijk ongemak", "translation":"Physical discomfort", "type": "Negatief"},
+    "uw_eigen_factor": {"name": "Mijn eigen factor", "translation":"Personal factor", "type": "Neutraal"},
+    "onrust": {"name": "Onrust", "translation":"Agitation", "type": "Negatief"},
+    "opgewektheid": {"name": "Opgewektheid", "translation":"Cheerfulness", "type": "Positief"},
+    "piekeren": {"name": "Piekeren", "translation":"Rumination", "type": "Negatief"},
+    "somberheid": {"name": "Somberheid", "translation":"Sadness", "type": "Negatief"},
+    "tekortschieten": {"name": "Tekortschieten", "translation":"Falling short on something", "type": "Negatief"}
   };
 }
 
@@ -30,14 +30,35 @@ VariableMapping.prototype.get_network_id_from_value = function (value) {
   return value.charAt(0).toLowerCase() + value.slice(1).replace(regex,'_');
 };
 
-VariableMapping.prototype.get_value = function (key) {
+VariableMapping.prototype.get_entry = function (key) {
   if (key.constructor === Array) {
     var mapping = this.mapping;
     return key.map(function (current, id) {
-      return mapping[current].name;
+      return mapping[current];
     });
   }
-  return this.mapping[key].name;
+  return this.mapping[key];
+};
+
+
+VariableMapping.prototype.get_translation = function (key) {
+  result = this.get_entry(key);
+  if (result.constructor === Array) {
+    return result.map(function (current, id) {
+      return result[current].translation;
+    });
+  }
+  return result.translation;
+};
+
+VariableMapping.prototype.get_value = function (key) {
+  result = this.get_entry(key);
+  if (result.constructor === Array) {
+    return result.map(function (current, id) {
+      return result[current].name;
+    });
+  }
+  return result.name;
 };
 
 VariableMapping.prototype.get_type = function (key) {

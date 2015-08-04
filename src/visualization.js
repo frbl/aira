@@ -91,7 +91,7 @@ Visualization.prototype.draw = function (transposed_irf) {
   var series_var = [];
   for (i = 0; i < transposed_irf.length; i++) {
     series_var.push({
-      name: this.node_names[i],
+      name: variable_mapping.get_translation(this.node_names[i]),
       data: transposed_irf[i],
       visible: true
     });
@@ -120,6 +120,11 @@ Visualization.prototype.draw = function (transposed_irf) {
     },
     credits: {
       enabled: false
+    },
+    xAxis: {
+      title: {
+        text: 'Time'
+      }
     },
     yAxis: {
       title: {
