@@ -1,17 +1,23 @@
-var width = 600,
-  height = 400,
+var width = 800,
+  height = 600,
   offset_y = 00;
 offset_x = 00;
 
 var force = d3.layout.force()
-.charge(20)
-.linkDistance(30)
+.charge(-100)
+.linkDistance(330)
+.linkStrength(0.9)
+.friction(0.9)
+    .gravity(0.05)
+    .theta(0.1)
+    .alpha(0.001)
 .size([width, height]);
 
 var svg = d3.select("#bubble_chart").append("svg")
 .attr("class", "bubble_chart_svg")
 .attr("width", width)
-.attr("height", height);
+.attr("height", height)
+.style("background-color", '#ffaa00');
 
 var draw_arc = function(d, reverse) {
 var dx = d.target.x - d.source.x,
@@ -39,15 +45,19 @@ d3.json("../visualization.json", function(error, graph) {
 
   var node = svg.selectAll(".node")
   .data(graph.nodes)
-  .enter().append("rect")
+  .enter().append("circle")
   .attr("class", "node")
-  .attr("width", width)
-  .attr("height", function(d){return 123;})
-  .style("fill", "#123")
-  .style("opacity", ".3");
+  .attr("r", function(d){return Math.log(Math.abs(d.val)) * 20;})
+  .style("fill", "#aaaaff")
+  .style("opacity", "1");
 
-  node.append("title")
-  .text(function(d) { return d.name; });
+  var text = svg.selectAll(".text")
+  .data(graph.nodes)
+  .enter().append("text")
+    .attr("x", 8)
+    .attr("y", ".31em")
+    .text(function(d) { return d.name; });
+
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
@@ -57,9 +67,11 @@ d3.json("../visualization.json", function(error, graph) {
     .style("stroke", "#999");
 
 
-    node.attr("x", function(d) { return 0; })
-    .attr("y", function(d) { console.log( d) ;return d.y  ; });
+    node.attr("cx", function(d) { console.log( d) ;return d.x  ; })
+    .attr("cy", function(d) { console.log( d) ;return d.y  ; });
     //var link = svg.selectAll(".link")
+    text.attr("x", function(d) { console.log( d) ;return d.x  ; })
+    .attr("y", function(d) { console.log( d) ;return d.y  ; });
   });
 });
 
