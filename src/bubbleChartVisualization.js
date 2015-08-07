@@ -4,7 +4,7 @@ var width = 800,
 var force = d3.layout.force()
 .charge(-10000)
 .linkDistance(100)
-.linkStrength(0.9)
+.linkStrength(linkStrength)
 .friction(0.9)
 .gravity(0.1)
 .theta(0.1)
@@ -35,14 +35,26 @@ var get_direction = function(d){
   return res + d.name;
 };
 
-var on_mouse_click = function(d) {
+var on_mouse_click = function(d, graph) {
   svg.selectAll('line').classed("visible-line-click", false);
+  graph.links.forEach(function(link) {
+    link.distance = 0.9;
+    if(link.source.index === d.index)
+    link.distance = 10;
+  });
+
   svg.selectAll('line').filter(function(line) {
     return line.source.index === d.index;
   }).classed("visible-line-click", function (d) {
     return !d3.select(this).classed("visible-line-click");
   });
+  force.start();
 };
+
+function linkStrength(d) {
+  console.log(d);
+  return d.distance;
+}
 
 var on_mouse_out = function(d) {
   svg.selectAll('line').classed("visible-line-hover", false);
@@ -63,18 +75,18 @@ d3.json("../visualization.json", function(error, graph) {
   .start();
 
 
-svg.append("svg:defs").selectAll("marker")
-    .data(graph.links)
+  svg.append("svg:defs").selectAll("marker")
+  .data(graph.links)
   .enter().append("svg:marker")
-    .attr("id",function(d){return "arrow-head-" + d.source.index + "-" + d.target.index;})
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", function(d) {return get_radius(d.target) * (6/10)/Math.sqrt(2) + 10;}) //function(d){ return 0.41* get_radius(d.target) +10; })
-    .attr("refY", 0)
-    .attr("markerWidth", 6)
-    .attr("markerHeight", 6)
-    .attr("orient", "auto")
+  .attr("id",function(d){return "arrow-head-" + d.source.index + "-" + d.target.index;})
+  .attr("viewBox", "0 -5 10 10")
+  .attr("refX", function(d) {return get_radius(d.target) * (6/10)/Math.sqrt(2) + 10;}) //function(d){ return 0.41* get_radius(d.target) +10; })
+  .attr("refY", 0)
+  .attr("markerWidth", 6)
+  .attr("markerHeight", 6)
+  .attr("orient", "auto")
   .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5");
+  .attr("d", "M0,-5L10,0L0,5");
 
   var link = svg.selectAll(".link")
   .data(graph.links)
@@ -97,7 +109,7 @@ svg.append("svg:defs").selectAll("marker")
   .on({
     "mouseenter": on_mouse_enter,
     "mouseout":  on_mouse_out,
-    "click":  on_mouse_click ,
+    "click":  function(d) {on_mouse_click(d, graph);} ,
   });
 
   var text = svg.selectAll(".text")
