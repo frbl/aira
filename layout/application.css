@@ -9,14 +9,8 @@
 
 
 
-
 */
 /* line 16, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
-.loading-notice {
-  position: fixed;
-  width: 100%;
-  display: none;
-}
 
 /* line 21, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
 .loading-notice-text {
