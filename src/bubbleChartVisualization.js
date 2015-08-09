@@ -117,6 +117,7 @@ d3.json("../visualization.json", function(error, graph) {
   .enter().append("text")
   .attr("x", 8)
   .attr("y", ".31em")
+  .style("text-anchor", "middle")
   .text(function(d) { return get_direction(d); });
 
 
@@ -149,7 +150,7 @@ d3.json("../visualization.json", function(error, graph) {
 
 
     text.attr("x", function(d) { return d.x  ; })
-    .attr("y", function(d) { return d.y  ; });
+    .attr("y", function(d){return d.y+ get_radius(d) + 10;});
 
   });
 
