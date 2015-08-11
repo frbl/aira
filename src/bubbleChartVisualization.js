@@ -1,5 +1,5 @@
-var width = 800,
-  height = 800;
+var width = 400,
+  height = 400;
 
 var force = d3.layout.force()
 .charge(-10000)
@@ -13,8 +13,7 @@ var force = d3.layout.force()
 var svg = d3.select("#bubble_chart").append("svg")
 .attr("class", "bubble_chart_svg")
 .attr("width", width)
-.attr("height", height)
-.style("background-color", '#ffaa00');
+.attr("height", height);
 
 var draw_arc = function(d, reverse) {
   var dx = d.target.x - d.source.x,
@@ -81,6 +80,7 @@ var render = function(graph) {
   .attr("markerWidth", 6)
   .attr("markerHeight", 6)
   .attr("orient", "auto")
+  .attr("fill", "#B8CEB3")
   .append("svg:path")
   .attr("d", "M0,-5L10,0L0,5");
 
@@ -88,7 +88,7 @@ var render = function(graph) {
   .data(graph.links)
   .enter().append("line")
   .attr("class", "line")
-  .style("stroke", "#ff0000")
+  .style("stroke", "#B8CEB3")
   .attr("fill", "none")
   .style("stroke-width", function(d) { return 4; })
   .attr("marker-end", function(d) {
@@ -100,7 +100,7 @@ var render = function(graph) {
   .enter().append("circle")
   .attr("class", "node")
   .attr("r", get_radius)
-  .style("fill", "#aaaaff")
+  .style("fill", "#B8CEB3")
   .style("opacity", "1")
   .on({
     "mouseenter": on_mouse_enter,

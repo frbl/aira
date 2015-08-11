@@ -1,18 +1,20 @@
 var SIGNIFICANT_NETWORK_LOCATION = 0;
+function JsonParser(data, variable_mapping) {
+ this.data = data;
+ this.variable_mapping = variable_mapping;
+}
 
-var hgiNetworkDataToMatrix = function (data) {
+JsonParser.prototype.hgiNetworkDataToMatrix = function () {
     // Undirected network
     var links, nodes, i, source, target, coef;
-    links = data[0].links;
-    nodes = data[0].nodes;
-    console.log(data[0]);
+    links = this.data[0].links;
+    nodes = this.data[0].nodes;
     var var_coef = createMatrix(0, nodes.length, nodes.length, false);
     for (i = 0; i < links.length; i++) {
         source = links[i].source;
         target = links[i].target;
-        console.log("Source:" + source + " target: " + target);
         coef = links[i].coef;
-        var_coef[target][source] = parseFloat(coef);
+        var_coef[source][target] = parseFloat(coef);
     }
     return var_coef;
 };
@@ -22,7 +24,7 @@ var hgiNetworkDataToMatrix = function (data) {
  * @param jsondata
  * @returns {string[]}
  */
-var getHgiNetworkJsonKeys = function (jsondata) {
+getHgiNetworkJsonKeys = function (jsondata) {
     var keys = ['--'], name;
     for (name in jsondata) {
         if (jsondata.hasOwnProperty(name)) {
@@ -32,7 +34,7 @@ var getHgiNetworkJsonKeys = function (jsondata) {
     return keys;
 };
 
-var data_summary_from_json = function (data, node_names) {
+JsonParser.prototype.dataSummaryFromJson = function (node_names) {
     var node_name,
         EXTENDED_NETWORK_LOCATION = 3,
         DATA_LOCATION = 'data',
@@ -40,36 +42,37 @@ var data_summary_from_json = function (data, node_names) {
         HEADER_LOCATION = 'header',
         result = {},
         // The data needs to be transposed so we don't have 1 array with 90 arrays, but x arrays with 90 measurements
-        raw_data = transpose(data[EXTENDED_NETWORK_LOCATION][DATA_LOCATION][BODY_LOCATION]);
+        raw_data = transpose(this.data[EXTENDED_NETWORK_LOCATION][DATA_LOCATION][BODY_LOCATION]);
 
     for(var i = 0; i < node_names.length; i++) {
         node_name = node_names[i];
-        data[EXTENDED_NETWORK_LOCATION][DATA_LOCATION][HEADER_LOCATION].indexOf(node_name);
+        this.data[EXTENDED_NETWORK_LOCATION][DATA_LOCATION][HEADER_LOCATION].indexOf(node_name);
 
         var average = calculateMean(raw_data[i]);
         var sd = standardDeviation(raw_data[i], average);
 
         result[node_name] = {"average": average, "sd": sd};
     }
-    result.significant_network = data[SIGNIFICANT_NETWORK_LOCATION];
+    result.significant_network = this.data[SIGNIFICANT_NETWORK_LOCATION];
     return result;
 };
 
-var nodeNamesFromJson = function (data) {
-  return data[SIGNIFICANT_NETWORK_LOCATION].nodes.map(function(node) { return variable_mapping.get_key(node.name);});
+JsonParser.prototype.nodeKeysFromJson = function () {
+  var self = this;
+  return this.data[SIGNIFICANT_NETWORK_LOCATION].nodes.map(function(node) { return self.variable_mapping.get_key(node.name);});
 };
 
-var fullNetworkDataToMatrix = function (data, node_names) {
+JsonParser.prototype.fullNetworkDataToMatrix = function (node_names) {
     var column, row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
     var EXTENDED_NETWORK_LOCATION = 3;
     var COEFFICIENT_LOCATION = 'coefs';
     var HEADER_LOCATION = 'header';
-    var estimate = data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("Estimate");
-    var std_error = data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("Std. Error");
-    var t_value = data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("t value");
-    var p_value = data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("Pr(>|t|)");
+    var estimate = this.data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("Estimate");
+    var std_error = this.data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("Std. Error");
+    var t_value = this.data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("t value");
+    var p_value = this.data[EXTENDED_NETWORK_LOCATION][COEFFICIENT_LOCATION][HEADER_LOCATION].indexOf("Pr(>|t|)");
 
-    var coefficients = data[EXTENDED_NETWORK_LOCATION]['coefs']['body'];
+    var coefficients = this.data[EXTENDED_NETWORK_LOCATION].coefs.body;
     var var_coef = [createMatrix(0, node_names.length, node_names.length, false)];
 
     highest_lag = 1;
@@ -82,7 +85,7 @@ var fullNetworkDataToMatrix = function (data, node_names) {
                 current = column_node_name.split('.');
 
                 // Check if the variable is not any of the outlier variables
-                if (current.length == 0 || node_names.indexOf(current[0]) < 0) continue;
+                if (current.length === 0 || node_names.indexOf(current[0]) < 0) continue;
 
                 lag = parseInt(current[1].substring(1));
 

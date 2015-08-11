@@ -151,10 +151,11 @@ var data;
 var variable_mapping;
 
 var start_simulation = function (json_data) {
-  var node_names = nodeNamesFromJson(json_data);
+  var json_parser = new JsonParser(json_data, variable_mapping);
+  var node_names = json_parser.nodeKeysFromJson();
 
-  var data_summary = data_summary_from_json(json_data, node_names);
-  var var_coefficients = fullNetworkDataToMatrix(json_data, node_names);
+  var data_summary = json_parser.dataSummaryFromJson(node_names);
+  var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
   var_model = new VarModel(var_coefficients, node_names, data_summary,  true, variable_mapping);
 
   data_directedNetwerk = data_summary.significant_network;
