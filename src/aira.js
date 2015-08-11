@@ -29,19 +29,18 @@ Aira.prototype.determineBestNodeFromAll = function () {
 
         result[name] = 0;
         result[cumulative_name] = 0;
-
         // Check the response this variable has on all other variables, and sum the result
         for (var current = 0; current < irf.length; current++) {
             if (current == variable) continue;
-            result[cumulative_name] += cumulative[current][view_model.get_steps()];
+            result[cumulative_name] += cumulative[current][view_model.get_steps() -1 ];
         }
-
         effects.push({name: name, val: result[cumulative_name]});
     }
 
-    return effects.sort(function (a, b) {
-        return Math.abs(a.val) - Math.abs(b.val);
-    }).reverse();
+    return effects;
+    //.sort(function (a, b) {
+        //return Math.abs(a.val) - Math.abs(b.val);
+    //}).reverse();
 };
 
 /**
@@ -220,5 +219,21 @@ Aira.prototype.getDegradationEffect = function (options) {
         console.log('NOT Using degradation effect');
         return makeFilledArray(view_model.get_steps(), 1);
     }
+};
+
+Aira.prototype.createAiraNetworkJson = function (data) {
+  var result = {"nodes" :[], "links":[]};
+  data.forEach(function(entry) {
+    result.nodes.push({"name": variable_mapping.get_value(entry.name),
+                        "val" : entry.val});
+  });
+  edges = this.var_model.get_significant_edges();
+
+  edges.forEach(function(entry) {
+    result.links.push({"distance": 0.9,
+                        "source": entry.source.index,
+                        "target": entry.target.index});
+  });
+  return result;
 };
 

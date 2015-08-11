@@ -28,15 +28,15 @@ var injectButtons = function (node_names) {
   location.append($('<input class="button dark button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
   location.on("click", ".button_optimize", function () {
     var res = aira.determineBestNodeFromAll();
-    render(res);
-    //var html = '<ol>';
-    //for( var i = 0 ; i < res.length ; i++ ) {
-    //    html = html + '<li><strong>'+ res[i].name + '</strong>: '+ res[i].val + '</li>';
-    //}
-    //html += '</ol>';
-    //$(".effect .content").html(html);
-  });
+    var html = '<ol>';
+    for( var i = 0 ; i < res.length ; i++ ) {
+        html = html + '<li><strong>'+ res[i].name + '</strong>: '+ res[i].val + '</li>';
+    }
+    html += '</ol>';
+    $(".effect .content").html(html);
 
+  render(aira.createAiraNetworkJson(res));
+  });
 };
 
 

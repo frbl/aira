@@ -25,6 +25,10 @@ var VarModel = function (var_coefficients, node_names, data_summary, make_positi
   this.number_of_exogen_variables = this.number_of_exogen_variables > 0 ? this.number_of_exogen_variable : 0;
 };
 
+VarModel.prototype.get_significant_edges = function() {
+  return this.data_summary.significant_network.links;
+};
+
 VarModel.prototype.get_data_summary = function(node_name){
   return this.data_summary[node_name];
 };

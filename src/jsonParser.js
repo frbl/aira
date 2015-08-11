@@ -1,15 +1,17 @@
+var SIGNIFICANT_NETWORK_LOCATION = 0;
+
 var hgiNetworkDataToMatrix = function (data) {
     // Undirected network
     var links, nodes, i, source, target, coef;
-    links = data[0]['links'];
-    nodes = data[0]['nodes'];
+    links = data[0].links;
+    nodes = data[0].nodes;
     console.log(data[0]);
     var var_coef = createMatrix(0, nodes.length, nodes.length, false);
     for (i = 0; i < links.length; i++) {
-        source = links[i]['source'];
-        target = links[i]['target'];
+        source = links[i].source;
+        target = links[i].target;
         console.log("Source:" + source + " target: " + target);
-        coef = links[i]['coef'];
+        coef = links[i].coef;
         var_coef[target][source] = parseFloat(coef);
     }
     return var_coef;
@@ -49,8 +51,12 @@ var data_summary_from_json = function (data, node_names) {
 
         result[node_name] = {"average": average, "sd": sd};
     }
-
+    result.significant_network = data[SIGNIFICANT_NETWORK_LOCATION];
     return result;
+};
+
+var nodeNamesFromJson = function (data) {
+  return data[SIGNIFICANT_NETWORK_LOCATION].nodes.map(function(node) { return variable_mapping.get_key(node.name);});
 };
 
 var fullNetworkDataToMatrix = function (data, node_names) {

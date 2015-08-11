@@ -40,7 +40,7 @@ var on_mouse_click = function(d, graph) {
   graph.links.forEach(function(link) {
     link.distance = 0.9;
     if(link.source.index === d.index)
-    link.distance = 10;
+      link.distance = 10;
   });
 
   svg.selectAll('line').filter(function(line) {
@@ -52,7 +52,6 @@ var on_mouse_click = function(d, graph) {
 };
 
 function linkStrength(d) {
-  console.log(d);
   return d.distance;
 }
 
@@ -66,10 +65,7 @@ var on_mouse_enter = function(d ) {
   }).classed("visible-line-hover", true);
 };
 
-
-d3.json("../visualization.json", function(error, graph) {
-  if (error) console.error(error);
-  console.log(graph);
+var render = function(graph) {
   force.nodes(graph.nodes)
   .links(graph.links)
   .start();
@@ -156,6 +152,11 @@ d3.json("../visualization.json", function(error, graph) {
 
   for (var i = 0; i < 400; i++) force.tick();
 
+};
+
+d3.json("../visualization.json", function(error, graph) {
+  if (error) console.error(error);
+  //render(graph);
 });
 
 //var calculate_radius = function (value) {
