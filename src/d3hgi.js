@@ -364,7 +364,7 @@ function hgiNetwork() {
                 // Radius nodes depends on number of links
                 .attr("r", function(d) { if(noLinks) { d.radius = 15; } else { d.radius=(10+10*(d.weight/centerNode.weight)); } return d.radius; })
 
-            if(addGradients) {
+            if(!addGradients) {
                 gNodes.append("circle")
                     .attr("class","nodeGrad")
                     .attr("r", function(d) { return d.radius; }) // d.radius=(10+10*(d.weight/centerNode.weight)); return d.radius; })

@@ -225,12 +225,14 @@ Aira.prototype.createAiraNetworkJson = function (data) {
   var result = {"nodes" :[], "links":[]};
   data.forEach(function(entry) {
     result.nodes.push({"name": variable_mapping.get_value(entry.name),
+                      "key" : entry.name,
                       "val" : entry.val});
   });
   edges = this.var_model.get_significant_edges();
 
   edges.forEach(function(entry) {
-    result.links.push({"distance": 0.9,
+    result.links.push({"weight": entry.coef,
+                      "distance": 0.9,
                       "source": entry.source.index,
                       "target": entry.target.index});
   });
