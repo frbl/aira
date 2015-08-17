@@ -23,14 +23,14 @@ svg = d3.select("#bubble_chart").append("svg")
 var determineMinMax = function() {
   var val;
   graph.nodes.forEach(function(node) {
-    val = Math.abs(node.val);
+    val = Math.log(1+Math.abs(node.val));
     min = min < val ? min : val;
     max = max > val ? max : val;
   });
 };
 
 var get_radius = function(d) {
-  return ((Math.abs(d.val) - min) / (max - min) ) * (max_size - min_size) + min_size;
+  return ((Math.log(1+Math.abs(d.val)) - min) / (max - min) ) * (max_size - min_size) + min_size;
 };
 
 var get_direction = function(d){
