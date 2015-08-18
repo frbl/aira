@@ -1,14 +1,17 @@
 var DEBUG = 0;
 
-function Aira(impulse_response_calculator, var_model) {
+function Aira(impulse_response_calculator, var_model, view_model) {
   this.impulse_response_calculator = impulse_response_calculator;
   this.var_model = var_model;
+  this.view_model = view_model;
 }
 
 /**
  * Determines the node which has the most positive effect of all nodes in the network.
+ * It does so by running the irf calculation for each node in the network, and summing
+ * the irf responses of the other variables in the model. The cumulative score is returned.
  *
- * @returns {{}}
+ * @returns [] a list of hashes containing each variable and the cumulative effect it has.
  */
 Aira.prototype.determineBestNodeFromAll = function () {
   var variable, irf, cumulative_name, name, max, max_var,
@@ -24,7 +27,7 @@ Aira.prototype.determineBestNodeFromAll = function () {
     cumulative_name = name + '_cumulative';
 
     // Shock the current variable in the loop
-    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, view_model.get_steps()));
+    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, this.view_model.get_steps()));
     cumulative = cumulativeSummation(irf);
 
     result[name] = 0;
@@ -32,11 +35,10 @@ Aira.prototype.determineBestNodeFromAll = function () {
     // Check the response this variable has on all other variables, and sum the result
     for (var current = 0; current < irf.length; current++) {
       if (current == variable) continue;
-      result[cumulative_name] += cumulative[current][view_model.get_steps() -1 ];
+      result[cumulative_name] += cumulative[current][this.view_model.get_steps() -1 ];
     }
     effects.push({name: name, val: result[cumulative_name]});
   }
-
   return effects;
   //.sort(function (a, b) {
   //return Math.abs(a.val) - Math.abs(b.val);
@@ -73,7 +75,7 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
 
     cumulative_name = name + '_cumulative';
 
-    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable,1, view_model.get_steps()));
+    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable,1, this.view_model.get_steps()));
     cumulative = cumulativeSummation(irf);
 
     result[name] = irf[variable_to_improve];
@@ -131,10 +133,10 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
 
     temp_result = {};
 
-    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, view_model.get_steps()));
+    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, this.view_model.get_steps()));
     irf_on_var = irf[variable_to_improve];
 
-    for (frequency = 0; frequency < view_model.get_steps(); frequency++) {
+    for (frequency = 0; frequency < this.view_model.get_steps(); frequency++) {
       minimum = 0;
       impulses = [];
 
@@ -143,7 +145,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
        * proportion of the IRFs, with regards to the frequency and the steps ahead. I.e., frequency = 0, all
        * impulses are at time 0. Frequency is 1, the difference between all IRFs is 1
        */
-      range = (frequency === 0 ? view_model.get_steps() : Math.ceil(view_model.get_steps() / frequency));
+      range = (frequency === 0 ? this.view_model.get_steps() : Math.ceil(this.view_model.get_steps() / frequency));
 
       for (j = 0; j < range; j++) {
         // Add zero padding to all of the IRFs with regards to their position, to shift them
@@ -212,12 +214,12 @@ Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
  */
 Aira.prototype.getDegradationEffect = function (options) {
   var degradation_location = 'degradation';
-  if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == view_model.get_steps()) {
+  if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == this.view_model.get_steps()) {
     console.log('Using degradation effect');
     return options[degradation_location];
   } else {
     console.log('NOT Using degradation effect');
-    return makeFilledArray(view_model.get_steps(), 1);
+    return makeFilledArray(this.view_model.get_steps(), 1);
   }
 };
 

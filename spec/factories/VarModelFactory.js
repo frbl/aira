@@ -29,3 +29,14 @@ var fabricateVarModel = function(make_positive) {
 
   return new VarModel(var_coefficients, node_names, data_summary, make_positive,variable_mapping);
 };
+
+var fabricateSimpleVarModel = function() {
+  node_names = ['onrust', 'concentratie'];
+  coeff = createMatrix(0,2,2,false);
+  coeff[0][1]=0.5;
+  coeff[1][0]=0.3;
+  var data_summary = {"concentratie": {"average": 10, "sd": 2},
+    "onrust": {"average": 20, "sd": 3}};
+
+  return new VarModel([coeff], node_names, data_summary, false, fabricateVariableMapping());
+};

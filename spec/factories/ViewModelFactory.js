@@ -10,17 +10,17 @@ function ViewModelMock(prediction, threshold, interpolation, improvement){
 }
 
 ViewModelMock.prototype.get_steps = function () {
-  return this.prediction();
+  return this.prediction;
 };
 
 ViewModelMock.prototype.get_threshold = function() {
-  return this.threshold();
+  return this.threshold;
 };
 
 ViewModelMock.prototype.get_interpolation = function() {
-  return this.interpolation();
+  return this.interpolation;
 };
 
 ViewModelMock.prototype.get_improvement = function() {
-  return this.improvement();
+  return this.improvement;
 };
