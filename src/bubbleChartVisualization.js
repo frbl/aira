@@ -221,8 +221,14 @@ var render = function(graph_from_json) {
     .attr("cy", function(d) { d.y = Math.max(get_radius(d), Math.min(height - get_radius(d), d.y)); return d.y; });
 
 
+    //.attr("y", function(d){return d.y+ get_radius(d) + 10;});
+
+    var x_offset = 20;
+    var y_offset = 3;
+
     text.attr("x", function(d) { return d.x  ; })
-    .attr("y", function(d){return d.y+ get_radius(d) + 10;});
+    //text.attr("x", function(d) { return d.x > width / 2 ? d.x + get_radius(d) + x_offset : d.x - get_radius(d) - x_offset ;})
+    .attr("y", function(d){return d.y > height / 2 ? d.y + get_radius(d) + x_offset : d.y - get_radius(d) - y_offset;});
 
   });
 
