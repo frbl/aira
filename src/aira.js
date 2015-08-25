@@ -224,6 +224,7 @@ Aira.prototype.getDegradationEffect = function (options) {
 };
 
 Aira.prototype.createAiraNetworkJson = function (data) {
+  console.log(data);
   var result = {"nodes" :[], "links":[]};
   data.forEach(function(entry) {
     result.nodes.push({"name": variable_mapping.get_value(entry.name),
@@ -235,8 +236,8 @@ Aira.prototype.createAiraNetworkJson = function (data) {
   edges.forEach(function(entry) {
     result.links.push({"weight": entry.coef,
                       "distance": 0.9,
-                      "source": entry.source.index,
-                      "target": entry.target.index});
+                      "source": entry.source,
+                      "target": entry.target});
   });
   return result;
 };

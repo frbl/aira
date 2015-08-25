@@ -34,7 +34,6 @@ var injectButtons = function(node_names) {
     }
     html += '</ol>';
     $(".effect .content").html(html);
-
     render(aira.createAiraNetworkJson(res));
   });
 };
