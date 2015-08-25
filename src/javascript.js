@@ -1,4 +1,4 @@
-var injectButtons = function (node_names) {
+var injectButtons = function(node_names) {
   injectSimulationFunctionality();
   var location = $('#aira-buttons');
   location.html('');
@@ -30,12 +30,12 @@ var injectButtons = function (node_names) {
     var res = aira.determineBestNodeFromAll();
     var html = '<ol>';
     for( var i = 0 ; i < res.length ; i++ ) {
-        html = html + '<li><strong>'+ res[i].name + '</strong>: '+ res[i].val + '</li>';
+      html = html + '<li><strong>'+ res[i].name + '</strong>: '+ res[i].val + '</li>';
     }
     html += '</ol>';
     $(".effect .content").html(html);
 
-  render(aira.createAiraNetworkJson(res));
+    render(aira.createAiraNetworkJson(res));
   });
 };
 
