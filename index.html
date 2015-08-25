@@ -82,7 +82,6 @@
 
       <div class="bubble_chart" id="bubble_chart"></div>
       <div class="effect_list" id="effect_list"><span class=''></span></div>
-            <div id="netDynamisch" class="svg-container centered-svg"></div>
       <div id="panel" class="col-md-6">
         <form action="">
           <div style="visibility:hidden; width:0px; height:0px;" >
@@ -120,9 +119,6 @@
       var data_summary = json_parser.dataSummaryFromJson(node_names);
       var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
       var_model = new VarModel(var_coefficients, node_names, data_summary, true, variable_mapping);
-
-      data_directedNetwerk = data_summary.significant_network;
-      render_netDynamisch();
 
       simulation = new Simulation(node_names);
       impulse_response_calculator = new ImpulseResponseCalculator(var_model);
