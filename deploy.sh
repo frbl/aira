@@ -5,7 +5,7 @@ cp layout/application.css ../../../../aira/stylesheets/
 cp one_network.json ../../../../aira/one_network.json
 compressjs src/*.js ../../../../aira/javascripts/aira.min.js
 cd ../../../../aira
-datestring=date
+datestring=`date`
 echo "<!--$datestring-->" >> index.html
 git add --all
 git commit -m 'New version'
