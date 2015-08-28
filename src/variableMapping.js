@@ -6,7 +6,7 @@ function VariableMapping() {
     "eenzaamheid":         {"name": "Eenzaamheid", "translation":"Loneliness",  "type": "Negatief"},
     "eigenwaarde":         {"name": "Eigenwaarde", "translation":"Self-esteem", "type": "Positief"},
     "humor":               {"name": "Humor", "translation":"Humor", "type": "Positief"},
-    "iets_betekenen":      {"name": "Iets betekenen", "translation":"", "type": "Positief"},
+    "iets_betekenen":      {"name": "Iets betekenen", "translation":"Mean something", "type": "Positief"},
     "hier_en_nu":          {"name": "In het hier en nu leven", "translation":"Mindfulness", "type": "Positief"},
     "levenslust":          {"name": "Levenslust", "translation":"", "type": "Positief"},
     "lichamelijk_ongemak": {"name": "Lichamelijk ongemak", "translation":"Physical discomfort", "type": "Negatief"},

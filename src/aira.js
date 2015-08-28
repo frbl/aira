@@ -13,9 +13,9 @@ function Aira(impulse_response_calculator, var_model, view_model) {
  *
  * @returns [] a list of hashes containing each variable and the cumulative effect it has.
  */
-Aira.prototype.determineBestNodeFromAll = function () {
+Aira.prototype.determineBestNodeFromAll = function() {
   var variable, irf, cumulative_name, name, max, max_var,
-  result = {},
+    result = {},
     cumulative = {},
     effects = [];
 
@@ -35,9 +35,12 @@ Aira.prototype.determineBestNodeFromAll = function () {
     // Check the response this variable has on all other variables, and sum the result
     for (var current = 0; current < irf.length; current++) {
       if (current == variable) continue;
-      result[cumulative_name] += cumulative[current][this.view_model.get_steps() -1 ];
+      result[cumulative_name] += cumulative[current][this.view_model.get_steps() - 1];
     }
-    effects.push({name: name, val: result[cumulative_name]});
+    effects.push({
+      name: name,
+      val: result[cumulative_name]
+    });
   }
   return effects;
   //.sort(function (a, b) {
@@ -54,9 +57,9 @@ Aira.prototype.determineBestNodeFromAll = function () {
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optimizer) {
+Aira.prototype.determineOptimalNodeSimple = function(variable_to_improve, optimizer) {
   var variable, irf, cumulative_name, name,
-  result = {},
+    result = {},
     cumulative = {},
     effects = {};
 
@@ -75,7 +78,7 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
 
     cumulative_name = name + '_cumulative';
 
-    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable,1, this.view_model.get_steps()));
+    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, this.view_model.get_steps()));
     cumulative = cumulativeSummation(irf);
 
     result[name] = irf[variable_to_improve];
@@ -88,7 +91,7 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
       result[cumulative_name],
       this.var_model.get_data_summary(variable_to_improve_name),
       this.var_model.get_data_summary(name));
-      effects[name] = airaOptimalVariableFinder.execute(optimizer);
+    effects[name] = airaOptimalVariableFinder.execute(optimizer);
   }
 
   if (DEBUG > -1) {
@@ -114,7 +117,7 @@ Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optim
  * @param options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
+Aira.prototype.determineOptimalNode = function(variable_to_improve, options) {
   var variable, irf, valleys, i, temp_result, sum_array, irf_on_var, impulses, minimum, frequency, range, degradated_value;
   var result = {};
   var consider_shocked_variable = false;
@@ -194,7 +197,7 @@ Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
  * @param max_deviation
  * @returns {Array}
  */
-Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
+Aira.prototype.findValleyInMean = function(data, valleys, max_deviation) {
   var i, current;
   var res = [];
   var mean = average(selectionFromArray(data, valleys));
@@ -212,7 +215,7 @@ Aira.prototype.findValleyInMean = function (data, valleys, max_deviation) {
  *
  * @param options
  */
-Aira.prototype.getDegradationEffect = function (options) {
+Aira.prototype.getDegradationEffect = function(options) {
   var degradation_location = 'degradation';
   if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == this.view_model.get_steps()) {
     console.log('Using degradation effect');
@@ -223,22 +226,28 @@ Aira.prototype.getDegradationEffect = function (options) {
   }
 };
 
-Aira.prototype.createAiraNetworkJson = function (data) {
-  console.log(data);
-  var result = {"nodes" :[], "links":[]};
+Aira.prototype.createAiraNetworkJson = function(data) {
+  var result = {
+    "nodes": [],
+    "links": []
+  };
+
   data.forEach(function(entry) {
-    result.nodes.push({"name": variable_mapping.get_value(entry.name),
-                      "key" : entry.name,
-                      "val" : entry.val});
+    result.nodes.push({
+      "name": variable_mapping.get_translation(entry.name),
+      "key": entry.name,
+      "val": entry.val
+    });
   });
   edges = this.var_model.get_significant_edges();
-
   edges.forEach(function(entry) {
-    result.links.push({"weight": entry.coef,
-                      "distance": 0.9,
-                      "source": entry.source,
-                      "target": entry.target});
+    result.links.push({
+      "weight": entry.coef,
+      "distance": 0.9,
+      "source": entry.source,
+      "target": entry.target
+    });
   });
+
   return result;
 };
-

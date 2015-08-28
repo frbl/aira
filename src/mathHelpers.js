@@ -4,15 +4,26 @@
  * @param second
  * @returns {Array}
  */
-var multiplyMatrices = function (first, second) {
+var multiplyMatrices = function(first, second) {
   var secondColumns = transpose(second);
-  return first.map(function (row) {
-    return secondColumns.map(function (column) {
-      return column.reduce(function (sum, value, index) {
+  return first.map(function(row) {
+    return secondColumns.map(function(column) {
+      return column.reduce(function(sum, value, index) {
         return sum + value * row[index];
       }, 0);
     });
   });
+};
+
+
+/**
+ *
+ * The Math.sign function is currently not defined in safari, this is a workaround to add its implementation if it 
+ * does not exist
+ *
+ */
+Math.sign = Math.sign || function(x) {
+  return +x === x ? ((x === 0) ? x : (x > 0) ? 1 : -1) : NaN;
 };
 
 /**
@@ -20,7 +31,7 @@ var multiplyMatrices = function (first, second) {
  * @param matrices
  * @returns {Array}
  */
-var sumMatrices = function (matrices) {
+var sumMatrices = function(matrices) {
   var result = [];
   var r, c, m;
   for (r = 0; r < matrices[0].length; r++) {
@@ -42,9 +53,9 @@ var sumMatrices = function (matrices) {
  */
 var mergeMatrix = function(matrix) {
   var merged = [].concat.apply([], matrix);
-  if(merged[0].constructor === Array){
+  if (merged[0].constructor === Array) {
     return mergeMatrix(merged);
-  }else{
+  } else {
     return merged;
   }
 };
@@ -54,20 +65,20 @@ var mergeMatrix = function(matrix) {
  * @param places
  * @returns {number}
  */
-var roundToPlaces = function (number, places) {
-  if(((number + "").split('.')[1] || []).length <= places) return number;
+var roundToPlaces = function(number, places) {
+  if (((number + "").split('.')[1] || []).length <= places) return number;
   return +(Math.round(number + "e+" + places) + "e-" + places);
 };
 
-var calculateMean = function (data) {
-  return data.reduce(function (total, current) {
+var calculateMean = function(data) {
+  return data.reduce(function(total, current) {
     return (total + current / data.length);
   }, 0);
 };
 
-var standardDeviation = function (data, mean) {
+var standardDeviation = function(data, mean) {
   if (mean === undefined) mean = calculateMean(data);
-  return Math.sqrt(data.reduce(function (total, current) {
+  return Math.sqrt(data.reduce(function(total, current) {
     return total + Math.pow((current - mean), 2);
   }, 0) / (data.length - 1));
 };
@@ -77,7 +88,7 @@ var standardDeviation = function (data, mean) {
  * @param matrix
  * @returns {boolean}
  */
-var printMatrix = function (matrix) {
+var printMatrix = function(matrix) {
   var r, c, s;
   console.log('-----------------');
   console.log('Dimensions: ' + matrix.length + "x" + matrix[0].length);
@@ -102,9 +113,9 @@ var printMatrix = function (matrix) {
  * @param matrix
  * @returns {Array}
  */
-var transpose = function (matrix) {
-  return matrix[0].map(function (uselessValue, colIndex) {
-    return matrix.map(function (uselessRow, rowIndex) {
+var transpose = function(matrix) {
+  return matrix[0].map(function(uselessValue, colIndex) {
+    return matrix.map(function(uselessRow, rowIndex) {
       return matrix[rowIndex][colIndex];
     });
   });
@@ -117,7 +128,7 @@ var transpose = function (matrix) {
  * @param to
  * @returns {Array}
  */
-var subsetMatrix = function (matrix, from, to) {
+var subsetMatrix = function(matrix, from, to) {
   var subset = [];
   for (row = 0; row < matrix.length; row++) {
     subset.push(matrix[row].slice(from, to));
@@ -132,7 +143,7 @@ var subsetMatrix = function (matrix, from, to) {
  * @param ncol
  * @param identity
  */
-var createMatrix = function (value, nrow, ncol, identity) {
+var createMatrix = function(value, nrow, ncol, identity) {
   if (identity && nrow != ncol) throw new Error('Identity matrices should be square');
   var matrix = new Array(nrow);
   value = identity ? 0 : value;
@@ -149,7 +160,7 @@ var createMatrix = function (value, nrow, ncol, identity) {
  * @param factor
  * @returns {Array|*}
  */
-var linearInterpolation = function (matrix, factor) {
+var linearInterpolation = function(matrix, factor) {
   var i, r, c, row, row_result, length;
   var result = [];
   if (factor <= 1) return matrix;
@@ -177,7 +188,7 @@ var linearInterpolation = function (matrix, factor) {
  * @param value
  * @returns {Array|*}
  */
-var makeFilledArray = function (len, value) {
+var makeFilledArray = function(len, value) {
   var row = [];
   while (len-- > 0) row.push(value);
   return row;
@@ -189,7 +200,7 @@ var makeFilledArray = function (len, value) {
  * @param value
  * @returns {Array}
  */
-var makeSequenceArray = function (stepsize, from, to) {
+var makeSequenceArray = function(stepsize, from, to) {
   var sequence = [];
   index = 0;
   for (value = from; value <= to; value += stepsize) {
@@ -206,8 +217,8 @@ var makeSequenceArray = function (stepsize, from, to) {
  * @param value
  * @returns {Array.<T>}
  */
-var addPadding = function (data, len, value) {
-  if(data.length <= len) return makeFilledArray(data.length, 0);
+var addPadding = function(data, len, value) {
+  if (data.length <= len) return makeFilledArray(data.length, 0);
   var shifted_data = data.slice(0, data.length - len);
   return makeFilledArray(len, value).concat(shifted_data);
 };
@@ -216,10 +227,10 @@ var addPadding = function (data, len, value) {
  *
  * @param data
  */
-var discreteDerivative = function (data) {
+var discreteDerivative = function(data) {
   var shifted_data = data.slice(1, data.length);
   shifted_data.push(0);
-  return data.map(function (value, index) {
+  return data.map(function(value, index) {
     return shifted_data[index] - value;
   });
 };
@@ -231,12 +242,12 @@ var discreteDerivative = function (data) {
  * @param to
  * @returns {number}
  */
-var findMinimumInRange = function (data, from, to) {
+var findMinimumInRange = function(data, from, to) {
   data = data.slice(from, to);
   return findMinimum(data);
 };
 
-var findMinimum = function (data) {
+var findMinimum = function(data) {
   return Math.min.apply(null, data);
 };
 
@@ -245,21 +256,21 @@ var findMinimum = function (data) {
  * @param data
  * @param locations
  */
-var selectionFromArray = function (data, locations) {
-  return locations.map(function (location, i) {
+var selectionFromArray = function(data, locations) {
+  return locations.map(function(location, i) {
     return data[location]
   })
 };
 
 
-var average = function (data) {
-  return data.reduce(function (sum, a) {
+var average = function(data) {
+  return data.reduce(function(sum, a) {
     return sum + a
   }, 0) / (data.length == 0 ? 1 : data.length);
 };
 
 
-var findAllValleys = function (data) {
+var findAllValleys = function(data) {
   var first_derivative = discreteDerivative(data);
   var i, prev;
   valleys = [];
@@ -279,8 +290,8 @@ var findAllValleys = function (data) {
  * @param factor
  * @returns {Array}
  */
-var scaleMatrix = function (matrix, factor) {
-  return matrix.map(function (array, _index) {
+var scaleMatrix = function(matrix, factor) {
+  return matrix.map(function(array, _index) {
     return scaleArray(array, factor);
   });
 };
@@ -291,8 +302,8 @@ var scaleMatrix = function (matrix, factor) {
  * @param factor
  * @returns {Array}
  */
-var scaleArray = function (array, factor) {
-  return array.map(function (value, i) {
+var scaleArray = function(array, factor) {
+  return array.map(function(value, i) {
     return value * factor;
   });
 };
@@ -302,8 +313,8 @@ var scaleArray = function (array, factor) {
  * @param arrays_to_sum
  * @returns {Array}
  */
-var arraySum = function (arrays_to_sum) {
-  if (arrays_to_sum.length < 1) throw('At least one array is needed for summation');
+var arraySum = function(arrays_to_sum) {
+  if (arrays_to_sum.length < 1) throw ('At least one array is needed for summation');
   var array_id, i, array;
   var sum_array = [];
   array = arrays_to_sum[0];
@@ -321,13 +332,13 @@ var arraySum = function (arrays_to_sum) {
  * @param data
  * @returns {Array}
  */
-var cumulativeSummation = function (data) {
+var cumulativeSummation = function(data) {
   var unused_sum = 0;
-  return data.map(function (variable, index) {
+  return data.map(function(variable, index) {
     sum = 0;
     // The if statement is needed so it also works with 1d arrays.
     if (variable.length != undefined) {
-      return variable.map(function (value, index) {
+      return variable.map(function(value, index) {
         return sum += value;
       });
     } else {
