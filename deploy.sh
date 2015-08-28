@@ -5,6 +5,8 @@ cp layout/application.css ../../../../aira/stylesheets/
 cp one_network.json ../../../../aira/one_network.json
 compressjs src/*.js ../../../../aira/javascripts/aira.min.js
 cd ../../../../aira
+sed '$ d' index.html> index.html.tmp
+mv index.html.tmp index.html
 datestring=`date`
 echo "<!--$datestring-->" >> index.html
 git add --all
