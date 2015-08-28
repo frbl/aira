@@ -159,8 +159,8 @@ var start_simulation = function (json_data) {
   var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
   var_model = new VarModel(var_coefficients, node_names, data_summary,  true, variable_mapping);
 
-  data_directedNetwerk = data_summary.significant_network;
-  render_netDynamisch();
+ // data_directedNetwerk = data_summary.significant_network;
+  //render_netDynamisch();
 
   data_directedNetwerk = var_model.to_json();
   render_netDynamisch('#netFullDynamisch');
