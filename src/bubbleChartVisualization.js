@@ -4,7 +4,8 @@ var BubbleChartVisualization = (function() {
     max_size = 40,
     min_size = 10,
     min = 999999,
-    max = -99999;
+    max = -99999,
+    graph,percentages;
 
   var bubble_force_layout = d3.layout.force()
     .charge(-10000)
@@ -22,7 +23,7 @@ var BubbleChartVisualization = (function() {
 
   var determineMinMax = function() {
     var val;
-    my_graph.nodes.forEach(function(node) {
+    graph.nodes.forEach(function(node) {
       val = Math.log(1 + Math.abs(node.val));
       min = min < val ? min : val;
       max = max > val ? max : val;
@@ -59,7 +60,7 @@ var BubbleChartVisualization = (function() {
     if (d === undefined) d = {
       "index": -1
     };
-    my_graph.nodes.forEach(function(node) {
+    graph.nodes.forEach(function(node) {
       svg.select("#label_" + node.key).text(node.index == d.index || original ? get_direction(node) : node.name);
     });
   };
@@ -84,12 +85,26 @@ var BubbleChartVisualization = (function() {
     d3.select("#effect_list").select("span").append("span").text(result);
   };
 
+  var renderPercentagesText = function(d) {
+    var number_of_options = 0;
+    var result = 'Om de variabele ' + d.name + ' met 10% te verhogen, kunt u ';
+    for (var effect in percentages[d.key]) {
+      current = percentages[d.key][effect].needed_difference * 100;
+      if(current < -100) continue;
+
+      number_of_options += 1;
+      result += ('uw gemiddelde hoeveelheid ' + effect + ' met ' + Math.abs(current.toFixed(0)) + '% ' +( current > 0 ? 'verhogen' : 'verlagen')) + ', ';
+    }
+    console.log(result);
+    d3.select("#percentage_advice").select("span").append("span").text(result);
+  };
+
   var renderNodesFromNodePerspective = function(d) {
     var result_text = [];
     result_text.push(get_direction(d).toLowerCase());
-    my_graph.links.forEach(function(edge) {
+    graph.links.forEach(function(edge) {
       if (edge.source.index == d.index) {
-        var res = my_graph.nodes.filter(function(node) {
+        var res = graph.nodes.filter(function(node) {
           return node.index == edge.target.index;
         }).map(function(node) {
           return {
@@ -121,6 +136,7 @@ var BubbleChartVisualization = (function() {
     var previously_clicked = clicked_node.classed('selected_node');
 
     removeAllElements(d3.select("#effect_list").select("span"));
+    removeAllElements(d3.select("#percentage_advice").select("span"));
 
     resetNodes();
     resetNodeNames(d, previously_clicked);
@@ -132,6 +148,7 @@ var BubbleChartVisualization = (function() {
 
     renderEdgesFromNodePerspective(d);
     renderNodesFromNodePerspective(d);
+    renderPercentagesText(d);
   };
 
   function linkStrength(d) {
@@ -149,24 +166,26 @@ var BubbleChartVisualization = (function() {
   };
 
   var findNode = function(id) {
-    var x = my_graph.nodes.filter(function(node) {
+    var x = graph.nodes.filter(function(node) {
       return node.index === id;
     });
     return x[0];
   };
 
-  function BubbleChartVisualization() {}
+  function BubbleChartVisualization(graph_from_json, percentages_from_aira) {
+    graph = graph_from_json;
+    percentages = percentages_from_aira;
+  }
 
-  BubbleChartVisualization.prototype.render = function(graph_from_json) {
+  BubbleChartVisualization.prototype.render = function() {
     removeAllElements(svg);
-    my_graph = graph_from_json;
 
     determineMinMax();
 
-    bubble_force_layout.nodes(my_graph.nodes)
-      .links(my_graph.links);
+    bubble_force_layout.nodes(graph.nodes)
+      .links(graph.links);
     svg.append("svg:defs").selectAll("marker")
-      .data(my_graph.links)
+      .data(graph.links)
       .enter().append("svg:marker")
       .attr("id", function(d) {
         return "arrow-head-" + d.source.index + "-" + d.target.index;
@@ -184,7 +203,7 @@ var BubbleChartVisualization = (function() {
       .attr("d", "M0,-5L10,0L0,5");
 
     var link = svg.selectAll(".link")
-      .data(my_graph.links)
+      .data(graph.links)
       .enter().append("line")
       .attr("class", "line")
       .style("stroke", "#B8CEB3")
@@ -197,7 +216,7 @@ var BubbleChartVisualization = (function() {
       });
 
     var node = svg.selectAll(".node")
-      .data(my_graph.nodes)
+      .data(graph.nodes)
       .enter().append("circle")
       .attr("class", "node")
       .attr("r", get_radius)
@@ -209,7 +228,7 @@ var BubbleChartVisualization = (function() {
       });
 
     var text = svg.selectAll(".text")
-      .data(my_graph.nodes)
+      .data(graph.nodes)
       .enter().append("text")
       .attr("x", 8)
       .attr("y", ".41em")
@@ -248,14 +267,14 @@ var BubbleChartVisualization = (function() {
       miny = 10000;
       maxx = -10000;
       maxy = -10000;
-      my_graph.nodes.forEach(function(node) {
+      graph.nodes.forEach(function(node) {
         if (node.x < minx) minx = node.x;
         if (node.x > maxx) maxx = node.x;
         if (node.y < miny) miny = node.y;
         if (node.y > maxy) maxy = node.y;
       });
 
-      my_graph.nodes.forEach(function(node) {
+      graph.nodes.forEach(function(node) {
         if (maxx - minx > 0.05) node.x = 100 + (width - 200) * (node.x - minx) / (maxx - minx);
         if (maxy - miny > 0.05) node.y = 100 + (height - 200) * (node.y - miny) / (maxy - miny);
       });

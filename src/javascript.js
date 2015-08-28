@@ -30,17 +30,30 @@ var injectButtons = function(node_names) {
 
   location.append($('<input class="button dark button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
   location.on("click", ".button_optimize", function() {
+    var netEffectOptimizer = new NetEffectOptimizer({
+      wanted_increase: view_model.get_improvement()
+    });
+    percentages = {};
+    for (var i = 0, l = node_names.length; i < l; i++) {
+      percentages[node_names[i]] = aira.determineOptimalNodeSimple(i, netEffectOptimizer);
+    }
+
     var res = aira.determineBestNodeFromAll();
+    drawTable(res);
+    res = aira.createAiraNetworkJson(res);
+
+    var bubbleChartVisualization = new BubbleChartVisualization(res, percentages);
+    bubbleChartVisualization.render();
+  });
+};
+
+var drawTable= function(res) {
     var html = '<ol>';
     for (var i = 0; i < res.length; i++) {
       html = html + '<li><strong>' + res[i].name + '</strong>: ' + res[i].val + '</li>';
     }
     html += '</ol>';
     $(".effect .content").html(html);
-    var bubbleChartVisualization = new BubbleChartVisualization();
-    res = aira.createAiraNetworkJson(res);
-    bubbleChartVisualization.render(res);
-  });
 };
 
 var injectSimulationFunctionality = function() {
