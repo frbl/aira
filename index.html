@@ -158,8 +158,8 @@ var start_simulation = function (json_data) {
   var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
   var_model = new VarModel(var_coefficients, node_names, data_summary,  true, variable_mapping);
 
-  //data_directedNetwerk = $.extend(true, {}, data_summary.significant_network);
-  //render_netDynamisch();
+  data_directedNetwerk = $.extend(true, {}, data_summary.significant_network);
+  render_netDynamisch();
 
   data_directedNetwerk = var_model.to_json();
   render_netDynamisch('#netFullDynamisch');
@@ -229,9 +229,9 @@ $(document).ready(function () {
     </script>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
+    <script src='src/bubbleChartVisualization.js'></script>
     <script src='src/d3hgi.js'></script>
     <script src='src/d3hgi_render.js'></script>
-    <script src='src/bubbleChartVisualization.js'></script>
     <script src='src/variableMapping.js'></script>
     <script src='src/jsonParser.js'></script>
     <script src='src/viewModel.js'></script>
