@@ -234,7 +234,7 @@ Aira.prototype.createAiraNetworkJson = function(data) {
 
   data.forEach(function(entry) {
     result.nodes.push({
-      "name": variable_mapping.get_translation(entry.name),
+      "name": variable_mapping.get_value(entry.name),
       "key": entry.name,
       "val": entry.val
     });
