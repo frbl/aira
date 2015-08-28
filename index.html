@@ -148,8 +148,9 @@
         $('#netDynamisch').html('');
         testdataset = data[$('#data_select').val()];
         start_simulation(data[$('#data_select').val()]);
+        bubbleChartVisualization = new BubbleChartVisualization()
         var res = aira.determineBestNodeFromAll();
-        render(aira.createAiraNetworkJson(res));
+        bubbleChartVisualization.render(aira.createAiraNetworkJson(res));
       });
     };
 
@@ -177,3 +178,4 @@
 <!--Thu Aug 27 16:16:23 CEST 2015-->
 <!--Thu Aug 27 16:17:05 CEST 2015-->
 <!--Fri Aug 28 12:51:06 CEST 2015-->
+<!--Fri Aug 28 13:04:39 CEST 2015-->
