@@ -19,36 +19,40 @@
       transform: scale(0.767354368932039, 0.767354368932039);
       height: 245.553398058252px;
     }
-    
+
     footer {
       position: relative;
       bottom: 0;
       width: 100%;
     }
-    
+
     #simulation-buttons {
       margin-right: auto;
       margin-left: auto;
       width: 100%;
     }
-    
+
     #shock {
       font-size: 150%;
       display: none;
       background-color: #ff0000;
     }
-    
+
     .line {
       visibility: hidden;
     }
-    
+
     .visible-line-hover,
     .visible-line-click {
       visibility: visible;
     }
-    
+
     .effect_list {
       min-height: 60px;
+    }
+
+    #panel {
+      padding-top:20px;
     }
   </style>
   <link rel="stylesheet" href="stylesheets/styles.css">
@@ -81,7 +85,8 @@
       <h3>Example</h3>
 
       <div class="bubble_chart" id="bubble_chart"></div>
-      <div class="effect_list" id="effect_list"><span class=''></span></div>
+      <div class="effect_list advice" id="effect_list"><span class=''></span></div>
+      <div class="percentage_advice advice" id="percentage_advice"><span class=''></span></div>
       <div id="panel" class="col-md-6">
         <form action="">
           <div style="visibility:hidden; width:0px; height:0px;">
@@ -90,7 +95,6 @@
             <select id='prediction' class="target">
             </select>
           </div>
-
           <h4> Data </h4>
           <select id='data_select' class="data_select target">
           </select>
@@ -177,4 +181,4 @@
 </body>
 
 </html>
-<!--Mon Aug 31 09:52:48 CEST 2015-->
+<!--Mon Aug 31 09:56:52 CEST 2015-->
