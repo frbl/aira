@@ -46,9 +46,9 @@
     .visible-line-click {
       visibility: visible;
     }
-
+    
     .effect_list {
-      min-height:60px;
+      min-height: 60px;
     }
   </style>
   <link rel="stylesheet" href="stylesheets/styles.css">
@@ -84,7 +84,7 @@
       <div class="effect_list" id="effect_list"><span class=''></span></div>
       <div id="panel" class="col-md-6">
         <form action="">
-          <div style="visibility:hidden; width:0px; height:0px;" >
+          <div style="visibility:hidden; width:0px; height:0px;">
 
             <label> Prediction </label>
             <select id='prediction' class="target">
@@ -148,9 +148,12 @@
         $('#netDynamisch').html('');
         testdataset = data[$('#data_select').val()];
         start_simulation(data[$('#data_select').val()]);
-        bubbleChartVisualization = new BubbleChartVisualization()
-        var res = aira.determineBestNodeFromAll();
-        bubbleChartVisualization.render(aira.createAiraNetworkJson(res));
+
+        var netEffectOptimizer = new NetEffectOptimizer({
+          wanted_increase: view_model.get_improvement()
+        });
+        var bubbleChartVisualization = new BubbleChartVisualization(aira, netEffectOptimizer);
+        bubbleChartVisualization.render();
       });
     };
 
@@ -174,4 +177,4 @@
 </body>
 
 </html>
-<!--Fri Aug 28 13:09:33 CEST 2015-->
+<!--Mon Aug 31 09:52:48 CEST 2015-->
