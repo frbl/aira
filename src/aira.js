@@ -57,7 +57,7 @@ Aira.prototype.determineBestNodeFromAll = function() {
  * @params options
  * @returns {{}}
  */
-Aira.prototype.determineOptimalNodeSimple = function(variable_to_improve, optimizer) {
+Aira.prototype.determineOptimalNodeSimple = function(variable_to_improve, optimizer, options) {
   var variable, irf, cumulative_name, name,
     result = {},
     cumulative = {},
@@ -90,11 +90,13 @@ Aira.prototype.determineOptimalNodeSimple = function(variable_to_improve, optimi
       result[name],
       result[cumulative_name],
       this.var_model.get_data_summary(variable_to_improve_name),
-      this.var_model.get_data_summary(name));
+      this.var_model.get_data_summary(name),
+      options
+    );
     effects[name] = airaOptimalVariableFinder.execute(optimizer);
   }
 
-  if (DEBUG > -1) {
+  if (DEBUG > 1) {
     console.log('Effects found for variable: ' + variable_to_improve);
     var interval;
     console.log(effects);
@@ -186,7 +188,6 @@ Aira.prototype.determineOptimalNode = function(variable_to_improve, options) {
     result[this.var_model.node_names[variable]] = temp_result;
   }
 
-  console.log(result);
   return result;
 };
 

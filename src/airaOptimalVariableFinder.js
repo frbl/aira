@@ -82,13 +82,15 @@ var FinderCommand = function (command, options) {
   this.execute = command;
 };
 
-var AiraOptimalVariableFinder = function (irf, cumulative_irf, variable_to_improve_summary, variable_summary) {
+var AiraOptimalVariableFinder = function (irf, cumulative_irf, variable_to_improve_summary, variable_summary, options) {
   return {
     execute: function (command) {
-      command.options.variable_to_improve_summary = variable_to_improve_summary;
-      command.options.variable_summary = variable_summary;
+      options = options === undefined ? command.options : options;
 
-      return command.execute(irf, cumulative_irf, command.options);
+      options.variable_to_improve_summary = variable_to_improve_summary;
+      options.variable_summary = variable_summary;
+
+      return command.execute(irf, cumulative_irf, options);
     }
   };
 };

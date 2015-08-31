@@ -5,7 +5,8 @@ var BubbleChartVisualization = (function() {
     min_size = 10,
     min = 999999,
     max = -99999,
-    graph,percentages;
+    default_wanted_increase = 10,
+    graph,optimizer;
 
   var bubble_force_layout = d3.layout.force()
     .charge(-10000)
@@ -34,9 +35,9 @@ var BubbleChartVisualization = (function() {
     return ((Math.log(1 + Math.abs(d.val)) - min) / (max - min)) * (max_size - min_size) + min_size;
   };
 
-  var get_direction = function(d) {
-    var res = 'Meer ';
-    if (Math.sign(d.val) == -1) res = 'Minder ';
+  var get_direction = function(d, higher, lower) {
+    var res = higher;
+    if (Math.sign(d.val) == -1) res = lower;
     return res + d.name.toLowerCase();
   };
 
@@ -61,7 +62,7 @@ var BubbleChartVisualization = (function() {
       "index": -1
     };
     graph.nodes.forEach(function(node) {
-      svg.select("#label_" + node.key).text(node.index == d.index || original ? get_direction(node) : node.name);
+      svg.select("#label_" + node.key).text(node.index == d.index || original ? get_direction(node, 'Meer ', 'Minder ') : node.name);
     });
   };
 
@@ -86,22 +87,25 @@ var BubbleChartVisualization = (function() {
   };
 
   var renderPercentagesText = function(d) {
+    var wanted_increase = Math.sign(d.val) >= 0 ? default_wanted_increase : -1 * default_wanted_increase;
     var number_of_options = 0;
-    var result = 'Om de variabele ' + d.name + ' met 10% te verhogen, kunt u ';
-    for (var effect in percentages[d.key]) {
-      current = percentages[d.key][effect].needed_difference * 100;
+    var result = 'Om uw \'' + d.name + '\' met '+Math.abs(wanted_increase)+'% te '+ (Math.sign(d.val) >= 0 ? 'verhogen': 'verlagen') +', kunt u ';
+    var percentages = aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
+
+    for (var effect in percentages) {
+      current = percentages[effect].needed_difference * 100;
       if(current < -100) continue;
 
       number_of_options += 1;
-      result += ('uw gemiddelde hoeveelheid ' + effect + ' met ' + Math.abs(current.toFixed(0)) + '% ' +( current > 0 ? 'verhogen' : 'verlagen')) + ', ';
+      console.log(effect);
+      result += ('uw gemiddelde hoeveelheid \'' + effect + '\' met ' + Math.abs(current.toFixed(0)) + '% ' +( current > 0 ? 'verhogen' : 'verlagen')) + ', ';
     }
-    console.log(result);
     d3.select("#percentage_advice").select("span").append("span").text(result);
   };
 
   var renderNodesFromNodePerspective = function(d) {
     var result_text = [];
-    result_text.push(get_direction(d).toLowerCase());
+    result_text.push(get_direction(d, 'meer ', 'minder '));
     graph.links.forEach(function(edge) {
       if (edge.source.index == d.index) {
         var res = graph.nodes.filter(function(node) {
@@ -114,9 +118,9 @@ var BubbleChartVisualization = (function() {
           };
         })[0];
         svg.select("#label_" + res.key).text(function(d) {
-          return get_direction(res);
+          return get_direction(res, 'Meer ', 'Minder ');
         });
-        result_text.push(get_direction(res).toLowerCase());
+        result_text.push(get_direction(res, 'Meer ', 'Minder '));
       }
     });
     renderResultText(result_text);
@@ -172,9 +176,10 @@ var BubbleChartVisualization = (function() {
     return x[0];
   };
 
-  function BubbleChartVisualization(graph_from_json, percentages_from_aira) {
-    graph = graph_from_json;
-    percentages = percentages_from_aira;
+  function BubbleChartVisualization(aira, provided_optimizer) {
+    var res = aira.determineBestNodeFromAll();
+    graph = aira.createAiraNetworkJson(res);
+    optimizer = provided_optimizer;
   }
 
   BubbleChartVisualization.prototype.render = function() {
@@ -237,7 +242,7 @@ var BubbleChartVisualization = (function() {
       })
       .style("text-anchor", "middle")
       .text(function(d) {
-        return get_direction(d);
+        return get_direction(d, 'Meer ', 'Minder ');
       });
 
 

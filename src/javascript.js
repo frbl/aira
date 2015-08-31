@@ -33,6 +33,7 @@ var injectButtons = function(node_names) {
     var netEffectOptimizer = new NetEffectOptimizer({
       wanted_increase: view_model.get_improvement()
     });
+
     percentages = {};
     for (var i = 0, l = node_names.length; i < l; i++) {
       percentages[node_names[i]] = aira.determineOptimalNodeSimple(i, netEffectOptimizer);
@@ -42,18 +43,18 @@ var injectButtons = function(node_names) {
     drawTable(res);
     res = aira.createAiraNetworkJson(res);
 
-    var bubbleChartVisualization = new BubbleChartVisualization(res, percentages);
+    var bubbleChartVisualization = new BubbleChartVisualization(aira, netEffectOptimizer);
     bubbleChartVisualization.render();
   });
 };
 
-var drawTable= function(res) {
-    var html = '<ol>';
-    for (var i = 0; i < res.length; i++) {
-      html = html + '<li><strong>' + res[i].name + '</strong>: ' + res[i].val + '</li>';
-    }
-    html += '</ol>';
-    $(".effect .content").html(html);
+var drawTable = function(res) {
+  var html = '<ol>';
+  for (var i = 0; i < res.length; i++) {
+    html = html + '<li><strong>' + res[i].name + '</strong>: ' + res[i].val + '</li>';
+  }
+  html += '</ol>';
+  $(".effect .content").html(html);
 };
 
 var injectSimulationFunctionality = function() {
@@ -130,7 +131,7 @@ var clickNode = function(node_name_id, node_id) {
 
   irf = linearInterpolation(irf, view_model.get_interpolation());
 
-  var interpolation = view_model.get_interpolation() == 0 ? 1 : view_model.get_interpolation();
+  var interpolation = view_model.get_interpolation() === 0 ? 1 : view_model.get_interpolation();
   simulation.setStepsToRun(view_model.get_steps() * interpolation);
   simulation.setIrf(irf);
   simulation.run(true);
@@ -153,7 +154,7 @@ var clickNode = function(node_name_id, node_id) {
       aira.determineOptimalNode(node_id, {
         degradation: [],
         threshold: view_model.get_threshold()
-      })
+      });
 
   }
 
