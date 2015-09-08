@@ -34,11 +34,6 @@ var injectButtons = function(node_names) {
       wanted_increase: view_model.get_improvement()
     });
 
-    percentages = {};
-    for (var i = 0, l = node_names.length; i < l; i++) {
-      percentages[node_names[i]] = aira.determineOptimalNodeSimple(i, netEffectOptimizer);
-    }
-
     var res = aira.determineBestNodeFromAll();
     drawTable(res);
     res = aira.createAiraNetworkJson(res);

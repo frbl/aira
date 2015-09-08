@@ -13,7 +13,7 @@ Simulation.prototype.run = function (clear_all) {
     this.intervals.push(setInterval((function (self) {
         return function () {
             self.simulateStep(1);
-        }
+        };
     })(this), Math.floor(1000 / this.frame_rate)));
     return true;
 };
@@ -31,7 +31,7 @@ Simulation.prototype.setStepsToRun = function (steps_to_run) {
 Simulation.prototype.simulateStep = function (direction) {
     var shockdiv = $("#shock");
     visualization_engine.setPlotlineLocation(((this.step / this.steps_to_run) * view_model.get_steps()));
-    if (this.step == 0) shockdiv.show();
+    if (this.step === 0) shockdiv.show();
     else shockdiv.fadeOut("slow");
 
     var node_id;
@@ -73,7 +73,7 @@ Simulation.prototype.plotValue = function (node, value) {
 
     if (!this.use_absolute_value) {
         var class_posneg = value >= 0 ? positive_class : negative_class;
-        network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg)
+        network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg);
     }
 
     value = isNaN(value) ? 0 : Math.abs(value);
