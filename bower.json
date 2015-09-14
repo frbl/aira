@@ -1,0 +1,22 @@
+{
+  "name": "AIRA",
+  "version": "0.1",
+  "homepage": "http://frbl.eu/aira",
+  "authors": [
+    "Frank Blaauw <frank.blaauw@gmail.com>"
+  ],
+  "description": "Automated impulse response analysis (AIRA), an algorithm and platform to automatically analyze intensive individual longitudinal data by means of impulse response functions (IRF) and simulation",
+  "main": "aira.js",
+  "license": "None yet",
+  "private": true,
+  "dependencies": {
+    "mathjs": "*"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
