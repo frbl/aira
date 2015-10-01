@@ -5,6 +5,7 @@ function JsonParser(data, variable_mapping) {
   this.SIGNIFICANT_NETWORK_LOCATION = 0;
   this.CONTEMPORANEOS_NETWORK_LOCATION = 1;
   this.TOP_THREE_NETWORK_LOCATION = 2;
+  this.COMPLETE_DATA_LOCATION = 3;
   this.ENDOGEN_DATA_LOCATION = 3;
   this.EXOGEN_DATA_LOCATION = 4;
   this.EXTENDED_NETWORK_LOCATION = 5;
@@ -68,27 +69,24 @@ JsonParser.prototype.getSubsetOfData = function(subset) {
 };
 
 JsonParser.prototype.getYDataFromJson = function() {
-  var variables = [],
-  data = this.data[this.ENDOGEN_DATA_LOCATION].endogen.data.body;
+  console.log(this.data[this.COMPLETE_DATA_LOCATION].endogen);
+  return this.data[this.COMPLETE_DATA_LOCATION].endogen.body;
 };
 
 JsonParser.prototype.getExogenVariables = function(node_names) {
-  var data = this.data[this.EXTENDED_NETWORK_LOCATION].data.header;
-  var re = new RegExp(/[a-zA-Z_-]*\.l[0-9]*/);
-  var exovars = _.select(data, function(entry){ return !_.contains(node_names, entry) && !entry.match(re) ;});
-  console.log(exovars);
-  return this.getSubsetOfData(exovars);
+  return this.data[this.COMPLETE_DATA_LOCATION].exogen.body;
 };
 
 JsonParser.prototype.dataSummaryFromJson = function(node_names) {
   var node_name,
     result = {},
     // The data needs to be transposed so we don't have 1 array with 90 arrays, but x arrays with 90 measurements
-    raw_data = transpose(this.data[this.EXTENDED_NETWORK_LOCATION][this.DATA_LOCATION][this.BODY_LOCATION]);
+    endogen_data = this.data[this.COMPLETE_DATA_LOCATION].endogen,
+    raw_data = transpose(endogen_data.body);
 
   for (var i = 0; i < node_names.length; i++) {
     node_name = node_names[i];
-    this.data[this.EXTENDED_NETWORK_LOCATION][this.DATA_LOCATION][this.HEADER_LOCATION].indexOf(node_name);
+    endogen_data.header.indexOf(node_name);
 
     var average = calculateMean(raw_data[i]);
     var sd = standardDeviation(raw_data[i], average);
@@ -111,12 +109,13 @@ JsonParser.prototype.nodeKeysFromJson = function() {
 
 JsonParser.prototype.fullNetworkDataToMatrix = function(node_names) {
   var column, row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
-  var estimate = this.data[this.EXTENDED_NETWORK_LOCATION][this.COEFFICIENT_LOCATION][this.HEADER_LOCATION].indexOf("Estimate");
-  var std_error = this.data[this.EXTENDED_NETWORK_LOCATION][this.COEFFICIENT_LOCATION][this.HEADER_LOCATION].indexOf("Std. Error");
-  var t_value = this.data[this.EXTENDED_NETWORK_LOCATION][this.COEFFICIENT_LOCATION][this.HEADER_LOCATION].indexOf("t value");
-  var p_value = this.data[this.EXTENDED_NETWORK_LOCATION][this.COEFFICIENT_LOCATION][this.HEADER_LOCATION].indexOf("Pr(>|t|)");
+  var coeff_data = this.data[this.COMPLETE_DATA_LOCATION].coefs;
+  var estimate = coeff_data.header.indexOf("Estimate");
+  var std_error = coeff_data.header.indexOf("Std. Error");
+  var t_value = coeff_data.header.indexOf("t value");
+  var p_value = coeff_data.header.indexOf("Pr(>|t|)");
 
-  var coefficients = this.data[this.EXTENDED_NETWORK_LOCATION].coefs.body;
+  var coefficients = coeff_data.body;
   var var_coef = [createMatrix(0, node_names.length, node_names.length, false)];
 
   highest_lag = 1;

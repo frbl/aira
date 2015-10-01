@@ -5,16 +5,62 @@
  * @returns {Array}
  */
 var multiplyMatrices = function(first, second) {
-  var secondColumns = transpose(second);
-  return first.map(function(row) {
-    return secondColumns.map(function(column) {
-      return column.reduce(function(sum, value, index) {
-        return sum + value * row[index];
-      }, 0);
+
+  if (is_scalar(first)) {
+    return second.map(function(row) {
+      return row.map(function(value) {
+        return value * first;
+      });
     });
-  });
+  } else {
+    var secondColumns = transpose(second);
+    return first.map(function(row) {
+      return secondColumns.map(function(column) {
+        return column.reduce(function(sum, value, index) {
+          return sum + value * row[index];
+        }, 0);
+      });
+    });
+  }
 };
 
+/**
+ * Kronecker product
+ */
+var kroneckerProduct = function(first, second) {
+  dimensions_first = dimensions(first);
+  dimensions_second = dimensions(second);
+  size = pairWiseProduct(dimensions_first, dimensions_second);
+  result = createMatrix(0, size[0], size[1], false);
+  first.forEach(function(row, row_index) {
+    row.forEach(function(value, col_index) {
+      multiplyMatrices(value, second).forEach(function(resulting_row, resulting_row_index) {
+        resulting_row.forEach(function(resulting_value, resulting_col_index) {
+          r = (row_index * (dimensions_first[0] - 1)) + resulting_row_index;
+          c = (col_index * (dimensions_first[1] - 1)) + resulting_col_index;
+          result[r][c] = resulting_value;
+        });
+      });
+    });
+  });
+  return result;
+};
+
+var pairWiseProduct = function(vector_one, vector_two) {
+  //TODO: fail if dimensions differ
+  var result = new Array(vector_one.length);
+  for (var i = 0, l = vector_one.length; i < l; i++) {
+    result[i] = vector_one[i] * vector_two[i];
+  }
+  return result;
+};
+
+/**
+ * from http://www.jsoneliners.com/function/is-scalar/
+ */
+var is_scalar = function(obj) {
+  return (/string|number|boolean/).test(typeof obj);
+};
 
 /**
  *
@@ -106,6 +152,15 @@ var printMatrix = function(matrix) {
   }
   console.log('-----------------');
   return true;
+};
+
+/**
+ * Returns the dimensions of the matrix
+ */
+var dimensions = function(matrix) {
+  rows = matrix.length;
+  columns = matrix[0].length;
+  return [rows, columns];
 };
 
 /**
