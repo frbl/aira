@@ -31,7 +31,7 @@ var fabricateVarModel = function(make_positive) {
 };
 
 var fabricateSimpleVarModel = function() {
-  node_names = ['onrust', 'concentratie'];
+  var node_names = ['onrust', 'concentratie'];
   coeff = createMatrix(0,2,2,false);
   coeff[0][1]=0.5;
   coeff[1][0]=0.3;

@@ -159,12 +159,29 @@ var variable_mapping;
 var start_simulation = function (json_data) {
   var json_parser = new JsonParser(json_data, variable_mapping);
   var node_names = json_parser.nodeKeysFromJson();
+  var exogen_names = json_parser.exogenKeysFromJson();
 
-  var data_summary = json_parser.dataSummaryFromJson(node_names);
-  var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
-  var_model = new VarModel(var_coefficients, node_names, data_summary,  true, variable_mapping);
+  var significant_network = json_parser.getSignificantNetworkFromJson();
 
-  data_directedNetwerk = $.extend(true, {}, data_summary.significant_network);
+  // Var coefficients
+  var var_coefficients = json_parser.getEndogenCoefficientMatrix();
+  var exogen_var_coefficients = json_parser.getExogenCoefficientMatrix();
+
+  // The actual data
+  var y_values = json_parser.getYDataFromJson(node_names);
+  var exogen_values = json_parser.getExogenDataFromJson(node_names);
+
+  var var_model = new VarModel(
+          var_coefficients, exogen_var_coefficients,
+          node_names, exogen_names,
+          y_values, exogen_values,
+          significant_network,
+          true,
+          variable_mapping
+  );
+
+  // Copy the object
+  data_directedNetwerk = $.extend(true, {}, var_model.getSignificantNetwork());
   render_netDynamisch();
 
   data_directedNetwerk = var_model.to_json();

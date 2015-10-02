@@ -150,3 +150,12 @@ ImpulseResponseCalculator.prototype.delta = function (B, index) {
   return B[index];
 };
 
+ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function(steps, bootstrap_iterations) {
+  // shuffle the measurement indices
+
+  // Shuffle the residuals according to the var indices
+
+  // calculate the Y value using
+
+
+};

@@ -1,41 +1,55 @@
 var Var = function() {};
 
-Var.prototype.compute = function(y_values, lags, exogen_values) {
-  var T = y_values.length - lags;
-  console.log(exogen_values);
-  var k = y_values[0].length;
-  var Y = transpose(y_values);
-  var Z = createMatrix(0, k * lags, T, false);
+Var.prototype.compute = function(y_values, exogen_values, node_names, exogen_names, significant_network, lags) {
+  // Number of measurements
+  var T = y_values.length - lags,
+    // Number of variables
+    k = y_values[0].length,
+    // The original measurements, transposed
+    Y = transpose(y_values),
+    // The Z matrix to store the results in
+    Z = createMatrix(0, k * lags, T, false),
+    result;
+
+  exogen_values = transpose(exogen_values);
+
+  // Create the Z Matrix (Lutkepohl, 2015)
   for (var i = 0; i < lags; i++) {
     for (var j = 0; j < k; j++) {
       for (var t = 0; t < T; t++) {
         row = j;
-        col = (t - (i+1)) + lags;
+        col = (t - (i + 1)) + lags;
         Z[(k * i) + j][(t)] = Y[row][col];
-        //Z[(k * i) + j][(t)] = row + " " + col;
-        //console.log(row + " " + col);
       }
     }
   }
 
-
-  exogen_values = transpose(exogen_values);
+  // Add the exogen values to the matrix (add them after the loop, since they don't need lagging)
+  // TODO: This can be done in a native method, without a loop probably.
   for (i = 0; i < exogen_values.length; i++) {
     Z.push(exogen_values[i]);
   }
-printMatrix(transpose(Z));
-  console.log();
-  //Y = subsetMatrix(Y, 0, T);
-  //Y = subsetMatrix(Y, lags-1, T + lags-1);
+
+  // Subset the Y matrix so it has the correct dimensions and offset to perform the OLS
   Y = subsetMatrix(Y, lags, T + lags);
-  console.log(Z);
-  var result = multiplyMatrices(Z, transpose(Z));
-  console.log(result);
+  result = multiplyMatrices(Z, transpose(Z));
   result = math.inv(result);
   result = multiplyMatrices(transpose(Z), result);
-  console.log(dimensions(Y));
   result = multiplyMatrices(Y, result);
-  console.log(dimensions(result));
-  result = subsetMatrix(result, 0, k);
-  return (result);
+
+  // Only return the endogen coefficients. These are used in the networks
+  var total_length = result[0].length;
+  var var_coefficients = subsetMatrix(result, 0, k);
+  var exogen_coefficients = subsetMatrix(result, k, total_length);
+
+  var var_model = new VarModel(
+      var_coefficients, exogen_coefficients,
+      node_names, exogen_names,
+      y_values, exogen_values,
+      significant_network,
+      false,
+      variable_mapping
+  );
+
+  return var_model;
 };
