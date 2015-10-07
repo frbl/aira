@@ -148,6 +148,7 @@ ImpulseResponseCalculator.prototype.delta = function(B, index) {
   }
   return B[index];
 };
+<<<<<<< HEAD
 
 ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function(steps, bootstrap_iterations) {
 
@@ -165,4 +166,5 @@ ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = fun
 
 
 };
-
+=======
+>>>>>>> master
