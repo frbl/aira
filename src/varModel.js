@@ -14,9 +14,11 @@ var VarModel = function (var_coefficients, exogenous_coefficients,
 
     this.lags = var_coefficients.length;
     this.number_of_variables = node_names.length;
-    this.number_of_measurements = y_values[0].length;
+    this.number_of_measurements = y_values.length;
 
     this.node_names = node_names;
+    this.exogen_names = exogen_names;
+
     this.significant_network = significant_network;
     this.variable_mapping = variable_mapping;
     this.y_values = y_values;
@@ -24,6 +26,7 @@ var VarModel = function (var_coefficients, exogenous_coefficients,
 
     // Merge all var coefficients into one matrix
     var concatted_var_coefficients = [];
+
     for (var i = 0; i < this.lags; i++) {
         concatted_var_coefficients = concatted_var_coefficients.concat(transpose(var_coefficients[i]));
     }
@@ -51,30 +54,14 @@ VarModel.prototype.getSignificantNetwork = function () {
     return this.significant_network;
 };
 
-
-VarModel.prototype.getResiduals = function() {
-    var current=[];
-
-    for(var p = 0 ; p < this.lags ; p++) {
-        current.push(this.y_values[p]);
-    }
-
-
-    for(var i = 0 ; i < this.number_of_measurements - this.lags ; i++) {
-
-        current.pop();
-        //current.
-    }
-};
-
 VarModel.prototype.calculateNewOutput = function(endogen, exogen) {
     if(endogen.length != this.lags) throw "The endogen values should be for both lags";
-    console.log(this.var_coefficients);
     var result = [],
         i, temp;
     for(i = 0 ; i < endogen.length; i++) {
 
         temp = math.multiply(this.getCoefficients(i+1), endogen[i]);
+
 
         if(exogen !== undefined || [])
             temp = math.add(temp, math.multiply(this.exogen_coefficients, exogen));
@@ -82,6 +69,35 @@ VarModel.prototype.calculateNewOutput = function(endogen, exogen) {
         result.push(temp);
     }
 
+    return arraySum(result);
+};
+
+VarModel.prototype.getResiduals = function() {
+    var current_endo = [],
+        current_exo,
+        result = [],
+        temp;
+    for(var p = 0 ; p < this.lags ; p++) {
+        current_endo.unshift(this.y_values[p]);
+    }
+
+    for(var i = this.lags ; i < this.number_of_measurements; i++) {
+
+        // We have some data with incomplete sets of endogen measurements (the first P measurements are cut off,
+        // which is fine)
+        if(this.exogen_values.length < this.number_of_measurements)
+            current_exo = this.exogen_values[i-this.lags];
+        else
+            current_exo = this.exogen_values[i];
+
+        temp = this.calculateNewOutput(current_endo, current_exo);
+
+        // Residual here is interpreted as the difference between observed and fitted.
+        result.push(math.subtract(this.y_values[i], temp));
+
+        current_endo.pop();
+        current_endo.unshift(this.y_values[i]);
+    }
     return result;
 };
 

@@ -146,5 +146,5 @@ JsonParser.prototype.exogenCoefficientMatrix = function (equation_node_names, ex
 };
 
 JsonParser.prototype.getSignificantNetworkFromJson = function() {
-    result.significant_network = this.data[this.SIGNIFICANT_NETWORK_LOCATION];
+    return  this.data[this.SIGNIFICANT_NETWORK_LOCATION];
 };

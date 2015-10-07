@@ -158,29 +158,48 @@ describe("VarModel", function () {
         });
 
         describe("getResiduals", function () {
-           it('should determine the correct residuals in a var_model', function() {
+            it('should determine the correct residuals in a var_model', function () {
+                var result = varmodel.getResiduals();
 
+                var expected = [
+                    [-0.6, -0.6, -0.6],
+                    [-1.7, -1.7, -1.7],
+                    [-2.8, -2.8, -2.8],
+                    [-3.9, -3.9, -3.9],
+                    [-5, -5, -5],
+                    [-6.1, -6.1, -6.1]
+                ];
 
-           });
+                for(var i = 0 ; i < result.length ; i++) {
+                    for(var j = 0 ; j < result[i].length ; j++) {
+                        expect(result[i][j]).toBeCloseTo(expected[i][j]);
+                    }
+                }
+            });
+
+            it('should determine the correct have the correct length (nr of measurements - lags)', function () {
+                var result = varmodel.getResiduals();
+                expect(result.length).toEqual(varmodel.number_of_measurements - varmodel.lags)
+            });
         });
 
         describe("get_coefficients", function () {
-            it('can retrieve the coefficient matrix for each lag', function() {
+            it('can retrieve the coefficient matrix for each lag', function () {
                 expect(varmodel.getCoefficients(1)).toEqual(var_coefficients[0]);
                 expect(varmodel.getCoefficients(2)).toEqual(var_coefficients[1]);
             });
 
-            it('throws if the lag is higher than the model lag', function() {
+            it('throws if the lag is higher than the model lag', function () {
                 lag = 10;
-                var func = function() {
+                var func = function () {
                     varmodel.getCoefficients(lag);
                 };
                 expect(func).toThrow();
             });
 
-            it('throws if the lag is lower than the model lag', function() {
+            it('throws if the lag is lower than the model lag', function () {
                 lag = 0;
-                var func = function() {
+                var func = function () {
                     varmodel.getCoefficients(lag);
                 };
                 expect(func).toThrow();
@@ -192,7 +211,7 @@ describe("VarModel", function () {
             it('can detect that the endogen dimensions are incorrect', function () {
                 var endogen = [[1, 2, 3, 4, 5, 6]];
                 var exogen = [[1, 2, 3, 4, 5, 6], [6, 5, 4, 3, 2, 1]];
-                var func = function() {
+                var func = function () {
                     varmodel.calculateNewOutput(endogen, exogen);
                 };
                 expect(func).toThrow();
@@ -203,7 +222,9 @@ describe("VarModel", function () {
                 var exogen = [1, 0, 0, 0, 0, 0, 0];
                 var result = varmodel.calculateNewOutput(endogen, exogen);
                 console.log(result);
-                expect(result).toEqual([[3.1,3.1,3.1],[3.1,3.1,3.1]])
+                expect(result.length).toEqual(varmodel.number_of_variables);
+                expect(result).toEqual(arraySum([[3.1, 3.1, 3.1], [3.1, 3.1, 3.1]]));
+                expect(result).toEqual([6.2, 6.2, 6.2])
             });
         });
     });
