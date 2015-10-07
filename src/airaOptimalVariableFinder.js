@@ -26,6 +26,7 @@ var Optimizers = (function () {
     },
 
     netEffectOptimizer: function (irf, cumulative_irf, options) {
+      // IRF and Cumulative irf are here the effects a variable has on the variable to improve.
       var i, prev;
       var sign_switches = 0;
       var total = 0;
@@ -35,6 +36,7 @@ var Optimizers = (function () {
 
       // The cumulative effect the variable has on the variable to improve
       var net_effect = cumulative_irf[length - 1];
+
       // If the effect is to extremely low, skip this variable, it is not suitable
       if (Math.abs(net_effect) < 0.001) return {
         net_effect: Infinity,

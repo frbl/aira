@@ -107,7 +107,7 @@ Aira.prototype.determineOptimalNodeSimple = function(variable_to_improve, optimi
           console.log(effect + ':' + effects[effect][interval]);
         }
       }
-    }
+     }
   }
 
   return effects;

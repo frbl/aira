@@ -13,7 +13,7 @@ describe('Var', function() {
     vector_autoregressor = new Var();
   });
 
-  fit('should be able to compute a good VAR model for the Y variables', function() {
+  it('should be able to compute a good VAR model for the Y variables', function() {
     var data_summary = json_parser.dataSummaryFromJson(node_names);
     var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
     var var_model = new VarModel(var_coefficients, node_names, data_summary,  true, variable_mapping);
