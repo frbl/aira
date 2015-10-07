@@ -157,6 +157,12 @@ describe("VarModel", function () {
 
         });
 
+        describe("getResiduals", function () {
+           it('should determine the correct residuals in a var_model', function() {
+
+
+           });
+        });
 
         describe("get_coefficients", function () {
             it('can retrieve the coefficient matrix for each lag', function() {

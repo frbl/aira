@@ -220,38 +220,42 @@ describe("ImpulseResponseCalculator", function() {
     });
 
     describe('Bootstrap', function() {
-      var network,
-        json_parser,
-        node_names,
-        vector_autoregressor,
-        variable_mapping;
+    //  var network,
+    //    json_parser,
+    //    node_names,
+    //    vector_autoregressor,
+    //    variable_mapping;
+    //
+    //  beforeEach(function() {
+    //    network = fabricateFullNetworLagOneData();
+    //    variable_mapping = fabricateVariableMapping();
+    //    json_parser = new JsonParser(network, variable_mapping);
+    //    node_names = json_parser.nodeKeysFromJson();
+    //    vector_autoregressor = new Var();
+    //  });
+    //
+    //  it('should be able to compute a good VAR model for the Y variables', function() {
+    //    var data_summary = json_parser.dataSummaryFromJson(node_names);
+    //    var var_coefficients = json_parser.coefficientMatrix(node_names);
+    //    var var_model = new VarModel(var_coefficients, node_names, data_summary, true, variable_mapping);
+    //
+    //    var y_values = json_parser.getYDataFromJson(node_names);
+    //    var lags = var_model.lags;
+    //    var exogen_values = json_parser.getExogenDataFromJson(node_names);
+    //    var result = vector_autoregressor.compute(y_values, lags, exogen_values);
+    //
+    //    expect(dimensions(result)).toEqual(dimensions(var_coefficients[0]));
+    //    for (var i = 0; i < result.length; i++) {
+    //      var row = result[i];
+    //      for (var j = 0; j < row.length; j++) {
+    //        var result_value = row[j];
+    //        expect(result_value).toBeCloseTo(var_coefficients[0][i][j], 4);
+    //      }
+    //    }
+    //  });
+      fit('should shuffle', function() {
+        impulse_response_calculator.bootstrappedImpulseResponseCalculation(3, 100)
 
-      beforeEach(function() {
-        network = fabricateFullNetworLagOneData();
-        variable_mapping = fabricateVariableMapping();
-        json_parser = new JsonParser(network, variable_mapping);
-        node_names = json_parser.nodeKeysFromJson();
-        vector_autoregressor = new Var();
-      });
-
-      it('should be able to compute a good VAR model for the Y variables', function() {
-        var data_summary = json_parser.dataSummaryFromJson(node_names);
-        var var_coefficients = json_parser.coefficientMatrix(node_names);
-        var var_model = new VarModel(var_coefficients, node_names, data_summary, true, variable_mapping);
-
-        var y_values = json_parser.getYDataFromJson(node_names);
-        var lags = var_model.lags;
-        var exogen_values = json_parser.getExogenDataFromJson(node_names);
-        var result = vector_autoregressor.compute(y_values, lags, exogen_values);
-
-        expect(dimensions(result)).toEqual(dimensions(var_coefficients[0]));
-        for (var i = 0; i < result.length; i++) {
-          var row = result[i];
-          for (var j = 0; j < row.length; j++) {
-            var result_value = row[j];
-            expect(result_value).toBeCloseTo(var_coefficients[0][i][j], 4);
-          }
-        }
       });
     });
   });

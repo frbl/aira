@@ -413,3 +413,12 @@ function sign(x) {
   }
   return NaN;
 }
+
+/**
+ * Shuffles the array provided to it in a random order
+ * @param ordered array
+ * @returns shuffled array
+ */
+var shuffle = function(array) {
+  return array.sort(function() { return 0.5 - Math.random() });
+};

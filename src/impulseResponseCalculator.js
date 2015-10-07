@@ -151,6 +151,13 @@ ImpulseResponseCalculator.prototype.delta = function (B, index) {
 };
 
 ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function(steps, bootstrap_iterations) {
+
+  var indices = makeSequenceArray(1, 0, this.var_model.number_of_variables);
+  indices = shuffle(indices);
+  console.log(indices);
+
+  this.var_model.number_of_variables
+
   // shuffle the measurement indices
 
   // Shuffle the residuals according to the var indices

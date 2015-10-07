@@ -14,6 +14,8 @@ var VarModel = function (var_coefficients, exogenous_coefficients,
 
     this.lags = var_coefficients.length;
     this.number_of_variables = node_names.length;
+    this.number_of_measurements = y_values[0].length;
+
     this.node_names = node_names;
     this.significant_network = significant_network;
     this.variable_mapping = variable_mapping;
@@ -51,19 +53,33 @@ VarModel.prototype.getSignificantNetwork = function () {
 
 
 VarModel.prototype.getResiduals = function() {
+    var current=[];
 
+    for(var p = 0 ; p < this.lags ; p++) {
+        current.push(this.y_values[p]);
+    }
+
+
+    for(var i = 0 ; i < this.number_of_measurements - this.lags ; i++) {
+
+        current.pop();
+        //current.
+    }
 };
 
 VarModel.prototype.calculateNewOutput = function(endogen, exogen) {
     if(endogen.length != this.lags) throw "The endogen values should be for both lags";
     console.log(this.var_coefficients);
     var result = [],
-        i;
-
+        i, temp;
     for(i = 0 ; i < endogen.length; i++) {
 
-        result.push(math.add(math.multiply(this.getCoefficients(i+1), endogen[i]),
-                 math.multiply(this.exogen_coefficients, exogen)));
+        temp = math.multiply(this.getCoefficients(i+1), endogen[i]);
+
+        if(exogen !== undefined || [])
+            temp = math.add(temp, math.multiply(this.exogen_coefficients, exogen));
+
+        result.push(temp);
     }
 
     return result;
