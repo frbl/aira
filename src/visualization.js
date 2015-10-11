@@ -72,8 +72,8 @@ Visualization.prototype._removePlotLine = function () {
 };
 
 Visualization.prototype.setPlotlineLocation = function (x_value) {
-  this._removePlotLine();
-  this._addPlotLine(x_value);
+  //this._removePlotLine();
+  //this._addPlotLine(x_value);
 };
 
 
@@ -111,7 +111,7 @@ Visualization.prototype.draw = function (transposed_irf) {
     },
 
     title: {
-      text: 'Impulse response',
+      text: 'Impulse response graph',
       x: -20 //center
     },
     subtitle: {
@@ -123,12 +123,12 @@ Visualization.prototype.draw = function (transposed_irf) {
     },
     xAxis: {
       title: {
-        text: 'Time'
+        text: 'Horizon (time steps)'
       }
     },
     yAxis: {
       title: {
-        text: 'Response'
+        text: 'Response (Y<sub>t</sub> - d)'
       },
       plotLines: [{
         value: 0,

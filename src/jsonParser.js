@@ -122,7 +122,7 @@ JsonParser.prototype.coefficientMatrix = function (node_names) {
 
 
 JsonParser.prototype.exogenCoefficientMatrix = function (equation_node_names, exogen_names) {
-    var column, row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
+    var row, current_index, column_node_name, node_name, current_row;
     var coeff_data = this.data[this.COMPLETE_DATA_LOCATION].coefs;
     var estimate = coeff_data.header.indexOf("Estimate");
     var coefficients = coeff_data.body;
