@@ -257,11 +257,8 @@ describe("ImpulseResponseCalculator", function () {
                 impulse_response_calculator = new ImpulseResponseCalculator(var_model);
             });
 
-            it('should be able to compute a good VAR model for the Y variables', function () {
-
-                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(10, 50);
-                //console.log(result);
-
+            fit('should be able to compute a good VAR model for the Y variables', function () {
+                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 10, 50);
             });
 
             it('should have the correct dimensions', function () {

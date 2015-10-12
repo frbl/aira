@@ -122,8 +122,14 @@ var clickNode = function(node_name_id, node_id) {
 
   console.log(node_id + " < id and name > " + node_name_id);
   var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
-  visualization_engine.draw(irf);
+  var bootstrapped_irf;
+  if(view_model.get_chk_bootstrap()) {
+    bootstrapped_irf = impulse_response_calculator.bootstrappedImpulseResponseCalculation(node_id, 1, view_model.get_steps(), 100);
+  }
 
+  visualization_engine.draw(irf, bootstrapped_irf);
+
+  irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
   irf = linearInterpolation(irf, view_model.get_interpolation());
 
   var interpolation = view_model.get_interpolation() === 0 ? 1 : view_model.get_interpolation();

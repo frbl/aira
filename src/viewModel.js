@@ -28,3 +28,12 @@ ViewModel.prototype.get_improvement = function() {
     }
     return this.improvement.val()
 };
+
+
+ViewModel.prototype.get_chk_bootstrap = function() {
+    if (typeof this.chk_bootstrap === 'undefined') {
+        this.chk_bootstrap = $('#chk-bootstrap');
+    }
+    return this.chk_bootstrap.prop('checked')
+};
+

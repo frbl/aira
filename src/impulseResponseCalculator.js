@@ -150,7 +150,6 @@ ImpulseResponseCalculator.prototype.delta = function (B, index) {
 };
 
 ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations) {
-    console.log('pre');
     var var_orig = this.var_model,
         current_endo,
         current_exo,
@@ -203,8 +202,24 @@ ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = fun
     }
 
     // calculate the Y value using
-    console.log('post');
     this.var_model = var_orig;
-    return irfs;
+
+    var irf_model,
+        irf_row;
+    // fabricate the 95% conf interval
+    irfs_ci_high = createMatrix(-Infinity, steps, this.var_model.number_of_variables, false);
+    irfs_ci_low = createMatrix(Infinity, steps, this.var_model.number_of_variables, false);
+    for (var i = 0; i < irfs.length; i++) {
+        irf_model = irfs[i];
+        for (var r = 0; r < irf_model.length; r++) {
+            irf_row = irf_model[r];
+            for (var c = 0; c < irf_row.length; c++) {
+                irfs_ci_high[r][c] = irfs_ci_high[r][c] > irf_row[c] ? irfs_ci_high[r][c] : irf_row[c];
+                irfs_ci_low[r][c] = irfs_ci_low[r][c] < irf_row[c] ? irfs_ci_low[r][c] : irf_row[c];
+            }
+        }
+    }
+
+    return {'low': irfs_ci_low, 'high': irfs_ci_high};
 };
 

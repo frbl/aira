@@ -4,6 +4,7 @@
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true"/>
     <link rel="stylesheet" media="all" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
@@ -96,6 +97,11 @@
                   <label>
                     <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency"> Frequency
                     estimation
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap"> Bootstrap
                   </label>
                 </div>
               </form>
@@ -264,6 +270,7 @@ $(document).ready(function () {
     <script src='src/visualization.js'></script>
     <script src='src/mathHelpers.js'></script>
     <script src='src/variableMapping.js'></script>
+    <script src='src/var.js'></script>
     <script src='src/impulseResponseCalculator.js'></script>
     <script src='src/aira.js'></script>
     <script src='src/airaOptimalVariableFinder.js'></script>

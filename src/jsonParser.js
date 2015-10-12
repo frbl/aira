@@ -60,7 +60,6 @@ JsonParser.prototype.exogenKeysFromJson = function () {
 };
 
 JsonParser.prototype.getYDataFromJson = function () {
-    console.log(this.data[this.COMPLETE_DATA_LOCATION].endogen);
     return this.data[this.COMPLETE_DATA_LOCATION].endogen.body;
 };
 
