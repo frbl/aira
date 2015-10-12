@@ -46,7 +46,6 @@ var fabricateVarModel = function (make_positive) {
     var node_names = ["uw_eigen_factor", "opgewektheid", "onrust", "concentratie", "piekeren", "eigenwaarde"];
     var exogen_names = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     var significant_network = fabricateHoegekisSignificantNetwork;
-    var make_possitive = true;
     var variable_mapping = new VariableMapping();
 
     return new VarModel(
@@ -54,20 +53,47 @@ var fabricateVarModel = function (make_positive) {
         node_names, exogen_names,
         y_values, exogen_values,
         significant_network,
-        make_possitive,
+        make_positive,
         variable_mapping
     );
 };
 
 var fabricateSimpleVarModel = function () {
     var node_names = ['onrust', 'concentratie'];
-    coeff = createMatrix(0, 2, 2, false);
+    var coeff = createMatrix(0, 2, 2, false);
     coeff[0][1] = 0.5;
     coeff[1][0] = 0.3;
-    var data_summary = {
-        "concentratie": {"average": 10, "sd": 2},
-        "onrust": {"average": 20, "sd": 3}
+
+    var y_values = createMatrix(3, 10, 2, false);
+
+
+    var significant_network = {
+        "links": [{
+            "source": 0,
+            "target": 1,
+            "coef": "0.5"
+        }, {
+            "source": 0,
+            "target": 0,
+            "coef": "0.2"
+        }],
+        "nodes": [{
+            "index": 0,
+            "name": node_names[0],
+            "type": "Negatief"
+        }, {
+            "index": 1,
+            "name": node_names[1],
+            "type": "positifief"
+        }]
     };
 
-    return new VarModel([coeff], node_names, data_summary, false, fabricateVariableMapping());
+    return new VarModel(
+        [coeff], [coeff],
+        node_names, node_names,
+        y_values, y_values,
+        significant_network,
+        false,
+        fabricateVariableMapping()
+    );
 };

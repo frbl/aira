@@ -149,7 +149,7 @@ ImpulseResponseCalculator.prototype.delta = function (B, index) {
     return B[index];
 };
 
-ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function (steps, bootstrap_iterations) {
+ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations) {
     console.log('pre');
     var var_orig = this.var_model,
         current_endo,
@@ -158,58 +158,53 @@ ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = fun
         indices = makeSequenceArray(1, 0, var_orig.number_of_measurements - (var_orig.lags + 1)),
         y_sampled,
         total_y_sampled = [],
-        var_models = [],
+        irfs = [],
         residuals = var_orig.getResiduals(),
         current_y_values,
         vector_autoregressor = new Var();
 
-    // Run the bootstrap for all variables. This will probably be moved out of this function
-    for (var variable_to_shock = 0; variable_to_shock < var_orig.number_of_variables; variable_to_shock++) {
+    // Bootstrap the var model
+    for (var iteration = 0; iteration < bootstrap_iterations; iteration++) {
 
-        // Bootstrap the var model
-        for (var iteration = 0; iteration < bootstrap_iterations; iteration++) {
-
-            // shuffle the measurement indices
-            indices = shuffle(indices);
-            current_endo = [];
-            y_sampled = [];
+        // shuffle the measurement indices
+        indices = shuffle(indices);
+        current_endo = [];
+        y_sampled = [];
 
 
-            for (var p = 0; p < var_orig.lags; p++) {
-                current_y_values = var_orig.y_values[p];
-                current_endo.unshift(current_y_values);
-                y_sampled.push(current_y_values);
-            }
-
-            // Each iteration of i we calculate the values of y_i
-            for (var i = var_orig.lags; i < var_orig.number_of_measurements; i++) {
-                current_exo = var_orig.exogen_values[i];
-                temp = var_orig.calculateNewOutput(current_endo, current_exo);
-
-                // Add random residual to the result
-                // TODO check whether these should be the residuals or the lutkepohl method
-                temp = math.add(temp, residuals[indices[i - 1]]);
-
-                y_sampled.push(temp);
-
-                current_endo.pop();
-                current_endo.unshift(var_orig.y_values[i]);
-            }
-            total_y_sampled.push(y_sampled);
-
-            this.var_model = vector_autoregressor.compute(
-                y_sampled, var_orig.exogen_values,
-                var_orig.node_names, var_orig.exogen_names,
-                var_orig.significant_network, var_orig.lags
-            );
-
-            var_models.push(this.runImpulseResponseCalculation(variable_to_shock, 1, steps))
+        for (var p = 0; p < var_orig.lags; p++) {
+            current_y_values = var_orig.y_values[p];
+            current_endo.unshift(current_y_values);
+            y_sampled.push(current_y_values);
         }
+
+        // Each iteration of i we calculate the values of y_i
+        for (var i = var_orig.lags; i < var_orig.number_of_measurements; i++) {
+            current_exo = var_orig.exogen_values[i];
+            temp = var_orig.calculateNewOutput(current_endo, current_exo);
+
+            // Add random residual to the result
+            // TODO check whether these should be the residuals or the lutkepohl method
+            temp = math.add(temp, residuals[indices[i - 1]]);
+
+            y_sampled.push(temp);
+
+            current_endo.pop();
+            current_endo.unshift(var_orig.y_values[i]);
+        }
+        total_y_sampled.push(y_sampled);
+
+        this.var_model = vector_autoregressor.compute(
+            y_sampled, var_orig.exogen_values,
+            var_orig.node_names, var_orig.exogen_names,
+            var_orig.significant_network, var_orig.lags
+        );
+        irfs.push(this.runImpulseResponseCalculation(variable_to_shock, shock_size, steps))
     }
 
     // calculate the Y value using
     console.log('post');
     this.var_model = var_orig;
-    return var_models;
+    return irfs;
 };
 

@@ -20,74 +20,15 @@ describe("JsonParser", function () {
         describe("hgiNetworkDataToMatrix", function () {
             it('create a correct matrix from the network', function () {
                 var result = json_parser.hgiNetworkDataToMatrix();
-                var expected = [
-                    [0, 0, 0.204012838378178, 0, 0.476770360677939, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [-0.912167492997933, -1.00352833453079, 0, -1.11448061044475, 1.51648675179484, -0.711390503855866],
-                    [0, 0, 0, 0, 0, 0],
-                    [0.36475504504839, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                ];
+                var expected = createMatrix(0, 6, 6, false);
+                expected[0][4] = 0.108850037288526;
+                expected[5][4] = -0.0947853465411713;
+                expected[2][5] = -0.447246920242226;
                 expect(result).toEqual(expected);
             });
         });
 
-        describe("dataSummaryFromJson", function () {
-            it('can give a datasummary based on a set of node_names', function () {
-                var values = [
-                    [18, 13, 47, 33, 67, 32],
-                    [32, 41, 90, 90, 10, 84]
-                ];
 
-                var data = [
-                    network[0], 0, 0, {
-                        "endogen": {
-                            "body": values,
-                            "header": [
-                                "humor",
-                                "onrust",
-                                "iets_betekenen",
-                                "ontspanning",
-                                "hier_en_nu",
-                                "concentratie"
-                            ]
-                        }
-                    }
-                ];
-                json_parser = new JsonParser(data, variable_mapping);
-                var node_names = json_parser.nodeKeysFromJson();
-                var result = json_parser.dataSummaryFromJson(node_names);
-                var expected = {
-                    "humor": {
-                        "average": (values[0][0] + values[1][0]) / 2,
-                        "sd": standardDeviation([values[0][0], values[1][0]], (values[0][0] + values[1][0]) / 2)
-                    },
-                    "onrust": {
-                        "average": (values[0][1] + values[1][1]) / 2,
-                        "sd": standardDeviation([values[0][1], values[1][1]], (values[0][1] + values[1][1]) / 2)
-                    },
-                    "iets_betekenen": {
-                        "average": (values[0][2] + values[1][2]) / 2,
-                        "sd": standardDeviation([values[0][2], values[1][2]], (values[0][2] + values[1][2]) / 2)
-                    },
-                    "ontspanning": {
-                        "average": (values[0][3] + values[1][3]) / 2,
-                        "sd": standardDeviation([values[0][3], values[1][3]], (values[0][3] + values[1][3]) / 2)
-                    },
-                    "hier_en_nu": {
-                        "average": (values[0][4] + values[1][4]) / 2,
-                        "sd": standardDeviation([values[0][4], values[1][4]], (values[0][4] + values[1][4]) / 2)
-                    },
-                    "concentratie": {
-                        "average": (values[0][5] + values[1][5]) / 2,
-                        "sd": standardDeviation([values[0][5], values[1][5]], (values[0][5] + values[1][5]) / 2)
-                    },
-                    "significant_network": network[0]
-                };
-                expect(result).toEqual(expected);
-            });
-
-        });
 
         describe("nodeKeysFromJson", function () {
             it('can generate a list of node ids from a json file', function () {

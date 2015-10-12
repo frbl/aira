@@ -150,6 +150,12 @@ describe("ImpulseResponseCalculator", function () {
                     expected.push([-0.028848510675922895, -0.2595400187480549, 0.28144626030058106, -0.3266974745056763, 0.807856439627499, -0.2716040050160673]);
                     expected.push([0.010086866994154717, -0.2735298233419323, 0.26645437349561363, -0.38724918583137047, 0.8451125130027202, -0.2780402570502328]);
                     expected.push([-0.026074786861492283, -0.2785089773363436, 0.295620676398, -0.3739672002983328, 0.88252634806788, -0.28982065579190375]);
+
+                    for(var i = 0 ; i < expected.length ; i++) {
+                        for(var j = 0; j < expected[i].length ; j++) {
+                            expect(result[i][j]).toEqual(expected[i][j]);
+                        }
+                    }
                     expect(result).toEqual(expected);
                 });
             });
@@ -257,9 +263,10 @@ describe("ImpulseResponseCalculator", function () {
                 //console.log(result);
 
             });
-            fit('should have the correct dimensions', function () {
+
+            it('should have the correct dimensions', function () {
                 var runs = Math.round(Math.random()*10);
-                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(3, runs);
+                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 3, runs);
                 expect(result.length).toEqual(runs);
             });
         });

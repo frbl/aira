@@ -14,8 +14,6 @@ describe('Var', function() {
   });
 
   it('should be able to compute a good VAR model for the Y variables', function() {
-    var data_summary = json_parser.dataSummaryFromJson(node_names);
-
     var exogen_names = json_parser.exogenKeysFromJson();
 
     // Var coefficients
@@ -27,16 +25,17 @@ describe('Var', function() {
     var exogen_values = json_parser.getExogenDataFromJson(node_names);
 
     // The significant network
-    var significant_network = json_parser.getSignificantNetwork();
+    var significant_network = json_parser.getSignificantNetworkFromJson();
 
-    var lags = var_model.lags;
+    var lags = 1;
+    var make_positive = false;
 
     var var_model = new VarModel(
         var_coefficients, exogen_var_coefficients,
         node_names, exogen_names,
         y_values, exogen_values,
         significant_network,
-        true,
+        make_positive,
         variable_mapping
     );
 
@@ -45,12 +44,13 @@ describe('Var', function() {
         significant_network, lags
     );
 
-    expect(dimensions(result)).toEqual(dimensions(var_coefficients[0]));
-    for (var i = 0; i < result.length ; i++) {
-      var row = result[i];
+    expect(dimensions(result.var_coefficients)).toEqual(dimensions(var_model.var_coefficients));
+
+    for (var i = 0; i < result.var_coefficients.length ; i++) {
+      var row = result.var_coefficients[i];
       for (var j = 0; j < row.length ; j++) {
         var result_value = row[j];
-        expect(result_value).toBeCloseTo(var_coefficients[0][i][j], 4);
+        expect(result_value).toBeCloseTo(var_model.var_coefficients[i][j], 4);
       }
     }
   });

@@ -1,20 +1,46 @@
 describe("VarModel", function () {
     describe("VarModel constructor", function () {
-        it("should set the correct things in the variables", function () {
-            var first_value = 0.5,
+        var first_value,
+            second_value,
+            var_coefficients,
+            exogen_var_coefficients,
+            y_values,
+            exogen_values,
+            node_names,
+            exogen_names,
+            significant_network,
+            variable_mapping;
+
+        beforeEach(function () {
+            first_value = 0.5,
                 second_value = 0.2,
                 var_coefficients = [createMatrix(first_value, 3, 3, false),
-                    createMatrix(second_value, 3, 3, false)];
-            var node_names = ['beweging', 'concentratie', 'hier_en_nu'],
-                data_summary = 'summary',
-                make_possitive = true,
+                    createMatrix(second_value, 3, 3, false)],
+                exogen_var_coefficients = createMatrix(first_value, 3, 3, false),
+                y_values = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]],
+                exogen_values = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, 0]],
+                node_names = ['beweging', 'onrust', 'hier_en_nu'],
+                exogen_names = ['ochtend', 'middag', 'avond'],
+                significant_network = 'significant_network',
                 variable_mapping = new VariableMapping();
 
-            var varmodel = new VarModel(var_coefficients, node_names, data_summary, make_possitive, variable_mapping);
+        });
+
+        it("should set the correct things in the variables", function () {
+            var make_positive = false;
+
+            var varmodel = new VarModel(
+                var_coefficients, exogen_var_coefficients,
+                node_names, exogen_names,
+                y_values, exogen_values,
+                significant_network,
+                make_positive,
+                variable_mapping
+            );
 
             expect(varmodel.lags).toEqual(var_coefficients.length);
             expect(varmodel.number_of_variables).toEqual(node_names.length);
-            expect(varmodel.data_summary).toEqual(data_summary);
+            expect(varmodel.significant_network).toEqual(significant_network);
             expect(varmodel.variable_mapping).toEqual(variable_mapping);
             expect(varmodel.var_coefficients.length).toEqual(node_names.length);
             expect(varmodel.number_of_exogen_variables).toEqual(0);
@@ -31,31 +57,33 @@ describe("VarModel", function () {
 
         describe("converts coefficients if needed", function () {
             it("should not call the convert_coefficients function if it make positive = false", function () {
-                var first_value = 0.5,
-                    second_value = 0.2,
-                    var_coefficients = [createMatrix(first_value, 3, 3, false),
-                        createMatrix(second_value, 3, 3, false)];
-                var node_names = ['beweging', 'concentratie', 'hier_en_nu'],
-                    data_summary = 'summary',
-                    make_possitive = false,
-                    variable_mapping = new VariableMapping();
+                make_positive = false;
+
                 spyOn(VarModel.prototype, 'convert_coefficients');
-                var varmodel = new VarModel(var_coefficients, node_names, data_summary, make_possitive, variable_mapping);
+                new VarModel(
+                    var_coefficients, exogen_var_coefficients,
+                    node_names, exogen_names,
+                    y_values, exogen_values,
+                    significant_network,
+                    make_positive,
+                    variable_mapping
+                );
                 expect(VarModel.prototype.convert_coefficients).not.toHaveBeenCalled();
             });
 
             it("should call the convert_coefficients function if it make positive = true", function () {
-                var first_value = -0.5,
-                    second_value = 0.2,
-                    var_coefficients = [createMatrix(first_value, 3, 3, false),
-                        createMatrix(second_value, 3, 3, false)];
-                var node_names = ['beweging', 'onrust', 'hier_en_nu'],
-                    data_summary = 'summary',
-                    make_possitive = true,
-                    variable_mapping = new VariableMapping();
+                var make_positive = true;
                 spyOn(VarModel.prototype, 'convert_coefficients');
-                var varmodel = new VarModel(var_coefficients, node_names, data_summary, make_possitive, variable_mapping);
+                new VarModel(
+                    var_coefficients, exogen_var_coefficients,
+                    node_names, exogen_names,
+                    y_values, exogen_values,
+                    significant_network,
+                    make_positive,
+                    variable_mapping
+                );
                 expect(VarModel.prototype.convert_coefficients).toHaveBeenCalled();
+
             });
         });
     });
@@ -125,10 +153,54 @@ describe("VarModel", function () {
 
         });
 
-        describe("get_data_summary", function () {
+        describe("dataSummaryFromJson", function () {
+            it('can give a datasummary based on a set of node_names', function () {
+                var values = [
+                        [18, 13, 47, 33, 67, 32],
+                        [32, 41, 90, 90, 10, 84]
+                    ],
+                    node_names = ["humor", "onrust", "iets_betekenen", "ontspanning", "hier_en_nu", "concentratie"];
+
+                varmodel = new VarModel(
+                    var_coefficients, exogen_var_coefficients,
+                    node_names, exogen_names,
+                    values, exogen_values,
+                    significant_network,
+                    false,
+                    variable_mapping
+                );
+
+                var result = varmodel.calculateDataSummary();
+                var expected = {
+                    "humor": {
+                        "average": (values[0][0] + values[1][0]) / 2,
+                        "sd": standardDeviation([values[0][0], values[1][0]], (values[0][0] + values[1][0]) / 2)
+                    },
+                    "onrust": {
+                        "average": (values[0][1] + values[1][1]) / 2,
+                        "sd": standardDeviation([values[0][1], values[1][1]], (values[0][1] + values[1][1]) / 2)
+                    },
+                    "iets_betekenen": {
+                        "average": (values[0][2] + values[1][2]) / 2,
+                        "sd": standardDeviation([values[0][2], values[1][2]], (values[0][2] + values[1][2]) / 2)
+                    },
+                    "ontspanning": {
+                        "average": (values[0][3] + values[1][3]) / 2,
+                        "sd": standardDeviation([values[0][3], values[1][3]], (values[0][3] + values[1][3]) / 2)
+                    },
+                    "hier_en_nu": {
+                        "average": (values[0][4] + values[1][4]) / 2,
+                        "sd": standardDeviation([values[0][4], values[1][4]], (values[0][4] + values[1][4]) / 2)
+                    },
+                    "concentratie": {
+                        "average": (values[0][5] + values[1][5]) / 2,
+                        "sd": standardDeviation([values[0][5], values[1][5]], (values[0][5] + values[1][5]) / 2)
+                    }
+                };
+                expect(result).toEqual(expected);
+            });
 
         });
-
         describe("get_node_name", function () {
             it("returns the node name based on id", function () {
                 expect(varmodel.get_node_name(0)).toEqual('beweging');
@@ -170,8 +242,8 @@ describe("VarModel", function () {
                     [-6.1, -6.1, -6.1]
                 ];
 
-                for(var i = 0 ; i < result.length ; i++) {
-                    for(var j = 0 ; j < result[i].length ; j++) {
+                for (var i = 0; i < result.length; i++) {
+                    for (var j = 0; j < result[i].length; j++) {
                         expect(result[i][j]).toBeCloseTo(expected[i][j]);
                     }
                 }
