@@ -89,14 +89,7 @@ Visualization.prototype.addData = function (name, data) {
 Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
     var i;
     var series_var = [];
-    //for (i = 0; i < transpose(transposed_irf.low).length; i++) {
-    //    series_var.push({
-    //        name: variable_mapping.get_translation(this.node_names[i]) + " low",
-    //        data: transpose(transposed_irf.low)[i],
-    //        visible: true
-    //    });
-    //}
-    //
+
     var low,
     high;
     if(bootstrapped_irf !== undefined) {
