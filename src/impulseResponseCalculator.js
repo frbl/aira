@@ -184,7 +184,7 @@ ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = fun
 
             // Add random residual to the result
             // TODO check whether these should be the residuals or the lutkepohl method
-            temp = math.add(temp, residuals[indices[i - 1]]);
+            temp = math.add(temp, residuals[indices[i - var_orig.lags]]);
 
             y_sampled.push(temp);
 
