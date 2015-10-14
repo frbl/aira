@@ -257,14 +257,19 @@ describe("ImpulseResponseCalculator", function () {
                 impulse_response_calculator = new ImpulseResponseCalculator(var_model);
             });
 
-            fit('should be able to compute a good VAR model for the Y variables', function () {
+            it('should be able to compute a good VAR model for the Y variables', function () {
                 var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 10, 50);
             });
 
             it('should have the correct dimensions', function () {
                 var runs = Math.round(Math.random()*10);
-                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 3, runs);
-                expect(result.length).toEqual(runs);
+                var horizon = 20;
+                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, horizon, runs);
+                expect(result).not.toEqual(undefined);
+                expect(result.low).not.toEqual(undefined);
+                expect(result.low.length).toEqual(horizon);
+                expect(result.high).not.toEqual(undefined);
+                expect(result.high.length).toEqual(horizon);
             });
         });
     });
