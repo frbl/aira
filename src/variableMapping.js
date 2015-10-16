@@ -15,6 +15,8 @@ function VariableMapping() {
     "ontspanning":         {"name": "Ontspanning", "translation":"Relaxation", "type": "Positief"},
     "opgewektheid":        {"name": "Opgewektheid", "translation":"Cheerfulness", "type": "Positief"},
     "piekeren":            {"name": "Piekeren", "translation":"Rumination", "type": "Negatief"},
+    "SomBewegUur":         {"name": "SomBewegUur", "translation":"Activity", "type": "Positief"},
+    "SomPHQ":              {"name": "SomPHQ", "translation":"Depression", "type": "Negatief"},
     "somberheid":          {"name": "Somberheid", "translation":"Sadness", "type": "Negatief"},
     "tekortschieten":      {"name": "Tekortschieten", "translation":"Falling short on something", "type": "Negatief"}
   };

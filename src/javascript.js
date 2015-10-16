@@ -30,6 +30,7 @@ var injectButtons = function(node_names) {
 
   location.append($('<input class="button dark button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
   location.on("click", ".button_optimize", function() {
+
     var netEffectOptimizer = new NetEffectOptimizer({
       wanted_increase: view_model.get_improvement()
     });

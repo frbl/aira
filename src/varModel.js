@@ -17,6 +17,7 @@ var VarModel = function (var_coefficients, exogenous_coefficients,
     this.number_of_measurements = y_values.length;
 
     this.node_names = node_names;
+
     this.exogen_names = exogen_names;
 
     this.significant_network = significant_network;
@@ -38,7 +39,7 @@ var VarModel = function (var_coefficients, exogenous_coefficients,
 
     if (var_coefficients.length < 1 || var_coefficients[0].length < 1) throw "At least one parameter is needed in the VAR model";
     this.number_of_exogen_variables = var_coefficients[0].length - this.lags * this.number_of_variables;
-    this.number_of_exogen_variables = this.number_of_exogen_variables > 0 ? this.number_of_exogen_variable : 0;
+    this.number_of_exogen_variables = this.number_of_exogen_variables > 0 ? this.number_of_exogen_variables : 0;
     this.data_summary = this.calculateDataSummary();
 };
 
@@ -46,8 +47,8 @@ var VarModel = function (var_coefficients, exogenous_coefficients,
  * Returns all significant edges from the significant model. The result is a json object
  * @returns JSON
  */
-VarModel.prototype.get_significant_edges = function () {
-    return this.data_summary.significant_network.links;
+VarModel.prototype.getSignificantEdges = function () {
+    return this.getSignificantNetwork().links;
 };
 
 VarModel.prototype.getSignificantNetwork = function () {

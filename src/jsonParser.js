@@ -3,16 +3,7 @@ function JsonParser(data, variable_mapping) {
     this.variable_mapping = variable_mapping;
 
     this.SIGNIFICANT_NETWORK_LOCATION = 0;
-    this.CONTEMPORANEOS_NETWORK_LOCATION = 1;
-    this.TOP_THREE_NETWORK_LOCATION = 2;
     this.COMPLETE_DATA_LOCATION = 3;
-    this.ENDOGEN_DATA_LOCATION = 3;
-    this.EXOGEN_DATA_LOCATION = 4;
-    this.EXTENDED_NETWORK_LOCATION = 5;
-    this.DATA_LOCATION = 'data';
-    this.BODY_LOCATION = 'body';
-    this.HEADER_LOCATION = 'header';
-    this.COEFFICIENT_LOCATION = 'coefs';
 }
 
 JsonParser.prototype.hgiNetworkDataToMatrix = function () {
@@ -79,20 +70,17 @@ JsonParser.prototype.getEndogenCoefficientMatrix = function () {
 };
 
 
-JsonParser.prototype.coefficientMatrix = function (node_names) {
-    var column, row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
+JsonParser.prototype.coefficientMatrix = function (node_keys) {
+    var row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
     var coeff_data = this.data[this.COMPLETE_DATA_LOCATION].coefs;
     var estimate = coeff_data.header.indexOf("Estimate");
-    var std_error = coeff_data.header.indexOf("Std. Error");
-    var t_value = coeff_data.header.indexOf("t value");
-    var p_value = coeff_data.header.indexOf("Pr(>|t|)");
 
     var coefficients = coeff_data.body;
-    var var_coef = [createMatrix(0, node_names.length, node_names.length, false)];
+    var var_coef = [createMatrix(0, node_keys.length, node_keys.length, false)];
 
     highest_lag = 1;
-    for (row = 0; row < node_names.length; row++) {
-        node_name = node_names[row];
+    for (row = 0; row < node_keys.length; row++) {
+        node_name = node_keys[row];
         current_row = coefficients[node_name];
 
         for (column_node_name in current_row) {
@@ -100,18 +88,19 @@ JsonParser.prototype.coefficientMatrix = function (node_names) {
                 current = column_node_name.split('.');
 
                 // Check if the variable is not any of the outlier variables
-                if (current.length === 0 || node_names.indexOf(current[0]) < 0) continue;
+                if (current.length === 0 || node_keys.indexOf(current[0]) < 0) continue;
 
                 lag = parseInt(current[1].substring(1));
+
 
                 // Check if we already had this lag, otherwise, add until we are at the current lag.
                 // This is needed, in case we have e.g. lag 1 effects and lag 3 effects but no lag 2 effects.
                 while (lag > highest_lag) {
-                    var_coef.push(createMatrix(0, node_names.length, node_names.length, false));
+                    var_coef.push(createMatrix(0, node_keys.length, node_keys.length, false));
                     highest_lag++;
                 }
 
-                current_index = node_names.indexOf(current[0]);
+                current_index = node_keys.indexOf(current[0]);
                 var_coef[lag - 1][row][current_index] = current_row[column_node_name][estimate];
             }
         }

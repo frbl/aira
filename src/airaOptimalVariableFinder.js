@@ -41,7 +41,8 @@ var Optimizers = (function () {
       if (Math.abs(net_effect) < 0.001) return {
         net_effect: Infinity,
         sign_switches: Infinity,
-        stability: Infinity
+        stability: Infinity,
+        needed_difference: Infinity
       };
 
       // The average of the variable to improve should differ with x%.
@@ -77,7 +78,6 @@ var Optimizers = (function () {
     }
   };
 })();
-
 
 var FinderCommand = function (command, options) {
   this.options = options;

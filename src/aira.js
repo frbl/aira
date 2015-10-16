@@ -75,13 +75,12 @@ Aira.prototype.determineOptimalNodeSimple = function(variable_to_improve, optimi
     if (variable_to_improve == variable && !consider_shocked_variable) continue;
 
     name = this.var_model.get_node_name(variable);
-
     cumulative_name = name + '_cumulative';
 
     irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, this.view_model.get_steps()));
     cumulative = cumulativeSummation(irf);
 
-    result[name] = irf[variable_to_improve];
+    result[name]            = irf[variable_to_improve];
     result[cumulative_name] = cumulative[variable_to_improve];
 
     // TODO: Check if the variable is a negative one, if it is, the threshold should be a minimization
@@ -240,7 +239,7 @@ Aira.prototype.createAiraNetworkJson = function(data) {
       "val": entry.val
     });
   });
-  edges = this.var_model.get_significant_edges();
+  edges = this.var_model.getSignificantEdges();
   edges.forEach(function(entry) {
     result.links.push({
       "weight": entry.coef,

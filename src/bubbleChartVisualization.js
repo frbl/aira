@@ -89,16 +89,26 @@ var BubbleChartVisualization = (function() {
   var renderPercentagesText = function(d) {
     var wanted_increase = Math.sign(d.val) >= 0 ? default_wanted_increase : -1 * default_wanted_increase;
     var number_of_options = 0;
-    var result = 'Om uw \'' + d.name + '\' met '+Math.abs(wanted_increase)+'% te '+ (Math.sign(d.val) >= 0 ? 'verhogen': 'verlagen') +', kunt u ';
+    var result = '';
     var percentages = aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
 
+    var number_of_advices = 0;
     for (var effect in percentages) {
       current = percentages[effect].needed_difference * 100;
-      if(current < -100) continue;
+      console.log(percentages[effect].needed_difference);
+      if(current < -100 || percentages[effect].needed_difference === Infinity) {
+        continue;
+      }
 
       number_of_options += 1;
-      console.log(effect);
       result += ('uw gemiddelde hoeveelheid \'' + effect + '\' met ' + Math.abs(current.toFixed(0)) + '% ' +( current > 0 ? 'verhogen' : 'verlagen')) + ', ';
+      number_of_advices++;
+    }
+
+    if(number_of_advices > 0) {
+      result = 'Om uw \'' + d.name + '\' met '+Math.abs(wanted_increase)+'% te '+ (Math.sign(d.val) >= 0 ? 'verhogen': 'verlagen') +', kunt u' + result;
+    } else{
+      result = 'We konden in uw model geen geschikte manier vinden om \'' + d.name + '\' met '+Math.abs(wanted_increase)+'% te '+ (Math.sign(d.val) >= 0 ? 'verhogen': 'verlagen') +'.';
     }
     d3.select("#percentage_advice").select("span").append("span").text(result);
   };

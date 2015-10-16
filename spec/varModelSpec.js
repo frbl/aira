@@ -135,7 +135,27 @@ describe("VarModel", function () {
 
             node_names = ['beweging', 'concentratie', 'hier_en_nu'];
             exogen_names = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-            significant_network = 'summary';
+            significant_network = {
+                "links": [
+                    {
+                        "source": 0,
+                        "target": 1,
+                        "coef": "-0.177779650515062"
+                    }
+                ],
+                "nodes": [
+                    {
+                        "index": 0,
+                        "name": "SomBewegUur",
+                        "type": "Neutraal"
+                    },
+                    {
+                        "index": 1,
+                        "name": "SomPHQ",
+                        "type": "Neutraal"
+                    }
+                ]
+            };
 
 
             make_possitive = true;
@@ -227,6 +247,15 @@ describe("VarModel", function () {
 
         describe("get_coefficient", function () {
 
+        });
+
+
+        describe("getSignificantEdges", function () {
+            it('should determine the correct significant edges in a var_model', function () {
+                var result = varmodel.getSignificantEdges();
+                expect(result).not.toBeUndefined();
+                expect(result).toEqual(significant_network.links);
+            });
         });
 
         describe("getResiduals", function () {
