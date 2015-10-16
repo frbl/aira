@@ -177,12 +177,14 @@ var start_simulation = function (json_data) {
   var y_values = json_parser.getYDataFromJson(node_names);
   var exogen_values = json_parser.getExogenDataFromJson(node_names);
 
+  var convert_to_positive = true;
+
   var var_model = new VarModel(
           var_coefficients, exogen_var_coefficients,
           node_names, exogen_names,
           y_values, exogen_values,
           significant_network,
-          true,
+          convert_to_positive,
           variable_mapping
   );
 
@@ -229,12 +231,12 @@ var main = function (json_data) {
   $('body').on("change", ".data_select", function () {
     if (simulation != null) simulation.clear();
     $('#netDynamisch').html('');
-    testdataset = data[$('#data_select').val()];
+    $('#netFullDynamisch').html('');
     start_simulation(data[$('#data_select').val()]);
   });
 
   var data_select = $('.data_select');
-  data_select.find("option[value='Network 3']").attr('selected', 'selected');
+  data_select.find("option[value='extra network 2']").attr('selected', 'selected');
   data_select.trigger('change');
 
 };
