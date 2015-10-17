@@ -1,5 +1,7 @@
 #!/bin/bash
 git co master
+gl
+
 cp layout/application.css ../application.css
 cp one_network.json ../one_network.json
 compressjs src/*.js ../aira.min.js
