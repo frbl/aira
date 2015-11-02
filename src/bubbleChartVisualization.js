@@ -101,12 +101,12 @@ var BubbleChartVisualization = (function() {
       }
 
       number_of_options += 1;
-      result += (( current > 0 ? 'increase' : 'decrease') + 'your average amount of \'' + effect + '\' with ' + Math.abs(current.toFixed(0)) + '%');
+      result += (( current > 0 ? 'increase' : 'decrease') + ' your average amount of \'' + effect + '\' with ' + Math.abs(current.toFixed(0)) + '%');
       number_of_advices++;
     }
 
     if(number_of_advices > 0) {
-      result = 'In order to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could' + result;
+      result = 'In order to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could ' + result;
     } else{
       result = 'We could not determine a suitable way to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + '\'' + d.name + '\' with '+Math.abs(wanted_increase)+'%.';
     }
@@ -252,7 +252,7 @@ var BubbleChartVisualization = (function() {
       })
       .style("text-anchor", "middle")
       .text(function(d) {
-        return get_direction(d, 'Meer ', 'Minder ');
+        return get_direction(d, 'More ', 'Less ');
       });
 
 
