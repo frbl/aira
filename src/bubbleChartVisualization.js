@@ -62,7 +62,7 @@ var BubbleChartVisualization = (function() {
       "index": -1
     };
     graph.nodes.forEach(function(node) {
-      svg.select("#label_" + node.key).text(node.index == d.index || original ? get_direction(node, 'Meer ', 'Minder ') : node.name);
+      svg.select("#label_" + node.key).text(node.index == d.index || original ? get_direction(node, 'More ', 'Less ') : node.name);
     });
   };
 
@@ -70,14 +70,14 @@ var BubbleChartVisualization = (function() {
     var result = "";
 
     if (text.length == 1) {
-      result = "Wanneer u " + text[0] + " ervaart, wordt dat gevolgd door meer leefplezier, maar heeft dat geen significant effect op de andere variabelen.";
+      result = "Whenever you experience " + text[0] + ", youre well-being will be increased the next moment. However, this does not have a significant effect on the other variables.";
     } else {
-      result += "Wanneer u " + text[0] + " ervaart, wordt dat gevolgd door ";
+      result += "Whenever you experience " + text[0] + ", the next moment you'll experience  ";
       for (var i = 1; i < text.length; i++) {
         if (text.length == 2) {
           result += text[i] + ".";
         } else if (i == text.length - 1) {
-          result += "en " + text[i] + ".";
+          result += "and " + text[i] + ".";
         } else {
           result += text[i] + ", ";
         }
@@ -101,21 +101,21 @@ var BubbleChartVisualization = (function() {
       }
 
       number_of_options += 1;
-      result += ('uw gemiddelde hoeveelheid \'' + effect + '\' met ' + Math.abs(current.toFixed(0)) + '% ' +( current > 0 ? 'verhogen' : 'verlagen')) + ', ';
+      result += (( current > 0 ? 'increase' : 'decrease') + 'your average amount of \'' + effect + '\' with ' + Math.abs(current.toFixed(0)) + '%');
       number_of_advices++;
     }
 
     if(number_of_advices > 0) {
-      result = 'Om uw \'' + d.name + '\' met '+Math.abs(wanted_increase)+'% te '+ (Math.sign(d.val) >= 0 ? 'verhogen': 'verlagen') +', kunt u' + result;
+      result = 'In order to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could' + result;
     } else{
-      result = 'We konden in uw model geen geschikte manier vinden om \'' + d.name + '\' met '+Math.abs(wanted_increase)+'% te '+ (Math.sign(d.val) >= 0 ? 'verhogen': 'verlagen') +'.';
+      result = 'We could not determine a suitable way to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + '\'' + d.name + '\' with '+Math.abs(wanted_increase)+'%.';
     }
     d3.select("#percentage_advice").select("span").append("span").text(result);
   };
 
   var renderNodesFromNodePerspective = function(d) {
     var result_text = [];
-    result_text.push(get_direction(d, 'meer ', 'minder '));
+    result_text.push(get_direction(d, 'more ', 'less '));
     graph.links.forEach(function(edge) {
       if (edge.source.index == d.index) {
         var res = graph.nodes.filter(function(node) {
@@ -128,9 +128,9 @@ var BubbleChartVisualization = (function() {
           };
         })[0];
         svg.select("#label_" + res.key).text(function(d) {
-          return get_direction(res, 'Meer ', 'Minder ');
+          return get_direction(res, 'More ', 'Less ');
         });
-        result_text.push(get_direction(res, 'Meer ', 'Minder '));
+        result_text.push(get_direction(res, 'More ', 'Less '));
       }
     });
     renderResultText(result_text);
