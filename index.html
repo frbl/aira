@@ -87,7 +87,7 @@
 
       <h3>Example</h3>
       <p>Below is an example of AIRA on EMA data. Select a network from the list of data sources and see how variables influence other variables.</p>
-      <h4>Hoe kunt u uw welzijn verhogen?</h4>
+      <h4>How can you increase your well-being?</h4>
 
       <div class="bubble_chart" id="bubble_chart"></div>
       <div class="effect_list advice" id="effect_list"><span class=''></span></div>
@@ -124,10 +124,29 @@
     var start_simulation = function(json_data) {
       var json_parser = new JsonParser(json_data, variable_mapping);
       var node_names = json_parser.nodeKeysFromJson();
+      var exogen_names = json_parser.exogenKeysFromJson();
 
-      var data_summary = json_parser.dataSummaryFromJson(node_names);
-      var var_coefficients = json_parser.fullNetworkDataToMatrix(node_names);
-      var_model = new VarModel(var_coefficients, node_names, data_summary, true, variable_mapping);
+      var significant_network = json_parser.getSignificantNetworkFromJson();
+
+      // Var coefficients
+      var var_coefficients = json_parser.getEndogenCoefficientMatrix();
+      var exogen_var_coefficients = json_parser.getExogenCoefficientMatrix();
+
+      // The actual data
+      var y_values = json_parser.getYDataFromJson(node_names);
+      var exogen_values = json_parser.getExogenDataFromJson(node_names);
+
+      var convert_to_positive = true;
+
+      var var_model = new VarModel(
+              var_coefficients, exogen_var_coefficients,
+              node_names, exogen_names,
+              y_values, exogen_values,
+              significant_network,
+              convert_to_positive,
+              variable_mapping
+      );
+
 
       simulation = new Simulation(node_names);
       impulse_response_calculator = new ImpulseResponseCalculator(var_model);
