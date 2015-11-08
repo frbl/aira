@@ -521,4 +521,14 @@ describe("MathHelpers", function () {
             expect(result).not.toEqual(original)
         });
     });
+
+    describe("scale", function(){
+        it("should scale the data according to its mean", function() {
+            var data = [1,2,5,3,4,7,8,5,3,19,2,3,5,3,4,-10,2,1,4,-1];
+            var result = centerArray(data);
+            var expected = [-2.5, -1.5,  1.5, -0.5,  0.5,  3.5,  4.5,  1.5, -0.5, 15.5, -1.5, -0.5,  1.5,
+                -0.5,  0.5, -13.5, -1.5, -2.5,  0.5, -4.5];
+            expect(result).toEqual(expected)
+        });
+    });
 });

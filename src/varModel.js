@@ -63,11 +63,14 @@ VarModel.prototype.calculateNewOutput = function(endogen, exogen) {
 
         temp = math.multiply(this.getCoefficients(i+1), endogen[i]);
 
-
-        if(exogen !== undefined || [])
-            temp = math.add(temp, math.multiply(this.exogen_coefficients, exogen));
+        console.log(math.multiply(this.getCoefficients(i+1), endogen[i]));
+        console.log(math.multiply(this.exogen_coefficients, exogen));
+        if(exogen !== undefined || []){
+            temp = temp + math.multiply(this.exogen_coefficients, exogen);
+        }
 
         result.push(temp);
+        temp =[];
     }
 
     return arraySum(result);
@@ -102,6 +105,15 @@ VarModel.prototype.getResiduals = function() {
     return result;
 };
 
+
+VarModel.prototype.getScaledResiduals = function() {
+    var resid = transpose(this.getResiduals());
+    var res = [];
+    for(var i = 0 ; i < this.number_of_variables ; i++) {
+        res.push(centerArray(resid[i]));
+    }
+    return transpose(res);
+};
 
 /**
  * Gets a data summary for a node, based on the node name

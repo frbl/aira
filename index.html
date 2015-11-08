@@ -101,7 +101,7 @@
                 </div>
                 <div class="checkbox">
                   <label>
-                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap"> Bootstrap
+                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap" checked> Bootstrap
                   </label>
                 </div>
               </form>
@@ -177,7 +177,7 @@ var start_simulation = function (json_data) {
   var y_values = json_parser.getYDataFromJson(node_names);
   var exogen_values = json_parser.getExogenDataFromJson(node_names);
 
-  var convert_to_positive = true;
+  var convert_to_positive = false;
 
   var var_model = new VarModel(
           var_coefficients, exogen_var_coefficients,
@@ -223,7 +223,7 @@ var main = function (json_data) {
   generateSelectOptions(0, max_threshold, 0.1, '#threshold');
   generateSelectOptions(-100, 100, 1, '#improvement');
 
-  prediction_select.find("option[value='" + (10 > max_steps ? max_steps : 5) + "']").attr('selected', 'selected');
+  prediction_select.find("option[value='" + (10 > max_steps ? max_steps : 10) + "']").attr('selected', 'selected');
   interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 300) + "']").attr('selected', 'selected');
   threshold_select.find("option[value='" + (0.1 > max_threshold ? max_threshold : 0.1) + "']").attr('selected', 'selected');
   improvement_select.find("option[value='10']").attr('selected', 'selected');
