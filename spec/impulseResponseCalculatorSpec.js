@@ -185,7 +185,8 @@ describe("ImpulseResponseCalculator", function () {
             });
 
             it('should be able to compute a good VAR model for the Y variables', function () {
-                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 10, 50);
+                var confidence = 0.95;
+                var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 10, 50, confidence);
             });
 
             it('should have the correct dimensions', function () {
@@ -199,6 +200,12 @@ describe("ImpulseResponseCalculator", function () {
                 expect(result.high.length).toEqual(horizon);
             });
         });
+    });
+
+    describe("significantImpulseResponseCalculation", function() {
+       xit("Can calculate the significant responses, and return them", function() {
+           //significantImpulseResponseCalculation();
+       });
     });
 
     describe("with real model", function() {

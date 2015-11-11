@@ -522,13 +522,54 @@ describe("MathHelpers", function () {
         });
     });
 
-    describe("scale", function(){
-        it("should scale the data according to its mean", function() {
-            var data = [1,2,5,3,4,7,8,5,3,19,2,3,5,3,4,-10,2,1,4,-1];
+    describe("scale", function () {
+        it("should scale the data according to its mean", function () {
+            var data = [1, 2, 5, 3, 4, 7, 8, 5, 3, 19, 2, 3, 5, 3, 4, -10, 2, 1, 4, -1];
             var result = centerArray(data);
-            var expected = [-2.5, -1.5,  1.5, -0.5,  0.5,  3.5,  4.5,  1.5, -0.5, 15.5, -1.5, -0.5,  1.5,
-                -0.5,  0.5, -13.5, -1.5, -2.5,  0.5, -4.5];
+            var expected = [-2.5, -1.5, 1.5, -0.5, 0.5, 3.5, 4.5, 1.5, -0.5, 15.5, -1.5, -0.5, 1.5,
+                -0.5, 0.5, -13.5, -1.5, -2.5, 0.5, -4.5];
             expect(result).toEqual(expected)
         });
     });
+
+    describe("sortNumericalArray", function () {
+        var original, expected;
+
+        beforeEach(function () {
+            original = [4, 2, 5, 1, 3];
+        });
+
+        it('sorts ascending', function () {
+            expected = [1, 2, 3, 4, 5];
+            sortNumericalArray(original, 'asc');
+            expect(original).toEqual(expected);
+        });
+
+
+        it('sorts descending', function () {
+            expected = [5, 4, 3, 2, 1];
+            sortNumericalArray(original, 'desc');
+            expect(original).toEqual(expected);
+        });
+    });
+
+
+    describe("getQuantile", function () {
+        var original, result;
+
+        beforeEach(function () {
+            original = [9.1971054, 4.3150612, 4.9254672, 8.9878760, 7.7297726, 9.6837949, 7.1759966, 7.7282987,
+                7.6250004, 4.6476422, 8.1092139, 0.3049627, 1.7443384, 8.1347709, 8.4931775];
+        });
+
+        it('sorts ascending', function () {
+            expected = 6.005721;
+            probs = 0.32;
+            result = getQuantile(original, probs);
+            expect(result).toBeCloseTo(expected,6);
+        });
+
+    });
+
+
 });

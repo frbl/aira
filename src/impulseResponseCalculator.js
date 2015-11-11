@@ -149,9 +149,9 @@ ImpulseResponseCalculator.prototype.delta = function (B, index) {
     return B[index];
 };
 
-ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations) {
-    var confidence = 0.95;
-console.log(this.var_model)
+ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations, confidence) {
+    confidence = 1 - confidence;
+
     var var_orig = this.var_model,
         current_endo,
         current_exo,
@@ -163,43 +163,30 @@ console.log(this.var_model)
         residuals = var_orig.getScaledResiduals(),
         current_y_values,
         vector_autoregressor = new Var(),
-        upper_bound = Math.round(bootstrap_iterations * confidence),
-        lower_bound = Math.round(bootstrap_iterations * (1-confidence));
-var first = true;
-    console.log(var_orig);
+        upper_bound = Math.max(confidence / 2, 1),
+        lower_bound = Math.min((1 - confidence / 2 ), 0),
+        i, p, iteration;
+
     // Bootstrap the var model
-    bootstrap_iterations = 1
-    for (var iteration = 0; iteration < bootstrap_iterations; iteration++) {
+    for (iteration = 0; iteration < bootstrap_iterations; iteration++) {
 
         // shuffle the measurement indices
-        indices = shuffle(indices);
+        indices = sample(indices);
         current_endo = [];
         y_sampled = [];
 
-        for (var p = 0; p < var_orig.lags; p++) {
+        for (p = 0; p < var_orig.lags; p++) {
             current_y_values = var_orig.y_values[p];
             current_endo.unshift(current_y_values);
             y_sampled.push(current_y_values);
         }
 
-        printMatrix(current_endo);
         // Each iteration of i we calculate the values of y_i
-        for (var i = var_orig.lags; i < var_orig.number_of_measurements; i++) {
+        for (i = var_orig.lags; i < var_orig.number_of_measurements; i++) {
             current_exo = var_orig.exogen_values[i];
 
             temp = var_orig.calculateNewOutput(current_endo, current_exo);
 
-            if(first){
-                console.log('First values: ');
-                console.log('endo');
-                console.log(current_endo);
-                console.log('exo');
-                console.log(current_exo);
-                console.log('res');
-                console.log(temp[0]);
-                console.log(temp[1]);
-                first = false;
-            }
             // Add random residual to the result
             // TODO check whether these should be the residuals or the lutkepohl method
             temp = math.add(temp, residuals[indices[i - var_orig.lags]]);
@@ -216,33 +203,53 @@ var first = true;
             var_orig.node_names, var_orig.exogen_names,
             var_orig.significant_network, var_orig.lags
         );
-        irfs.push(this.runImpulseResponseCalculation(variable_to_shock, shock_size, steps))
+        irfs.push(this.runImpulseResponseCalculation(variable_to_shock, shock_size, steps));
+        // calculate the Y value using
+        this.var_model = var_orig;
     }
 
-    // calculate the Y value using
-    this.var_model = var_orig;
-
-    var irf_model,
-        irf_row;
     // fabricate the 95% conf interval
     irfs_ci_high = createMatrix(0, steps, this.var_model.number_of_variables, false);
     irfs_ci_low = createMatrix(0, steps, this.var_model.number_of_variables, false);
 
     // Transpose the irfs matrix, so we have a matrix where each row is a moment in time, each column is an irf
     irfs = transpose(irfs);
-    for (var i = 0; i < irfs.length; i++) {
+    for (i = 0; i < irfs.length; i++) {
         irf_at_time = transpose(irfs[i]);
         // Now we have #variables rows and #bootstraps columns
-        for(var variable_id = 0; variable_id < irf_at_time.length; variable_id++) {
-            irf_at_time[variable_id].sort();
-            //console.log(irf_at_time[variable_id]);
-            //console.log(lower_bound);
-            irfs_ci_high[i][variable_id] = irf_at_time[variable_id][upper_bound];
-            irfs_ci_low[i][variable_id] = irf_at_time[variable_id][lower_bound];
+        for (var variable_id = 0; variable_id < irf_at_time.length; variable_id++) {
+            irfs_ci_high[i][variable_id] = getQuantile(irf_at_time[variable_id], upper_bound);
+            irfs_ci_low[i][variable_id] = getQuantile(irf_at_time[variable_id], lower_bound);
         }
     }
-console.log(irfs_ci_high)
-    console.log(irfs_ci_low)
+    console.log( {'low': irfs_ci_low, 'high': irfs_ci_high});
     return {'low': irfs_ci_low, 'high': irfs_ci_high};
+};
+
+ImpulseResponseCalculator.prototype.significantImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations, confidence) {
+    bootrstrapped_response = this.bootstrappedImpulseResponseCalculation(variable_to_shock, shock_size, steps, bootstrap_iterations, confidence);
+
+    var result = [],
+        hi,
+        lo,
+        significant_response;
+
+    for (var j = 0; j < this.var_model.number_of_variables; j++) {
+        result[j] = [];
+        for (var i = 0; i < steps; i++) {
+
+            hi = bootrstrapped_response.high[i][j];
+            lo = bootrstrapped_response.low[i][j];
+
+            // If the CI crosses zero, the result is not significant
+            if(sign(hi) !== sign(lo)) {
+                significant_response = 0;
+            } else {
+                significant_response = (Math.abs(hi) - Math.abs(lo)) > 0 ? lo : hi;
+            }
+            result[j].push(significant_response)
+        }
+    }
+    return result;
 };
 

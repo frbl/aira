@@ -125,7 +125,12 @@ var clickNode = function(node_name_id, node_id) {
   var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
   var bootstrapped_irf;
   if(view_model.get_chk_bootstrap()) {
-    bootstrapped_irf = impulse_response_calculator.bootstrappedImpulseResponseCalculation(node_id, 1, view_model.get_steps(), 1000);
+    var confidence = 0.95,
+        iterations = 1000,
+        shock_size = 1;
+    bootstrapped_irf = impulse_response_calculator.bootstrappedImpulseResponseCalculation(node_id, shock_size,
+                                                                                          view_model.get_steps(),
+                                                                                          iterations, confidence);
   }
 
   visualization_engine.draw(irf, bootstrapped_irf);

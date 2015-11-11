@@ -60,20 +60,19 @@ VarModel.prototype.calculateNewOutput = function(endogen, exogen) {
     var result = [],
         i, temp;
     for(i = 0 ; i < endogen.length; i++) {
-
         temp = math.multiply(this.getCoefficients(i+1), endogen[i]);
-
-        console.log(math.multiply(this.getCoefficients(i+1), endogen[i]));
-        console.log(math.multiply(this.exogen_coefficients, exogen));
-        if(exogen !== undefined || []){
-            temp = temp + math.multiply(this.exogen_coefficients, exogen);
-        }
-
         result.push(temp);
-        temp =[];
     }
 
-    return arraySum(result);
+    // SUm the 2d array to a 1d array
+    result = arraySum(result);
+
+    // Check if there are exogen variables, if there are, add them
+    if(exogen !== undefined || []){
+         result = math.add(result, math.multiply(this.exogen_coefficients, exogen));
+    }
+
+    return result;
 };
 
 VarModel.prototype.getResiduals = function() {
@@ -95,7 +94,6 @@ VarModel.prototype.getResiduals = function() {
             current_exo = this.exogen_values[i];
 
         temp = this.calculateNewOutput(current_endo, current_exo);
-
         // Residual here is interpreted as the difference between observed and fitted.
         result.push(math.subtract(this.y_values[i], temp));
 
