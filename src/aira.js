@@ -26,8 +26,17 @@ Aira.prototype.determineBestNodeFromAll = function() {
     name = this.var_model.get_node_name(variable);
     cumulative_name = name + '_cumulative';
 
+    var only_significant = this.view_model.get_chk_bootstrap(),
+        bootstrap_iterations = this.view_model.get_bootstrap_iterations(),
+        confidence = .95;
     // Shock the current variable in the loop
-    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, this.view_model.get_steps()));
+    if(only_significant){
+      irf = this.impulse_response_calculator.significantImpulseResponseCalculation(variable, 1, this.view_model.get_steps(),
+          bootstrap_iterations, confidence);
+    } else {
+      irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable, 1, this.view_model.get_steps()));
+    }
+
     cumulative = cumulativeSummation(irf);
 
     result[name] = 0;

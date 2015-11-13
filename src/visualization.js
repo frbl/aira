@@ -96,6 +96,7 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
         low = transpose(bootstrapped_irf.low);
         high = transpose(bootstrapped_irf.high);
     }
+
     for (i = 0; i < transposed_irf.length; i++) {
         series_var.push({
                 name: variable_mapping.get_translation(this.node_names[i]),
@@ -106,7 +107,7 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
         if(bootstrapped_irf !== undefined) {
             series_var.push({
                 name: variable_mapping.get_translation(this.node_names[i]) + " error",
-                type: 'errorbar',
+                type: 'areasplinerange',
                 data: _.zip(low[i], high[i]),
                 visible: true
             });
@@ -138,6 +139,9 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
             enabled: false
         },
         xAxis: {
+            allowDecimals: false,
+            minTickInterval: 1,
+            maxTickInterval: 1,
             title: {
                 text: 'Horizon (time steps)'
             }

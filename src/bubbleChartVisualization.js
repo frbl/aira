@@ -32,6 +32,7 @@ var BubbleChartVisualization = (function() {
   };
 
   var get_radius = function(d) {
+    if(d.val === 0) return min_size;
     return ((Math.log(1 + Math.abs(d.val)) - min) / (max - min)) * (max_size - min_size) + min_size;
   };
 
@@ -101,14 +102,14 @@ var BubbleChartVisualization = (function() {
       }
 
       number_of_options += 1;
-      result += (( current > 0 ? 'increase' : 'decrease') + ' your average amount of \'' + effect + '\' with ' + Math.abs(current.toFixed(0)) + '%');
+      result += (number_of_options > 1 ? ', ' : ' ') + (( current > 0 ? 'increase' : 'decrease') + ' your average amount of \'' + effect + '\' with ' + Math.abs(current.toFixed(0)) + '%');
       number_of_advices++;
     }
 
     if(number_of_advices > 0) {
       result = 'In order to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could ' + result;
     } else{
-      result = 'We could not determine a suitable way to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + '\'' + d.name + '\' with '+Math.abs(wanted_increase)+'%.';
+      result = 'We could not determine a suitable way to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + ' \'' + d.name + '\' with '+Math.abs(wanted_increase)+'%.';
     }
     d3.select("#percentage_advice").select("span").append("span").text(result);
   };

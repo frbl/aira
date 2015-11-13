@@ -110,7 +110,7 @@ JsonParser.prototype.coefficientMatrix = function (node_keys) {
 
 
 JsonParser.prototype.exogenCoefficientMatrix = function (equation_node_names, exogen_names) {
-    var row, current_index, column_node_name, node_name, current_row;
+    var row, column_node_name, node_name, current_row;
     var coeff_data = this.data[this.COMPLETE_DATA_LOCATION].coefs;
     var estimate = coeff_data.header.indexOf("Estimate");
     var coefficients = coeff_data.body;
@@ -119,14 +119,14 @@ JsonParser.prototype.exogenCoefficientMatrix = function (equation_node_names, ex
     for (row = 0; row < equation_node_names.length; row++) {
         node_name = equation_node_names[row];
         current_row = coefficients[node_name];
-        current_index = 0;
         for (column_node_name in current_row) {
             if (current_row.hasOwnProperty(column_node_name)) {
 
-                // Check if the variable is not any of the outlier variables
+                // Check if the variable is one of the outlier variables
                 if (exogen_names.indexOf(column_node_name) < 0) continue;
-                var_coef[row][current_index] = current_row[column_node_name][estimate];
-                current_index++;
+
+                // Save the coefficient value on the good location in the coeficcient matrix
+                var_coef[row][exogen_names.indexOf(column_node_name)] = current_row[column_node_name][estimate];
             }
         }
     }
