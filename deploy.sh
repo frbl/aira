@@ -14,6 +14,6 @@ sed '$ d' index.html> index.html.tmp
 mv index.html.tmp index.html
 datestring=`date`
 echo "<!--$datestring-->" >> index.html
-#git add --all
-#git commit -m 'New version'
-#git push
+git add --all
+git commit -m 'New version'
+git push
