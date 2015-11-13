@@ -33,13 +33,13 @@ ViewModel.prototype.get_bootstrap_iterations = function() {
     if (typeof this.bootstrap_iterations === 'undefined') {
         this.bootstrap_iterations = $('#bootstrap_iterations');
     }
-    return this.bootstrap_iterations.val();
+    return this.bootstrap_iterations.val() || 0;
 };
 
 ViewModel.prototype.get_chk_bootstrap = function() {
     if (typeof this.chk_bootstrap === 'undefined') {
         this.chk_bootstrap = $('#chk-bootstrap');
     }
-    return this.chk_bootstrap.prop('checked')
+    return this.chk_bootstrap.prop('checked') || false;
 };
 
