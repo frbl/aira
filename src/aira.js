@@ -26,8 +26,8 @@ Aira.prototype.determineBestNodeFromAll = function() {
     name = this.var_model.get_node_name(variable);
     cumulative_name = name + '_cumulative';
 
-    var only_significant = view_model.get_chk_bootstrap(),
-        bootstrap_iterations = view_model.get_bootstrap_iterations(),
+    var only_significant = this.view_model.get_chk_bootstrap(),
+        bootstrap_iterations = this.view_model.get_bootstrap_iterations(),
         confidence = .95;
     // Shock the current variable in the loop
     if(only_significant){

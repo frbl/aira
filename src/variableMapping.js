@@ -10,7 +10,7 @@ function VariableMapping() {
     "hier_en_nu":          {"name": "In het hier en nu leven", "translation":"Mindfulness", "type": "Positief"},
     "levenslust":          {"name": "Levenslust", "translation":"", "type": "Positief"},
     "lichamelijk_ongemak": {"name": "Lichamelijk ongemak", "translation":"Physical discomfort", "type": "Negatief"},
-    "uw_eigen_factor":     {"name": "Mijn eigen factor", "translation":"Eating candy", "type": "Neutraal"},
+    "uw_eigen_factor":     {"name": "Mijn eigen factor", "translation":"Personal factor", "type": "Neutraal"},
     "onrust":              {"name": "Onrust", "translation":"Agitation", "type": "Negatief"},
     "ontspanning":         {"name": "Ontspanning", "translation":"Relaxation", "type": "Positief"},
     "opgewektheid":        {"name": "Opgewektheid", "translation":"Cheerfulness", "type": "Positief"},

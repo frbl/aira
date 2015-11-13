@@ -322,10 +322,15 @@ describe("VarModel", function () {
                 var endogen = [[1, 2, 3], [6, 5, 4]];
                 var exogen = [1, 0, 0, 0, 0, 0, 0];
                 var result = varmodel.calculateNewOutput(endogen, exogen);
-                console.log(result);
+                // E <- matrix(c(0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2), nrow = 3, ncol = 6, byrow=TRUE)
+                // X <- matrix(c(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1), nrow = 3, ncol = 7, byrow=TRUE)
+                // B <- cbind(E, X)
+                // matrix(c(0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2), nrow = 3, ncol = 6, byrow=TRUE)
+                // Z <- c(1,2,3,6,5,4,1,0,0,0,0,0,0)
+                // print(B %*% Z)
                 expect(result.length).toEqual(varmodel.number_of_variables);
-                expect(result).toEqual(arraySum([[3.1, 3.1, 3.1], [3.1, 3.1, 3.1]]));
-                expect(result).toEqual([6.2, 6.2, 6.2])
+                expect(result).toEqual(arraySum([[3.05, 3.05, 3.05], [3.05, 3.05, 3.05]]));
+                expect(result).toEqual([6.1, 6.1, 6.1])
             });
         });
     });

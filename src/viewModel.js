@@ -33,7 +33,7 @@ ViewModel.prototype.get_bootstrap_iterations = function() {
     if (typeof this.bootstrap_iterations === 'undefined') {
         this.bootstrap_iterations = $('#bootstrap_iterations');
     }
-    return this.bootstrap_iterations.val()
+    return this.bootstrap_iterations.val();
 };
 
 ViewModel.prototype.get_chk_bootstrap = function() {
