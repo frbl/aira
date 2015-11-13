@@ -126,8 +126,9 @@ var clickNode = function(node_name_id, node_id) {
   var bootstrapped_irf;
   if(view_model.get_chk_bootstrap()) {
     var confidence = 0.95,
-        iterations = 1000,
+        iterations = view_model.get_bootstrap_iterations(),
         shock_size = 1;
+
     bootstrapped_irf = impulse_response_calculator.bootstrappedImpulseResponseCalculation(node_id, shock_size,
                                                                                           view_model.get_steps(),
                                                                                           iterations, confidence);

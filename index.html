@@ -73,6 +73,10 @@
                 <select id='improvement' class="target">
                 </select>
 
+                <label> Bootstrap (iterations) </label>
+                <select id='bootstrap_iterations' class="target">
+                </select>
+
                 <label> Data </label>
                 <select id='data_select' class="data_select target">
                 </select>
@@ -101,7 +105,7 @@
                 </div>
                 <div class="checkbox">
                   <label>
-                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap" checked> Bootstrap
+                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap"> Bootstrap
                   </label>
                 </div>
               </form>
@@ -222,6 +226,7 @@ var main = function (json_data) {
   generateSelectOptions(0, max_interpolation, 1, '#interpolation');
   generateSelectOptions(0, max_threshold, 0.1, '#threshold');
   generateSelectOptions(-100, 100, 1, '#improvement');
+  generateSelectOptions(0, 3000, 100, '#bootstrap_iterations');
 
   prediction_select.find("option[value='" + (10 > max_steps ? max_steps : 10) + "']").attr('selected', 'selected');
   interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 300) + "']").attr('selected', 'selected');
