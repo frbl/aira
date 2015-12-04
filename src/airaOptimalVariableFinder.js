@@ -74,7 +74,7 @@ var Optimizers = (function () {
     },
     maximumValueOptimizer: function (irf, cumulative_irf, options) {
       if (DEBUG > 0) console.log('Optimization using Maximum optimizer.');
-      return linearSearch(Math.max.apply(null, irf), irf);
+      return searchers.linearSearch(Math.max.apply(null, irf), irf);
     }
   };
 })();
