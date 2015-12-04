@@ -143,7 +143,7 @@ ImpulseResponseCalculator = (function () {
         }
         return result;
     };
-    
+
     /**
      *
      * @param forecast_until
@@ -263,7 +263,7 @@ ImpulseResponseCalculator = (function () {
     };
 
     ImpulseResponseCalculator.prototype._private = {
-        delta: delta,
+        delta: delta
     };
 
     return ImpulseResponseCalculator;

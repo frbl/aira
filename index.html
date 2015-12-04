@@ -211,7 +211,8 @@ var main = function (json_data) {
   view_model = new ViewModel();
   variable_mapping = new VariableMapping();
 
-  var data_keys = getHgiNetworkJsonKeys(json_data);
+  var json_parser = new JsonParser(json_data, variable_mapping);
+  var data_keys = json_parser.getHgiNetworkJsonKeys(json_data);
   var max_steps = 100;
   var max_interpolation = 500;
   var max_threshold = 1;

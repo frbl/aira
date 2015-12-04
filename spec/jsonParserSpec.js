@@ -1,4 +1,4 @@
-fdescribe("JsonParser", function () {
+describe("JsonParser", function () {
 
     describe("with json parser", function () {
         var variable_mapping, network, json_parser;
