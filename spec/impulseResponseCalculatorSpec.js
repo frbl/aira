@@ -145,7 +145,7 @@ describe("ImpulseResponseCalculator", function () {
 
         describe("delta", function () {
             it('should return the B matrix until the index, if it fits in the matrix', function () {
-                impulse_response_calculator.delta(1);
+                impulse_response_calculator._private.delta(1);
                 //expect(condition).toEqual();
             });
         });
