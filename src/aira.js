@@ -268,6 +268,6 @@ Aira = (function () {
         }
     };
 
-    return Aira
+    return Aira;
 
 })();
