@@ -23,14 +23,14 @@ describe("Aira", function() {
 
     it('should contain the correct list of nodes', function() {
       var result = aira.determineBestNodeFromAll().map(function(obj){return obj.name;});
-      expect(result).toEqual(var_model.node_names);
+      expect(result).toEqual(var_model.getNodeNames());
     });
 
     it('the results of the algorithm should be 0 for each of the variables when the number of prediction steps is 1', function() {
       view_model = fabricateViewModelMock (1, 1, 300,0.1, 0 , false);
       aira = new Aira(impulse_response_calculator, var_model, view_model);
       var result = aira.determineBestNodeFromAll().map(function(obj){return obj.val;});
-      expect(result).toEqual(makeFilledArray(var_model.number_of_variables, 0));
+      expect(result).toEqual(makeFilledArray(var_model.getNumberOfVariables(), 0));
     });
 
     it('the results should be correct for a simple matrix', function() {

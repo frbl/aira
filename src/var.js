@@ -29,7 +29,7 @@ Var = (function () {
             result,
             i, j, t;
 
-        exogen_values = transpose(exogen_values);
+        var transposed_exogen_values = transpose(exogen_values);
 
         // Create the Z Matrix (Lutkepohl, 2015)
         for (i = 0; i < lags; i++) {
@@ -43,13 +43,13 @@ Var = (function () {
         }
 
         // If the exogen values also contain the lag 0 values, remove them
-        if (exogen_values[0].length === y_values.length)
-            exogen_values = subsetMatrix(exogen_values, lags, y_values.length);
+        if (transposed_exogen_values[0].length === y_values.length)
+            transposed_exogen_values = subsetMatrix(transposed_exogen_values, lags, y_values.length);
 
         // Add the exogen values to the matrix (add them after the loop, since they don't need lagging)
         // TODO: This can be done in a native method, without a loop probably.
-        for (i = 0; i < exogen_values.length; i++) {
-            Z.push(exogen_values[i]);
+        for (i = 0; i < transposed_exogen_values.length; i++) {
+            Z.push(transposed_exogen_values[i]);
         }
 
         // Subset the Y matrix so it has the correct dimensions and offset to perform the OLS
@@ -68,12 +68,13 @@ Var = (function () {
         var total_length = result[0].length;
         var exogen_coefficients = subsetMatrix(result, (lags + 1) * k, total_length);
 
+        debugger;
 
         // TODO variable mapping is a global variable
         var var_model = new VarModel(
             var_coefficients, exogen_coefficients,
             node_names, exogen_names,
-            y_values, exogen_values,
+            y_values, transposed_exogen_values,
             significant_network,
             false,
             variable_mapping

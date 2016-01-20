@@ -23,7 +23,7 @@ Aira = (function () {
             effects = [];
 
         // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
-        for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
+        for (variable = 0; variable < this.var_model.getNumberOfVariables(); variable++) {
 
             // Set the names for the nodes in the var model
             name = this.var_model.get_node_name(variable);
@@ -78,10 +78,10 @@ Aira = (function () {
         var consider_shocked_variable = false;
         variable_to_improve_name = this.var_model.get_node_name(variable_to_improve);
 
-        if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.number_of_variables + ')');
+        if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.getNumberOfVariables() + ')');
 
         // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
-        for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
+        for (variable = 0; variable < this.var_model.getNumberOfVariables(); variable++) {
 
             // Don't take into account direct effects on the shocked variable
             if (variable_to_improve == variable && !consider_shocked_variable) continue;
@@ -135,14 +135,14 @@ Aira = (function () {
         var result = {};
         var consider_shocked_variable = false;
 
-        if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.number_of_variables + ')');
+        if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.getNumberOfVariables() + ')');
 
         var degradation_effect = getDegradationEffect(options);
 
         var impulse_response_strengths = makeSequenceArray(0.1, 0.1, 10);
 
         // Loop through all variables, and determine the impulse response of each variable on the variable to improve.
-        for (variable = 0; variable < this.var_model.number_of_variables; variable++) {
+        for (variable = 0; variable < this.var_model.getNumberOfVariables(); variable++) {
 
             // Don't take into account direct effects on the shocked variable
             if (variable_to_improve == variable && !consider_shocked_variable) continue;
@@ -176,7 +176,7 @@ Aira = (function () {
                 sum_array = arraySum(impulses);
 
                 if (variable === 0)
-                    visualization_engine.addData('Sum ' + frequency + ' ' + this.var_model.node_names[variable], sum_array);
+                    visualization_engine.addData('Sum ' + frequency + ' ' + this.var_model.getNodeNames()[variable], sum_array);
 
                 // Determine all valleys in the sum data. These should be kept > threshold
                 valleys = findAllValleys(sum_array);
@@ -196,7 +196,7 @@ Aira = (function () {
 
             }
 
-            result[this.var_model.node_names[variable]] = temp_result;
+            result[this.var_model.getNodeNames()[variable]] = temp_result;
         }
 
         return result;

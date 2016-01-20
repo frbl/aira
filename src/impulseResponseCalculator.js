@@ -1,10 +1,9 @@
 var ImpulseResponseCalculator;
 
 ImpulseResponseCalculator = (function () {
-    var _var_model;
 
     function ImpulseResponseCalculator(var_model) {
-        _var_model = var_model;
+        this._var_model = var_model;
     }
 
     /**
@@ -16,9 +15,9 @@ ImpulseResponseCalculator = (function () {
      * @returns {Array} an array of arrays containing the IRF
      */
     ImpulseResponseCalculator.prototype.runImpulseResponseCalculation = function (variable_to_shock, shock_size, steps) {
-        if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + _var_model.lags + ' lags, and doing it for ' + steps + ' steps in the future');
+        if (DEBUG > 0) console.log('Running calculation for: ' + variable_to_shock + ' with ' + this._var_model.getLags() + ' lags, and doing it for ' + steps + ' steps in the future');
 
-        var nr_of_variables = _var_model.var_coefficients.length;
+        var nr_of_variables = this._var_model.getVarCoefficients().length;
 
         var shocks;
         if (variable_to_shock == -1) {
@@ -43,11 +42,12 @@ ImpulseResponseCalculator = (function () {
     ImpulseResponseCalculator.prototype.bootstrappedImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations, confidence) {
         confidence = 1 - confidence;
 
-        var var_orig = _var_model,
+        // The extend is needed because otherwise the model gets overwritten
+        var var_orig = $.extend(true, {}, this._var_model),
             current_endo,
             current_exo,
             temp,
-            indices = makeSequenceArray(1, 0, var_orig.number_of_measurements - (var_orig.lags + 1)),
+            indices = makeSequenceArray(1, 0, var_orig.getNumberOfMeasurements() - (var_orig.getLags() + 1)),
             y_sampled,
             total_y_sampled = [],
             irfs = [],
@@ -66,42 +66,47 @@ ImpulseResponseCalculator = (function () {
             current_endo = [];
             y_sampled = [];
 
-            for (p = 0; p < var_orig.lags; p++) {
-                current_y_values = var_orig.y_values[p];
+            for (p = 0; p < var_orig.getLags(); p++) {
+                current_y_values = var_orig.getYValues()[p];
                 current_endo.unshift(current_y_values);
                 y_sampled.push(current_y_values);
             }
 
             // Each iteration of i we calculate the values of y_i
-            for (i = var_orig.lags; i < var_orig.number_of_measurements; i++) {
-                current_exo = var_orig.exogen_values[i];
-
+            for (i = var_orig.getLags(); i < var_orig.getNumberOfMeasurements(); i++) {
+                current_exo = var_orig.getExogenValues()[i];
+                console.log(iteration + " " + i);
+                console.log(current_exo);
                 temp = var_orig.calculateNewOutput(current_endo, current_exo);
 
                 // Add random residual to the result
                 // TODO check whether these should be the residuals or the lutkepohl method
-                temp = math.add(temp, residuals[indices[i - var_orig.lags]]);
+                temp = math.add(temp, residuals[indices[i - var_orig.getLags()]]);
 
                 y_sampled.push(temp);
 
                 current_endo.pop();
-                current_endo.unshift(var_orig.y_values[i]);
+                current_endo.unshift(var_orig.getYValues()[i]);
             }
             total_y_sampled.push(y_sampled);
 
-            _var_model = vector_autoregressor.compute(
-                y_sampled, var_orig.exogen_values,
-                var_orig.node_names, var_orig.exogen_names,
-                var_orig.significant_network, var_orig.lags
+            console.log(var_orig.getExogenValues());
+            this._var_model = vector_autoregressor.compute(
+                y_sampled, var_orig.getExogenValues(),
+                var_orig.getNodeNames(), var_orig.getExogenNames(),
+                var_orig.getSignificantNetwork(), var_orig.getLags()
             );
+            console.log(var_orig.getExogenValues());
+
             irfs.push(this.runImpulseResponseCalculation(variable_to_shock, shock_size, steps));
             // calculate the Y value using
-            _var_model = var_orig;
+
+            this._var_model = var_orig;
         }
 
         // fabricate the 95% conf interval
-        irfs_ci_high = createMatrix(0, steps, _var_model.number_of_variables, false);
-        irfs_ci_low = createMatrix(0, steps, _var_model.number_of_variables, false);
+        irfs_ci_high = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
+        irfs_ci_low = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
 
         // Transpose the irfs matrix, so we have a matrix where each row is a moment in time, each column is an irf
         irfs = transpose(irfs);
@@ -125,7 +130,7 @@ ImpulseResponseCalculator = (function () {
             lo,
             significant_response;
 
-        for (var j = 0; j < _var_model.number_of_variables; j++) {
+        for (var j = 0; j < this._var_model.getNumberOfVariables(); j++) {
             result[j] = [];
             for (var i = 0; i < steps; i++) {
 
@@ -153,9 +158,9 @@ ImpulseResponseCalculator = (function () {
         // Create a list B of coefficient matrices for each time lag
         var B = [];
         var lag;
-        for (lag = 0; lag < _var_model.lags; lag++) {
-            var x = (_var_model.number_of_variables * (lag));
-            B[lag] = subsetMatrix(_var_model.var_coefficients, x, x + _var_model.number_of_variables);
+        for (lag = 0; lag < this._var_model.getLags(); lag++) {
+            var x = (this._var_model.getNumberOfVariables() * (lag));
+            B[lag] = subsetMatrix(this._var_model.getVarCoefficients(), x, x + this._var_model.getNumberOfVariables());
         }
 
         if (DEBUG > 2) {
@@ -166,7 +171,7 @@ ImpulseResponseCalculator = (function () {
 
 
         // Create a matrix of all exogenous coefficients
-        var exogenous_variables = subsetMatrix(_var_model.var_coefficients, _var_model.lags * _var_model.number_of_variables, (_var_model.lags * _var_model.number_of_variables) + _var_model.number_of_exogen_variables);
+        var exogenous_variables = subsetMatrix(this._var_model.getVarCoefficients(), this._var_model.getLags() * this._var_model.getNumberOfVariables(), (this._var_model.getLags() * this._var_model.getNumberOfVariables()) + this._var_model.getNumberOfExogenVariables());
 
         // Create a list C of VMAcoefficient matrices for each VMAtime lag
         var C = [];
@@ -209,14 +214,14 @@ ImpulseResponseCalculator = (function () {
 
         if (number_of_timesteps < 1) throw ('At least one coefficient matrix is needed');
 
-        if (DEBUG > 0) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + _var_model.number_of_variables + ' variables.');
+        if (DEBUG > 0) console.log('Starting calculation with ' + number_of_timesteps + ' timesteps and for ' + this._var_model.getNumberOfVariables() + ' variables.');
 
         var Y_temp, e_lagged, t, i;
 
         // Create a matrix to store the results in, size is
-        var Y = createMatrix(0, number_of_timesteps, _var_model.number_of_variables, false);
+        var Y = createMatrix(0, number_of_timesteps, this._var_model.getNumberOfVariables(), false);
 
-        var identity_matrix = createMatrix(0, _var_model.number_of_variables, _var_model.number_of_variables, true);
+        var identity_matrix = createMatrix(0, this._var_model.getNumberOfVariables(), this._var_model.getNumberOfVariables(), true);
 
         // The extra [] around E[0] are needed to properly perform the transform.
         Y[0] = [E[0]];
@@ -224,7 +229,7 @@ ImpulseResponseCalculator = (function () {
         for (t = 1; t < number_of_timesteps; t++) {
             // TODO: check e_lagged is a matrix with t lags for all variables.
             // TODO: check First measurement is the vector times the identity matrix. This should be changed we want to include orthogonalized irf
-            Y_temp = makeFilledArray(_var_model.number_of_variables, 0);
+            Y_temp = makeFilledArray(this._var_model.getNumberOfVariables(), 0);
 
             // Multiplying with I matrix should be changed to cholesky decomposition?
             //e_lagged = multiplyMatrices(E.slice(0, t), identity_matrix);
@@ -256,7 +261,7 @@ ImpulseResponseCalculator = (function () {
      * @returns B at the index, or a zero-matrix with the same dimensions
      */
     var delta = function (B, index) {
-        if (index >= _var_model.lags) {
+        if (index >= this._var_model.getLags()) {
             return createMatrix(0, B[0].length, B[0][0].length, false);
         }
         return B[index];

@@ -33,7 +33,7 @@ describe("ImpulseResponseCalculator", function () {
 
                     // Each of the arrays in the matrix should contain <number_of_variables> elements
                     for (var j = 0; j < result[i].length; j++) {
-                        expect(result[i][j].length).toEqual(var_model.number_of_variables);
+                        expect(result[i][j].length).toEqual(var_model.getNumberOfVariables());
                     }
 
                 }
@@ -113,20 +113,20 @@ describe("ImpulseResponseCalculator", function () {
 
                 it("should be able to shock all variables", function () {
                     result = impulse_response_calculator.runImpulseResponseCalculation(-1, 1, steps);
-                    var expected = createMatrix(1, steps, var_model.number_of_variables);
+                    var expected = createMatrix(1, steps, var_model.getNumberOfVariables());
                     expect(impulse_response_calculator.calculateImpulseResponse).toHaveBeenCalledWith(expected, jasmine.any(Array));
                 });
 
                 it("should be able to give a shock with a different magnitude", function () {
                     var shock_size = 123;
                     result = impulse_response_calculator.runImpulseResponseCalculation(-1, shock_size, steps);
-                    var expected = createMatrix(shock_size, steps, var_model.number_of_variables);
+                    var expected = createMatrix(shock_size, steps, var_model.getNumberOfVariables());
                     expect(impulse_response_calculator.calculateImpulseResponse).toHaveBeenCalledWith(expected, jasmine.any(Array));
                 });
 
                 it("should be able to shock a single variable", function () {
                     result = impulse_response_calculator.runImpulseResponseCalculation(2, 1, steps);
-                    var expected = createMatrix(0, steps, var_model.number_of_variables);
+                    var expected = createMatrix(0, steps, var_model.getNumberOfVariables());
                     expected = transpose(expected);
                     expected[2] = makeFilledArray(steps, 1);
                     expected = transpose(expected);
@@ -184,7 +184,7 @@ describe("ImpulseResponseCalculator", function () {
                 impulse_response_calculator = new ImpulseResponseCalculator(var_model);
             });
 
-            it('should be able to compute a good VAR model for the Y variables', function () {
+            fit('should be able to compute a good VAR model for the Y variables', function () {
                 var confidence = 0.95;
                 var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 10, 50, confidence);
             });
@@ -220,7 +220,7 @@ describe("ImpulseResponseCalculator", function () {
                 C_matrix = impulse_response_calculator.estimateVmaCoefficients(steps);
                 expect(impulse_response_calculator).not.toBeUndefined();
 
-                E = createMatrix(0, var_model.number_of_variables, steps, false);
+                E = createMatrix(0, var_model.getNumberOfVariables(), steps, false);
 
                 // Give a shock to the first node
                 E[0] = makeFilledArray(steps, 1);
@@ -244,7 +244,7 @@ describe("ImpulseResponseCalculator", function () {
                     expect(result.length).toEqual(steps);
                     for (var i = 0, l = result.length; i < l; i++) {
                         var v = result[i].length;
-                        expect(v).toEqual(var_model.number_of_variables);
+                        expect(v).toEqual(var_model.getNumberOfVariables());
                     }
                 });
 

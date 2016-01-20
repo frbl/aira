@@ -44,13 +44,13 @@ describe('Var', function() {
         significant_network, lags
     );
 
-    expect(dimensions(result.var_coefficients)).toEqual(dimensions(var_model.var_coefficients));
+    expect(dimensions(result.getVarCoefficients())).toEqual(dimensions(var_model.getVarCoefficients()));
 
-    for (var i = 0; i < result.var_coefficients.length ; i++) {
-      var row = result.var_coefficients[i];
+    for (var i = 0; i < result.getVarCoefficients().length ; i++) {
+      var row = result.getVarCoefficients()[i];
       for (var j = 0; j < row.length ; j++) {
         var result_value = row[j];
-        expect(result_value).toBeCloseTo(var_model.var_coefficients[i][j], 4);
+        expect(result_value).toBeCloseTo(var_model.getVarCoefficients()[i][j], 4);
       }
     }
   });
