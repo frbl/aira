@@ -145,7 +145,7 @@ describe("ImpulseResponseCalculator", function () {
 
         describe("delta", function () {
             it('should return the B matrix until the index, if it fits in the matrix', function () {
-                impulse_response_calculator._private.delta(1);
+                impulse_response_calculator._delta(1);
                 //expect(condition).toEqual();
             });
         });
@@ -184,7 +184,7 @@ describe("ImpulseResponseCalculator", function () {
                 impulse_response_calculator = new ImpulseResponseCalculator(var_model);
             });
 
-            fit('should be able to compute a good VAR model for the Y variables', function () {
+            it('should be able to compute a good VAR model for the Y variables', function () {
                 var confidence = 0.95;
                 var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, 10, 50, confidence);
             });

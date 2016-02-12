@@ -75,8 +75,6 @@ ImpulseResponseCalculator = (function () {
             // Each iteration of i we calculate the values of y_i
             for (i = var_orig.getLags(); i < var_orig.getNumberOfMeasurements(); i++) {
                 current_exo = var_orig.getExogenValues()[i];
-                console.log(iteration + " " + i);
-                console.log(current_exo);
                 temp = var_orig.calculateNewOutput(current_endo, current_exo);
 
                 // Add random residual to the result
@@ -90,13 +88,11 @@ ImpulseResponseCalculator = (function () {
             }
             total_y_sampled.push(y_sampled);
 
-            console.log(var_orig.getExogenValues());
             this._var_model = vector_autoregressor.compute(
                 y_sampled, var_orig.getExogenValues(),
                 var_orig.getNodeNames(), var_orig.getExogenNames(),
                 var_orig.getSignificantNetwork(), var_orig.getLags()
             );
-            console.log(var_orig.getExogenValues());
 
             irfs.push(this.runImpulseResponseCalculation(variable_to_shock, shock_size, steps));
             // calculate the Y value using
@@ -181,7 +177,7 @@ ImpulseResponseCalculator = (function () {
             var temp = [];
 
             for (c_array_index = 0; c_array_index <= forecast_step; c_array_index++) {
-                temp[c_array_index] = delta(B, c_array_index);
+                temp[c_array_index] = this._delta(B, c_array_index);
                 if (forecast_step - c_array_index > 0) {
                     var reduced_matrix = sumMatrices(C[(forecast_step - c_array_index) - 1]);
                     temp[c_array_index] = multiplyMatrices(temp[c_array_index], reduced_matrix);
@@ -248,27 +244,24 @@ ImpulseResponseCalculator = (function () {
         return Y[0];
     };
 
-
     /**
-     * Private methods
+     * PRIVATE METHODS
      */
 
     /**
+     * PRIVATE
      * Function that either returns an array of coefficients of the var model (if the asked index is included in the list
      * of coefficients), or returns an empty matrix with the same size as the coefficient matrix it would return.
      * @param B the list of coefficient matrices, indexed by lag
      * @param index the index required from the matrix
      * @returns B at the index, or a zero-matrix with the same dimensions
      */
-    var delta = function (B, index) {
+    ImpulseResponseCalculator.prototype._delta = function (B, index) {
+
         if (index >= this._var_model.getLags()) {
             return createMatrix(0, B[0].length, B[0][0].length, false);
         }
         return B[index];
-    };
-
-    ImpulseResponseCalculator.prototype._private = {
-        delta: delta
     };
 
     return ImpulseResponseCalculator;
