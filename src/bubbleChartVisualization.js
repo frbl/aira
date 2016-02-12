@@ -37,8 +37,9 @@ var BubbleChartVisualization = (function() {
   };
 
   var get_direction = function(d, higher, lower) {
-    var res = higher;
-    if (Math.sign(d.val) == -1) res = lower;
+    var res = lower;
+    if (Math.sign(d.val) == 1) res = higher;
+    if (Math.sign(d.val) == 0) return null;
     return res + d.name.toLowerCase();
   };
 
@@ -67,11 +68,13 @@ var BubbleChartVisualization = (function() {
     });
   };
 
-  var renderResultText = function(text) {
+  var renderResultText = function(text, variable_name) {
     var result = "";
 
-    if (text.length == 1) {
-      result = "Whenever you experience " + text[0] + ", youre well-being will be increased the next moment. However, this does not have a significant effect on the other variables.";
+    if (text.length == 0) {
+      result = "Whenever you experience more or less " + variable_name + ", this does not have a significant effect on the other variables.";
+    } else if (text.length == 1) {
+      result = "Whenever you experience " + text[0] + ", your well-being will be increased the next moment. However, this does not have a significant effect on the other variables.";
     } else {
       result += "Whenever you experience " + text[0] + ", the next moment you'll experience  ";
       for (var i = 1; i < text.length; i++) {
@@ -107,7 +110,8 @@ var BubbleChartVisualization = (function() {
     }
 
     if(number_of_advices > 0) {
-      result = 'In order to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could ' + result;
+      console.log(wanted_increase)
+      result = 'In order to ' + (Math.sign(wanted_increase) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could ' + result;
     } else{
       result = 'We could not determine a suitable way to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + ' \'' + d.name + '\' with '+Math.abs(wanted_increase)+'%.';
     }
@@ -117,6 +121,9 @@ var BubbleChartVisualization = (function() {
   var renderNodesFromNodePerspective = function(d) {
     var result_text = [];
     result_text.push(get_direction(d, 'more ', 'less '));
+
+    // remove nulls from the array (and undefined and "" false)
+    result_text = result_text.filter(Boolean);
     graph.links.forEach(function(edge) {
       if (edge.source.index == d.index) {
         var res = graph.nodes.filter(function(node) {
@@ -128,13 +135,15 @@ var BubbleChartVisualization = (function() {
             "name": node.name
           };
         })[0];
+
         svg.select("#label_" + res.key).text(function(d) {
           return get_direction(res, 'More ', 'Less ');
         });
         result_text.push(get_direction(res, 'More ', 'Less '));
       }
     });
-    renderResultText(result_text);
+
+    renderResultText(result_text, d.name.toLowerCase());
   };
 
   var renderEdgesFromNodePerspective = function(d) {

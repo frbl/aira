@@ -181,7 +181,7 @@ var start_simulation = function (json_data) {
   var y_values = json_parser.getYDataFromJson(node_names);
   var exogen_values = json_parser.getExogenDataFromJson(node_names);
 
-  var convert_to_positive = false;
+  var convert_to_positive = true;
 
   var_model = new VarModel(
           var_coefficients, exogen_var_coefficients,

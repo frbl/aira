@@ -36,6 +36,10 @@ VariableMapping = (function () {
 
     }
 
+    VariableMapping.prototype.getMapping = function () {
+        return _mapping;
+    };
+
     VariableMapping.prototype.get_value_from_network = function (id) {
         if (id.length === 0) return id;
         var regex = new RegExp('_', 'g');

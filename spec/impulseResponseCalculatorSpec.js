@@ -3,6 +3,28 @@ describe("ImpulseResponseCalculator", function () {
 
     });
 
+    describe('The varmodel variable is instance scope, not class scope', function() {
+        it('should not change the var_model in one instance when changed in the other', function() {
+            var_model = fabricateVarModel(false);
+            impulse_response_calculator1 = new ImpulseResponseCalculator(var_model);
+            impulse_response_calculator2 = new ImpulseResponseCalculator(var_model);
+
+            expect(impulse_response_calculator1.getVarModel()).not.toEqual(undefined);
+            expect(impulse_response_calculator1.getVarModel())
+                .toEqual(impulse_response_calculator2.getVarModel());
+
+            var_model2 = fabricateVarModel(true);
+            expect(var_model).not.toEqual(var_model2);
+
+            // When we'd create a third calculator with a new var_model (different specs), it should not change the
+            // var model of the first one.
+            impulse_response_calculator3 = new ImpulseResponseCalculator(var_model2);
+            expect(impulse_response_calculator1.getVarModel())
+                .not.toEqual(impulse_response_calculator3.getVarModel());
+
+        });
+    });
+
 
     describe("with calculator", function () {
         var impulse_response_calculator,

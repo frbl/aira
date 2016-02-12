@@ -1,7 +1,7 @@
 describe("variableMapping", function() {
   variable_mapping = new VariableMapping();
 
-  describe("getValueFromNetworkn", function() {
+  describe("getValueFromNetwork", function() {
     it('should get the correct value from a network using the network id.', function() {
       var expected = "Hier en nu";
       var result = variable_mapping.get_value_from_network("hier_en_nu");

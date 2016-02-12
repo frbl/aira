@@ -6,6 +6,11 @@ ImpulseResponseCalculator = (function () {
         this._var_model = var_model;
     }
 
+
+    ImpulseResponseCalculator.prototype.getVarModel = function() {
+        return this._var_model;
+    };
+
     /**
      * Runs the actual impulse response calculation on the var model provided to the constructor. It determines it for a
      * given number of steps in the future, for a selected parameter and for a provided shock size
