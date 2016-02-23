@@ -38,7 +38,7 @@ var Optimizers = (function () {
       var net_effect = cumulative_irf[length - 1];
 
       // If the effect is to extremely low, skip this variable, it is not suitable
-      if (Math.abs(net_effect) < 0.001) return {
+      if (Math.abs(net_effect) < 0.01) return {
         net_effect: Infinity,
         sign_switches: Infinity,
         stability: Infinity,

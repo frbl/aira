@@ -182,7 +182,7 @@ ImpulseResponseCalculator = (function () {
             var temp = [];
 
             for (c_array_index = 0; c_array_index <= forecast_step; c_array_index++) {
-                temp[c_array_index] = this._delta(B, c_array_index);
+                temp[c_array_index] = _delta.call(this, B, c_array_index);
                 if (forecast_step - c_array_index > 0) {
                     var reduced_matrix = sumMatrices(C[(forecast_step - c_array_index) - 1]);
                     temp[c_array_index] = multiplyMatrices(temp[c_array_index], reduced_matrix);
@@ -261,13 +261,16 @@ ImpulseResponseCalculator = (function () {
      * @param index the index required from the matrix
      * @returns B at the index, or a zero-matrix with the same dimensions
      */
-    ImpulseResponseCalculator.prototype._delta = function (B, index) {
+    var _delta = function (B, index) {
 
         if (index >= this._var_model.getLags()) {
             return createMatrix(0, B[0].length, B[0][0].length, false);
         }
         return B[index];
     };
+
+    // Expose private method for testing
+    ImpulseResponseCalculator.prototype._delta = _delta;
 
     return ImpulseResponseCalculator;
 })();

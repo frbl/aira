@@ -49,7 +49,7 @@ describe("JsonParser", function () {
                         [0, 0, 0, 0, 0, -0.03]
                     ]
                 ];
-                var result = json_parser._private.coefficientMatrix(node_names);
+                var result = json_parser._coefficientMatrix(node_names);
 
                 // The result should have two lags
                 expect(result.length).toEqual(2);

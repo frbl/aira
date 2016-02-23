@@ -73,19 +73,19 @@ JsonParser = (function () {
     JsonParser.prototype.getExogenCoefficientMatrix = function () {
         var node_keys = this.nodeKeysFromJson();
         var node_exogen_keys = this.exogenKeysFromJson();
-        return exogenCoefficientMatrix(node_keys, node_exogen_keys);
+        return _exogenCoefficientMatrix(node_keys, node_exogen_keys);
     };
 
     JsonParser.prototype.getEndogenCoefficientMatrix = function () {
         var node_keys = this.nodeKeysFromJson();
-        return coefficientMatrix(node_keys);
+        return _coefficientMatrix(node_keys);
     };
 
     /*
      * Private methods
      */
 
-    var coefficientMatrix = function (node_keys) {
+    var _coefficientMatrix = function (node_keys) {
         var row, lag, current_index, current, column_node_name, node_name, current_row, highest_lag;
         var coeff_data = _data[_COMPLETE_DATA_LOCATION].coefs;
         var estimate = coeff_data.header.indexOf("Estimate");
@@ -124,7 +124,7 @@ JsonParser = (function () {
     };
 
 
-    var exogenCoefficientMatrix = function (equation_node_names, exogen_names) {
+    var _exogenCoefficientMatrix = function (equation_node_names, exogen_names) {
         var row, column_node_name, node_name, current_row;
         var coeff_data = _data[_COMPLETE_DATA_LOCATION].coefs;
         var estimate = coeff_data.header.indexOf("Estimate");
@@ -148,10 +148,9 @@ JsonParser = (function () {
         return var_coef;
     };
 
-    JsonParser.prototype._private = {
-        exogenCoefficientMatrix: exogenCoefficientMatrix,
-        coefficientMatrix: coefficientMatrix
-    };
+    // Expose private methods for testing
+    JsonParser.prototype._exogenCoefficientMatrix = _exogenCoefficientMatrix;
+    JsonParser.prototype._coefficientMatrix       = _coefficientMatrix;
 
     return JsonParser;
 

@@ -130,6 +130,7 @@ VariableMapping = (function () {
         }
         return undefined;
     };
+
     return VariableMapping;
 })();
 

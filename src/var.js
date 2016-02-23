@@ -68,8 +68,6 @@ Var = (function () {
         var total_length = result[0].length;
         var exogen_coefficients = subsetMatrix(result, (lags + 1) * k, total_length);
 
-        debugger;
-
         // TODO variable mapping is a global variable
         var var_model = new VarModel(
             var_coefficients, exogen_coefficients,

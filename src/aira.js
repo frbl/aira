@@ -104,7 +104,8 @@ Aira = (function () {
                 this.var_model.get_data_summary(name),
                 options
             );
-            effects[name] = airaOptimalVariableFinder.execute(optimizer);
+
+            effects[variable_mapping.get_translation(name)] = airaOptimalVariableFinder.execute(optimizer);
         }
 
         if (DEBUG > 1) {
@@ -120,7 +121,6 @@ Aira = (function () {
                 }
             }
         }
-
         return effects;
     };
 
@@ -239,7 +239,7 @@ Aira = (function () {
      * @param max_deviation
      * @returns {Array}
      */
-    findValleyInMean = function (data, valleys, max_deviation) {
+    var findValleyInMean = function (data, valleys, max_deviation) {
         var i, current;
         var res = [];
         var mean = average(selectionFromArray(data, valleys));
@@ -257,7 +257,7 @@ Aira = (function () {
      *
      * @param options
      */
-    getDegradationEffect = function (options) {
+    var getDegradationEffect = function (options) {
         var degradation_location = 'degradation';
         if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == this.view_model.get_steps()) {
             console.log('Using degradation effect');

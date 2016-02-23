@@ -1,7 +1,6 @@
 var Simulation;
 
 Simulation = (function () {
-
     var _node_names,
         _default_size,
         _size_factor,
@@ -21,7 +20,7 @@ Simulation = (function () {
     }
 
     Simulation.prototype.run = function (clear_all) {
-        if (clear_all) clear();
+        if (clear_all) this.clear();
         _intervals.push(setInterval((function (self) {
             return function () {
                 self.simulateStep(1);
@@ -49,30 +48,35 @@ Simulation = (function () {
         for (node_id = 0; node_id < _node_names.length; node_id++) {
             var value = (_irf[node_id][_step]) * _size_factor;
 
-            plotValue(_node_names[node_id], value);
+            _plotValue(_node_names[node_id], value);
         }
         _step += direction;
         _step %= _steps_to_run;
     };
 
-    var resetNodes = function (nodes_to_stop) {
-        var node;
-        for (node in nodes_to_stop) {
-            if (nodes_to_stop.hasOwnProperty(node)) {
-                plotValue(nodes_to_stop[node], _default_size);
-            }
-        }
-    };
-
-    var pause = function () {
-        for (var i = 0; i < _intervals.length; i++) clearTimeout(_intervals[i]);
+    Simulation.prototype.clear = function () {
+        _pause();
+        _step = 0;
+        _resetNodes(_node_names);
     };
 
     /*
      * Private methods
      */
+    var _resetNodes = function (nodes_to_stop) {
+        var node;
+        for (node in nodes_to_stop) {
+            if (nodes_to_stop.hasOwnProperty(node)) {
+                _plotValue(nodes_to_stop[node], _default_size);
+            }
+        }
+    };
 
-    var plotValue = function (node, value) {
+    var _pause = function () {
+        for (var i = 0; i < _intervals.length; i++) clearTimeout(_intervals[i]);
+    };
+
+    var _plotValue = function (node, value) {
         // Convert node back to network node
 
         var positive_class = "Positief";
@@ -92,19 +96,10 @@ Simulation = (function () {
 
     };
 
-    var clear = function () {
-        pause();
-        _step = 0;
-        resetNodes(_node_names);
-    };
-
-    Simulation.prototype.pause = pause;
-
-    Simulation.prototype._private = {
-        clear: clear,
-        resetNodes: resetNodes
-    };
+    // Expose private methods as _ variables, for testing.
+    Simulation.prototype._pause = _pause;
+    Simulation.prototype._resetNodes = _resetNodes;
+    Simulation.prototype._plotValue = _plotValue;
 
     return Simulation;
-
 })();
