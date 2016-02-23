@@ -91,20 +91,20 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
     var series_var = [];
 
     var low,
-    high;
-    if(bootstrapped_irf !== undefined) {
+        high;
+    if (bootstrapped_irf !== undefined) {
         low = transpose(bootstrapped_irf.low);
         high = transpose(bootstrapped_irf.high);
     }
 
     for (i = 0; i < transposed_irf.length; i++) {
         series_var.push({
-                name: variable_mapping.get_translation(this.node_names[i]),
-                data: transposed_irf[i],
-                visible: true
-            });
+            name: variable_mapping.get_translation(this.node_names[i]),
+            data: transposed_irf[i],
+            visible: true
+        });
 
-        if(bootstrapped_irf !== undefined) {
+        if (bootstrapped_irf !== undefined) {
             series_var.push({
                 name: variable_mapping.get_translation(this.node_names[i]) + " error",
                 type: 'areasplinerange',

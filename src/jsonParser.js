@@ -2,9 +2,9 @@ var JsonParser;
 
 JsonParser = (function () {
     var _data,
-    _variable_mapping,
-    _SIGNIFICANT_NETWORK_LOCATION,
-    _COMPLETE_DATA_LOCATION;
+        _variable_mapping,
+        _SIGNIFICANT_NETWORK_LOCATION,
+        _COMPLETE_DATA_LOCATION;
 
     function JsonParser(data, variable_mapping) {
         _data = data;
@@ -150,7 +150,7 @@ JsonParser = (function () {
 
     // Expose private methods for testing
     JsonParser.prototype._exogenCoefficientMatrix = _exogenCoefficientMatrix;
-    JsonParser.prototype._coefficientMatrix       = _coefficientMatrix;
+    JsonParser.prototype._coefficientMatrix = _coefficientMatrix;
 
     return JsonParser;
 

@@ -7,7 +7,7 @@ ImpulseResponseCalculator = (function () {
     }
 
 
-    ImpulseResponseCalculator.prototype.getVarModel = function() {
+    ImpulseResponseCalculator.prototype.getVarModel = function () {
         return this._var_model;
     };
 

@@ -418,14 +418,13 @@ var shuffle = function (array) {
     });
 };
 
-var sample = function(array) {
+var sample = function (array) {
     var res = []
-    for(var i = 0 ; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
         res.push(array[Math.floor(Math.random() * array.length)]);
     }
     return res;
 };
-
 
 
 var average = function (data) {
@@ -450,12 +449,12 @@ var centerArray = function (data) {
 
 
 var sortNumericalArray = function (array, direction) {
-    return array.sort(function(a, b) {
+    return array.sort(function (a, b) {
         return direction == 'desc' ? b - a : a - b;
     });
 };
 
-var getQuantile = function(array, probs) {
+var getQuantile = function (array, probs) {
     var n, index, hi, lo, qs, i, h;
     n = array.length;
     index = (n - 1) * probs;
@@ -467,7 +466,7 @@ var getQuantile = function(array, probs) {
 
     qs = array[lo];
 
-    h = index > lo ? Math.round((index - lo)*1000)/1000 : 0;
+    h = index > lo ? Math.round((index - lo) * 1000) / 1000 : 0;
 
     return (1 - h) * qs + h * array[hi]
 };

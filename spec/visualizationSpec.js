@@ -45,14 +45,14 @@ Visualization.prototype.updateNetEffect = function (effects, variable_id_to_impr
             current = effects[effect].needed_difference * 100;
             //if(current > 100) continue;
             text = current > 0 ? 'increase' : 'decrease';
-            text = ('<li>You could '+text+' your average amount of ' + effect + ' with ' + Math.abs(current.toFixed(0)) + '%</li>');
+            text = ('<li>You could ' + text + ' your average amount of ' + effect + ' with ' + Math.abs(current.toFixed(0)) + '%</li>');
 
             number_of_options += 1;
             html += text
 
         }
     }
-    result.append("<p>If you would like to change the '"+variable_mapping.get_value(variable_id_to_improve)+"'-variable with " + view_model.get_improvement() + "%, you can do " + convertNumberToText(number_of_options) + " thing" + (number_of_options == 1 ? '' : 's') + ":</p>");
+    result.append("<p>If you would like to change the '" + variable_mapping.get_value(variable_id_to_improve) + "'-variable with " + view_model.get_improvement() + "%, you can do " + convertNumberToText(number_of_options) + " thing" + (number_of_options == 1 ? '' : 's') + ":</p>");
     result.append(html + '</ol>');
 
 };

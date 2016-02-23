@@ -3,8 +3,8 @@ describe("ImpulseResponseCalculator", function () {
 
     });
 
-    describe('The varmodel variable is instance scope, not class scope', function() {
-        it('should not change the var_model in one instance when changed in the other', function() {
+    describe('The varmodel variable is instance scope, not class scope', function () {
+        it('should not change the var_model in one instance when changed in the other', function () {
             var_model = fabricateVarModel(false);
             impulse_response_calculator1 = new ImpulseResponseCalculator(var_model);
             impulse_response_calculator2 = new ImpulseResponseCalculator(var_model);
@@ -212,7 +212,7 @@ describe("ImpulseResponseCalculator", function () {
             });
 
             it('should have the correct dimensions', function () {
-                var runs = Math.round(Math.random()*10);
+                var runs = Math.round(Math.random() * 10);
                 var horizon = 20;
                 var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, horizon, runs);
                 expect(result).not.toEqual(undefined);
@@ -224,13 +224,13 @@ describe("ImpulseResponseCalculator", function () {
         });
     });
 
-    describe("significantImpulseResponseCalculation", function() {
-       xit("Can calculate the significant responses, and return them", function() {
-           //significantImpulseResponseCalculation();
-       });
+    describe("significantImpulseResponseCalculation", function () {
+        xit("Can calculate the significant responses, and return them", function () {
+            //significantImpulseResponseCalculation();
+        });
     });
 
-    describe("with real model", function() {
+    describe("with real model", function () {
 
         describe("calculateImpulseResponse", function () {
             var C_matrix, steps = 10,
@@ -272,7 +272,7 @@ describe("ImpulseResponseCalculator", function () {
 
                 it("should determine the correct response", function () {
                     var expected = [];
-                    expected.push([1.00000000 , 0.00000000]);
+                    expected.push([1.00000000, 0.00000000]);
                     expected.push([0.46312810, -0.17777965]);
                     expected.push([0.46166692, -0.14854998]);
                     expected.push([0.32828659, -0.15698880]);
@@ -283,8 +283,8 @@ describe("ImpulseResponseCalculator", function () {
                     expected.push([0.09747658, -0.06079023]);
                     expected.push([0.07600121, -0.04833878]);
 
-                    for(var i = 0 ; i < expected.length ; i++) {
-                        for(var j = 0; j < expected[i].length ; j++) {
+                    for (var i = 0; i < expected.length; i++) {
+                        for (var j = 0; j < expected[i].length; j++) {
                             expect(result[i][j]).toBeCloseTo(expected[i][j], 6);
                         }
                     }

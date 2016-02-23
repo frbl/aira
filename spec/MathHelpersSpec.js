@@ -566,7 +566,7 @@ describe("MathHelpers", function () {
             expected = 6.005721;
             probs = 0.32;
             result = getQuantile(original, probs);
-            expect(result).toBeCloseTo(expected,6);
+            expect(result).toBeCloseTo(expected, 6);
         });
 
     });

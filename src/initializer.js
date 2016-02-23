@@ -7,6 +7,7 @@ var Initializer;
 
 Initializer = (function () {
     var _gui;
+
     function Initializer() {
         _gui = new Gui();
     }

@@ -20,7 +20,6 @@ describe("JsonParser", function () {
         });
 
 
-
         describe("nodeKeysFromJson", function () {
             it('can generate a list of node ids from a json file', function () {
                 var expected = ["humor", "onrust", "iets_betekenen", "ontspanning", "hier_en_nu", "concentratie"];
