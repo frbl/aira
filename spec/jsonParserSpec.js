@@ -1,13 +1,4 @@
 describe("JsonParser", function () {
-    describe("Constructor", function () {
-        it('sets the correct data', function () {
-            var data = ['varmodel'];
-            var variable_mapping = fabricateVariableMapping();
-            var json_parser = new JsonParser(data, variable_mapping);
-            expect(json_parser.data).toBe(data);
-            expect(json_parser.variable_mapping).toBe(variable_mapping);
-        });
-    });
 
     describe("with json parser", function () {
         var variable_mapping, network, json_parser;
@@ -58,7 +49,7 @@ describe("JsonParser", function () {
                         [0, 0, 0, 0, 0, -0.03]
                     ]
                 ];
-                var result = json_parser.coefficientMatrix(node_names);
+                var result = json_parser._coefficientMatrix(node_names);
 
                 // The result should have two lags
                 expect(result.length).toEqual(2);

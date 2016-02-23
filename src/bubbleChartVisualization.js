@@ -37,8 +37,9 @@ var BubbleChartVisualization = (function() {
   };
 
   var get_direction = function(d, higher, lower) {
-    var res = higher;
-    if (Math.sign(d.val) == -1) res = lower;
+    var res = lower;
+    if (Math.sign(d.val) == 1) res = higher;
+    if (Math.sign(d.val) == 0) res = '';
     return res + d.name.toLowerCase();
   };
 
@@ -67,11 +68,15 @@ var BubbleChartVisualization = (function() {
     });
   };
 
-  var renderResultText = function(text) {
+  var renderResultText = function(text, variable_name) {
     var result = "";
-
     if (text.length == 1) {
-      result = "Whenever you experience " + text[0] + ", youre well-being will be increased the next moment. However, this does not have a significant effect on the other variables.";
+      // If the variable name does not include a more or less, there's essentially no effect.
+      if (text[0].toLowerCase() === variable_name.toLowerCase()) {
+        result = "Whenever you experience more or less " + variable_name + ", this does not have a significant effect on the other variables.";
+      } else {
+        result = "Whenever you experience " + text[0] + ", your well-being will be increased the next moment. However, this does not have a significant effect on the other variables.";
+      }
     } else {
       result += "Whenever you experience " + text[0] + ", the next moment you'll experience  ";
       for (var i = 1; i < text.length; i++) {
@@ -107,7 +112,8 @@ var BubbleChartVisualization = (function() {
     }
 
     if(number_of_advices > 0) {
-      result = 'In order to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could ' + result;
+      console.log(wanted_increase);
+      result = 'In order to ' + (Math.sign(wanted_increase) >= 0 ? 'increase': 'decrease') + " '" + d.name + '\' with '+Math.abs(wanted_increase)+'%, you could ' + result;
     } else{
       result = 'We could not determine a suitable way to ' + (Math.sign(d.val) >= 0 ? 'increase': 'decrease') + ' \'' + d.name + '\' with '+Math.abs(wanted_increase)+'%.';
     }
@@ -117,24 +123,35 @@ var BubbleChartVisualization = (function() {
   var renderNodesFromNodePerspective = function(d) {
     var result_text = [];
     result_text.push(get_direction(d, 'more ', 'less '));
+
+    // remove nulls from the array (and undefined and "" false)
+    result_text = result_text.filter(Boolean);
     graph.links.forEach(function(edge) {
+
+      // Select the edges that have the current node as a source
       if (edge.source.index == d.index) {
+
+        // Select the nodes the that are the target of the edge (and of the node)
         var res = graph.nodes.filter(function(node) {
           return node.index == edge.target.index;
         }).map(function(node) {
           return {
-            "val": Math.sign(edge.weight * d.val),
+            "val": Math.sign(edge.weight * d.val), // Multiplied by d.val to get a + or - effect.
             "key": node.key,
             "name": node.name
           };
         })[0];
+
+        // Select the node in the HTML to update the nodes from the current node's perspective
         svg.select("#label_" + res.key).text(function(d) {
-          return get_direction(res, 'More ', 'Less ');
+          return get_direction(res, 'more ', 'less ');
         });
-        result_text.push(get_direction(res, 'More ', 'Less '));
+
+        result_text.push(get_direction(res, 'more ', 'less '));
       }
     });
-    renderResultText(result_text);
+
+    renderResultText(result_text, d.name.toLowerCase());
   };
 
   var renderEdgesFromNodePerspective = function(d) {
@@ -144,7 +161,6 @@ var BubbleChartVisualization = (function() {
       return !d3.select(this).classed("visible-line-click");
     });
   };
-
 
   var onNodeClick = function(d) {
     var clicked_node = d3.select(this);
@@ -197,9 +213,16 @@ var BubbleChartVisualization = (function() {
     removeAllElements(svg);
 
     determineMinMax();
+    var minx,
+        miny,
+        maxx,
+        maxy;
 
+    // Create a bubble force layout with the nodes in the graph
     bubble_force_layout.nodes(graph.nodes)
       .links(graph.links);
+
+    // Append the arrowheads
     svg.append("svg:defs").selectAll("marker")
       .data(graph.links)
       .enter().append("svg:marker")
@@ -218,6 +241,7 @@ var BubbleChartVisualization = (function() {
       .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5");
 
+    // Add links to the SVG
     var link = svg.selectAll(".link")
       .data(graph.links)
       .enter().append("line")
@@ -231,6 +255,7 @@ var BubbleChartVisualization = (function() {
         return "url(#arrow-head-" + d.source.index + "-" + d.target.index + ")";
       });
 
+    // Add nodes to the SVG
     var node = svg.selectAll(".node")
       .data(graph.nodes)
       .enter().append("circle")
@@ -243,6 +268,7 @@ var BubbleChartVisualization = (function() {
         "click": onNodeClick
       });
 
+    // Add inital text to the nodes
     var text = svg.selectAll(".text")
       .data(graph.nodes)
       .enter().append("text")
@@ -253,16 +279,12 @@ var BubbleChartVisualization = (function() {
       })
       .style("text-anchor", "middle")
       .text(function(d) {
-        return get_direction(d, 'More ', 'Less ');
+        var r = get_direction(d, 'More ', 'Less ');
+        return (r === null ? d.name.toLowerCase() : r);
       });
 
 
     bubble_force_layout.start();
-    var minx,
-      miny,
-      maxx,
-      maxy;
-
 
     bubble_force_layout.on("tick", function() {
       link.attr("x1", function(d) {

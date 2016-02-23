@@ -1,84 +1,105 @@
-function Simulation(node_names) {
-    this.node_names = node_names;
-    this.default_size = 20;
-    this.size_factor = 50;
-    this.frame_rate = 60;
-    this.step = 0;
-    this.intervals = [];
-    this.use_absolute_value = false;
-}
+var Simulation;
 
-Simulation.prototype.run = function (clear_all) {
-    if (clear_all) this.clear();
-    this.intervals.push(setInterval((function (self) {
-        return function () {
-            self.simulateStep(1);
-        };
-    })(this), Math.floor(1000 / this.frame_rate)));
-    return true;
-};
+Simulation = (function () {
+    var _node_names,
+        _default_size,
+        _size_factor,
+        _frame_rate,
+        _step,
+        _intervals,
+        _use_absolute_value;
 
-
-Simulation.prototype.setIrf = function (irf) {
-    this.irf = irf;
-    console.log(irf);
-};
-
-Simulation.prototype.setStepsToRun = function (steps_to_run) {
-    this.steps_to_run = steps_to_run;
-};
-
-Simulation.prototype.simulateStep = function (direction) {
-    var shockdiv = $("#shock");
-    visualization_engine.setPlotlineLocation(((this.step / this.steps_to_run) * view_model.get_steps()));
-    if (this.step === 0) shockdiv.show();
-    else shockdiv.fadeOut("slow");
-
-    var node_id;
-    for (node_id = 0; node_id < this.node_names.length; node_id++) {
-        var value = (this.irf[node_id][this.step]) * this.size_factor;
-
-        this.plotValue(this.node_names[node_id], value);
+    function Simulation(node_names) {
+        _node_names = node_names;
+        _default_size = 20;
+        _size_factor = 50;
+        _frame_rate = 60;
+        _step = 0;
+        _intervals = [];
+        _use_absolute_value = false;
     }
-    this.step += direction;
-    this.step %= this.steps_to_run;
-};
 
-Simulation.prototype.resetNodes = function (nodes_to_stop) {
-    var node;
-    for (node in nodes_to_stop) {
-        if (nodes_to_stop.hasOwnProperty(node)) {
-            this.plotValue(nodes_to_stop[node], this.default_size);
+    Simulation.prototype.run = function (clear_all) {
+        if (clear_all) this.clear();
+        _intervals.push(setInterval((function (self) {
+            return function () {
+                self.simulateStep(1);
+            };
+        })(this), Math.floor(1000 / _frame_rate)));
+        return true;
+    };
+
+
+    Simulation.prototype.setIrf = function (irf) {
+        _irf = irf;
+    };
+
+    Simulation.prototype.setStepsToRun = function (steps_to_run) {
+        _steps_to_run = steps_to_run;
+    };
+
+    Simulation.prototype.simulateStep = function (direction) {
+        var shockdiv = $("#shock");
+        visualization_engine.setPlotlineLocation(((_step / _steps_to_run) * view_model.get_steps()));
+        if (_step === 0) shockdiv.show();
+        else shockdiv.fadeOut("slow");
+
+        var node_id;
+        for (node_id = 0; node_id < _node_names.length; node_id++) {
+            var value = (_irf[node_id][_step]) * _size_factor;
+
+            _plotValue(_node_names[node_id], value);
         }
-    }
-};
+        _step += direction;
+        _step %= _steps_to_run;
+    };
 
-Simulation.prototype.pause = function () {
-    for (var i = 0; i < this.intervals.length; i++) clearTimeout(this.intervals[i]);
-};
+    Simulation.prototype.clear = function () {
+        _pause();
+        _step = 0;
+        _resetNodes(_node_names);
+    };
 
-Simulation.prototype.clear = function () {
-    this.pause();
-    this.step = 0;
-    this.resetNodes(this.node_names);
-};
+    /*
+     * Private methods
+     */
+    var _resetNodes = function (nodes_to_stop) {
+        var node;
+        for (node in nodes_to_stop) {
+            if (nodes_to_stop.hasOwnProperty(node)) {
+                _plotValue(nodes_to_stop[node], _default_size);
+            }
+        }
+    };
 
-Simulation.prototype.plotValue = function (node, value) {
-    // Convert node back to network node
+    var _pause = function () {
+        for (var i = 0; i < _intervals.length; i++) clearTimeout(_intervals[i]);
+    };
 
-    var positive_class = "Positief";
-    var negative_class = "Negatief";
+    var _plotValue = function (node, value) {
+        // Convert node back to network node
 
-    var network = $('body');
+        var positive_class = "Positief";
+        var negative_class = "Negatief";
 
-    if (!this.use_absolute_value) {
-        var class_posneg = value >= 0 ? positive_class : negative_class;
-        network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg);
-    }
+        var network = $('body');
 
-    value = isNaN(value) ? 0 : Math.abs(value);
+        if (!_use_absolute_value) {
+            var class_posneg = value >= 0 ? positive_class : negative_class;
+            network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg);
+        }
 
-    node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
-    network.find('g .node').parent().find('#' + node).parent().children().attr('r', value);
+        value = isNaN(value) ? 0 : Math.abs(value);
 
-};
+        node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
+        network.find('g .node').parent().find('#' + node).parent().children().attr('r', value);
+
+    };
+
+    // Expose private methods as _ variables, for testing.
+    Simulation.prototype._pause = _pause;
+    Simulation.prototype._resetNodes = _resetNodes;
+    Simulation.prototype._plotValue = _plotValue;
+
+    return Simulation;
+})();

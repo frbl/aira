@@ -38,18 +38,18 @@ describe("VarModel", function () {
                 variable_mapping
             );
 
-            expect(varmodel.lags).toEqual(var_coefficients.length);
-            expect(varmodel.number_of_variables).toEqual(node_names.length);
-            expect(varmodel.significant_network).toEqual(significant_network);
-            expect(varmodel.variable_mapping).toEqual(variable_mapping);
-            expect(varmodel.var_coefficients.length).toEqual(node_names.length);
-            expect(varmodel.number_of_exogen_variables).toEqual(0);
+            expect(varmodel.getLags()).toEqual(var_coefficients.length);
+            expect(varmodel.getNumberOfVariables()).toEqual(node_names.length);
+            expect(varmodel.getSignificantNetwork()).toEqual(significant_network);
+            expect(varmodel.getVariableMapping()).toEqual(variable_mapping);
+            expect(varmodel.getVarCoefficients().length).toEqual(node_names.length);
+            expect(varmodel.getNumberOfExogenVariables()).toEqual(0);
             for (var i = 0; i < var_coefficients.length; i++) {
-                expect(varmodel.var_coefficients[i].length).toEqual(node_names.length * var_coefficients.length);
+                expect(varmodel.getVarCoefficients()[i].length).toEqual(node_names.length * var_coefficients.length);
                 for (var j = 0; j < var_coefficients.length; j++) {
                     for (var k = 0; k < node_names.length; k++) {
                         var expected = j === 0 ? first_value : second_value;
-                        expect(varmodel.var_coefficients[i][j * node_names.length + k]).toEqual(expected);
+                        expect(varmodel.getVarCoefficients()[i][j * node_names.length + k]).toEqual(expected);
                     }
                 }
             }
@@ -280,7 +280,7 @@ describe("VarModel", function () {
 
             it('should determine the correct have the correct length (nr of measurements - lags)', function () {
                 var result = varmodel.getResiduals();
-                expect(result.length).toEqual(varmodel.number_of_measurements - varmodel.lags)
+                expect(result.length).toEqual(varmodel.getNumberOfMeasurements() - varmodel.getLags())
             });
         });
 
@@ -328,7 +328,7 @@ describe("VarModel", function () {
                 // matrix(c(0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2), nrow = 3, ncol = 6, byrow=TRUE)
                 // Z <- c(1,2,3,6,5,4,1,0,0,0,0,0,0)
                 // print(B %*% Z)
-                expect(result.length).toEqual(varmodel.number_of_variables);
+                expect(result.length).toEqual(varmodel.getNumberOfVariables());
                 expect(result).toEqual(arraySum([[3.05, 3.05, 3.05], [3.05, 3.05, 3.05]]));
                 expect(result).toEqual([6.1, 6.1, 6.1])
             });
