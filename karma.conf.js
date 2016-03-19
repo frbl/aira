@@ -1,5 +1,5 @@
 // karma.conf.js
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     frameworks: ['jasmine'],
     browsers: ['Chrome'],
@@ -17,9 +17,7 @@ module.exports = function(config) {
       'src/**.js',
       'spec/**.js',
       'spec/factories/**.js'
-    ],
-
-
+    ]
   });
 };
 

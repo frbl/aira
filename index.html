@@ -1,187 +1,187 @@
 <html>
-  <head>
-    <meta charset="utf-8"/>
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/highcharts-more.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true"/>
-    <link rel="stylesheet" media="all" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
-    <style>
-#netDynamisch {
-  padding-bottom: 50px;
-  -webkit-transform: scale(0.767354368932039, 0.767354368932039);
-  transform: scale(0.767354368932039, 0.767354368932039);
-  height: 245.553398058252px;
-}
+<head>
+  <meta charset="utf-8"/>
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/highcharts-more.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true"/>
+  <link rel="stylesheet" media="all" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+  <style>
+    #netDynamisch {
+      padding-bottom: 50px;
+      -webkit-transform: scale(0.767354368932039, 0.767354368932039);
+      transform: scale(0.767354368932039, 0.767354368932039);
+      height: 245.553398058252px;
+    }
 
-        #container {
-          position: static!important;
-          margin-top: 100px;
-          bottom: 0;
-          width: 100%;
-        }
+    #container {
+      position: static !important;
+      margin-top: 100px;
+      bottom: 0;
+      width: 100%;
+    }
 
-        .highcharts-container {
-          position: static!important;
-        }
+    .highcharts-container {
+      position: static !important;
+    }
 
-        #simulation-buttons {
-          margin-right: auto;
-          margin-left: auto;
-          width: 100%;
-        }
+    #simulation-buttons {
+      margin-right: auto;
+      margin-left: auto;
+      width: 100%;
+    }
 
-        #shock {
-          font-size: 150%;
-          display: none;
-          background-color: #ff0000;
-        }
+    #shock {
+      font-size: 150%;
+      display: none;
+      background-color: #ff0000;
+    }
 
-        .line {
-          visibility: hidden;
-        }
+    .line {
+      visibility: hidden;
+    }
 
-        .visible-line-hover, .visible-line-click {
-          visibility: visible;
-        }
-    </style>
-  </head>
-  <body>
-    <div class="warm" style="height:100%;">
-      <div id="aira-container-fluid">
-        <div class="row" id="aira-controls">
-          <div class="input-group">
-            <div id="aira-buttons" class="col-md-12"></div>
+    .visible-line-hover, .visible-line-click {
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+<div class="warm" style="height:100%;">
+  <div id="aira-container-fluid">
+    <div class="row" id="aira-controls">
+      <div class="input-group">
+        <div id="aira-buttons" class="col-md-12"></div>
 
-            <div id="panel" class="col-md-6">
-              <form action="">
-                <label> Horizon </label>
-                <select id='prediction' class="target">
-                </select>
+        <div id="panel" class="col-md-6">
+          <form action="">
+            <label> Horizon </label>
+            <select id='prediction' class="target">
+            </select>
 
-                <label> Interpolation </label>
-                <select id='interpolation' class="target">
-                </select>
+            <label> Interpolation </label>
+            <select id='interpolation' class="target">
+            </select>
 
-                <label> Threshold </label>
-                <select id='threshold' class="target">
-                </select>
+            <label> Threshold </label>
+            <select id='threshold' class="target">
+            </select>
 
-                <label> Improvement (percentage) </label>
-                <select id='improvement' class="target">
-                </select>
+            <label> Improvement (percentage) </label>
+            <select id='improvement' class="target">
+            </select>
 
-                <label> Bootstrap (iterations) </label>
-                <select id='bootstrap_iterations' class="target">
-                </select>
+            <label> Bootstrap (iterations) </label>
+            <select id='bootstrap_iterations' class="target">
+            </select>
 
-                <label> Data </label>
-                <select id='data_select' class="data_select target">
-                </select>
-              </form>
-            </div>
-
-            <div id="aira-algorithms" class="col-md-6">
-              <form action="">
-                <div class="checkbox">
-                  <label>
-                    <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold"> Threshold
-                    estimation
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input id="chk-stability" type="checkbox" name="algorithm" value="Stability"> Stability
-                    estimation
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency"> Frequency
-                    estimation
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap"> Bootstrap
-                  </label>
-                </div>
-              </form>
-            </div>
-          </div>
+            <label> Data </label>
+            <select id='data_select' class="data_select target">
+            </select>
+          </form>
         </div>
 
-        <div class="row aira-result col-md-12">
-          <div class="result-item advice col-md-6">
-            <h2>Advice</h2>
-
-            <div class="content">
+        <div id="aira-algorithms" class="col-md-6">
+          <form action="">
+            <div class="checkbox">
+              <label>
+                <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold"> Threshold
+                estimation
+              </label>
             </div>
-          </div>
-
-          <div class="result-item effect col-md-6">
-            <h2>Net effect</h2>
-
-            <div class="content">
+            <div class="checkbox">
+              <label>
+                <input id="chk-stability" type="checkbox" name="algorithm" value="Stability"> Stability
+                estimation
+              </label>
             </div>
-          </div>
-        </div>
-
-        <div class="row" style="min-height:500px">
-          <div class="col-md-4">
-            <div id="netDynamisch" class="svg-container centered-svg">
-              <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
-              </div>
+            <div class="checkbox">
+              <label>
+                <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency"> Frequency
+                estimation
+              </label>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div id="netFullDynamisch" class="svg-container centered-svg">
+            <div class="checkbox">
+              <label>
+                <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap"> Bootstrap
+              </label>
             </div>
-          </div>
-          <div class="col-md-4">
-
-            <div class="bubble_chart" id="bubble_chart"></div>
-            <div class="effect_list" id="effect_list"><span class=''></span></div>
-            <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
-          </div>
-        </div>
-        <div class="row">
-          <div id="container" style="min-width: 310px; height: 400px;"></div>
-          <div id="simulation-buttons">
-            <input class="button light button_previous" name="previous" type="button" value="<<<<"
-                                                                                      id="button_previous"/>
-            <input class="button light button_pause" name="pause" type="button" value="||" id="button_pause"/>
-            <input class="button light button_play" name="play" type="button" value=">" id="button_play"/>
-            <input class="button light button_next" name="next" type="button" value=">>>>" id="button_next"/>
-          </div>
+          </form>
         </div>
       </div>
     </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    <script src='bower_components/mathjs/dist/math.min.js'></script>
-    <script src='src/bubbleChartVisualization.js'></script>
-    <script src='src/d3hgi.js'></script>
-    <script src='src/d3hgi_render.js'></script>
-    <script src='src/variableMapping.js'></script>
-    <script src='src/jsonParser.js'></script>
-    <script src='src/viewModel.js'></script>
-    <script src='src/varModel.js'></script>
-    <script src='src/visualization.js'></script>
-    <script src='src/mathHelpers.js'></script>
-    <script src='src/variableMapping.js'></script>
-    <script src='src/var.js'></script>
-    <script src='src/impulseResponseCalculator.js'></script>
-    <script src='src/aira.js'></script>
-    <script src='src/airaOptimalVariableFinder.js'></script>
-    <script src='src/simulation.js'></script>
-    <script src='src/searchers.js'></script>
-    <script src='src/gui.js'></script>
-    <script src='src/initializer.js'></script>
+    <div class="row aira-result col-md-12">
+      <div class="result-item advice col-md-6">
+        <h2>Advice</h2>
+
+        <div class="content">
+        </div>
+      </div>
+
+      <div class="result-item effect col-md-6">
+        <h2>Net effect</h2>
+
+        <div class="content">
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="min-height:500px">
+      <div class="col-md-4">
+        <div id="netDynamisch" class="svg-container centered-svg">
+          <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div id="netFullDynamisch" class="svg-container centered-svg">
+        </div>
+      </div>
+      <div class="col-md-4">
+
+        <div class="bubble_chart" id="bubble_chart"></div>
+        <div class="effect_list" id="effect_list"><span class=''></span></div>
+        <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="container" style="min-width: 310px; height: 400px;"></div>
+      <div id="simulation-buttons">
+        <input class="button light button_previous" name="previous" type="button" value="<<<<"
+               id="button_previous"/>
+        <input class="button light button_pause" name="pause" type="button" value="||" id="button_pause"/>
+        <input class="button light button_play" name="play" type="button" value=">" id="button_play"/>
+        <input class="button light button_next" name="next" type="button" value=">>>>" id="button_next"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+<script src='bower_components/mathjs/dist/math.min.js'></script>
+<script src='src/bubbleChartVisualization.js'></script>
+<script src='src/d3hgi.js'></script>
+<script src='src/d3hgi_render.js'></script>
+<script src='src/variableMapping.js'></script>
+<script src='src/jsonParser.js'></script>
+<script src='src/viewModel.js'></script>
+<script src='src/varModel.js'></script>
+<script src='src/visualization.js'></script>
+<script src='src/mathHelpers.js'></script>
+<script src='src/variableMapping.js'></script>
+<script src='src/var.js'></script>
+<script src='src/impulseResponseCalculator.js'></script>
+<script src='src/aira.js'></script>
+<script src='src/airaOptimalVariableFinder.js'></script>
+<script src='src/simulation.js'></script>
+<script src='src/searchers.js'></script>
+<script src='src/gui.js'></script>
+<script src='src/initializer.js'></script>
 
 
-  </body>
+</body>
 </html>
