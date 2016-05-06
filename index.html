@@ -1,14 +1,23 @@
 <html>
+
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
   <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <script src="http://code.highcharts.com/highcharts.js"></script>
   <script src="http://code.highcharts.com/highcharts-more.js"></script>
   <script src="http://code.highcharts.com/modules/exporting.js"></script>
-  <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true"/>
-  <link rel="stylesheet" media="all" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+  <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+
+
   <style>
+    html {
+      font-family: GillSans, Calibri, Trebuchet, sans-serif;
+    }
+
     #netDynamisch {
       padding-bottom: 50px;
       -webkit-transform: scale(0.767354368932039, 0.767354368932039);
@@ -27,11 +36,11 @@
       position: static !important;
     }
 
-    #simulation-buttons {
-      margin-right: auto;
-      margin-left: auto;
-      width: 100%;
-    }
+    <!--#simulation-buttons {-->
+      <!--margin-right: auto;-->
+      <!--margin-left: auto;-->
+      <!--width: 100%;-->
+    <!--}-->
 
     #shock {
       font-size: 150%;
@@ -43,145 +52,277 @@
       visibility: hidden;
     }
 
-    .visible-line-hover, .visible-line-click {
+    .visible-line-hover,
+    .visible-line-click {
       visibility: visible;
     }
+
+    header {
+      background-image: url('images/banner.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: "100%";
+      height: 500px;
+    }
+
+    #banner > .container {
+      height: "800px";
+    }
+
+    #headertitle {
+      color: #222;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 0 auto;
+    }
+
+    nav {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    nav ul li a {
+      color: #222;
+    }
   </style>
+
 </head>
+
 <body>
-<div class="warm" style="height:100%;">
-  <div id="aira-container-fluid">
-    <div class="row" id="aira-controls">
-      <div class="input-group">
-        <div id="aira-buttons" class="col-md-12"></div>
-
-        <div id="panel" class="col-md-6">
-          <form action="">
-            <label> Horizon </label>
-            <select id='prediction' class="target">
-            </select>
-
-            <label> Interpolation </label>
-            <select id='interpolation' class="target">
-            </select>
-
-            <label> Threshold </label>
-            <select id='threshold' class="target">
-            </select>
-
-            <label> Improvement (percentage) </label>
-            <select id='improvement' class="target">
-            </select>
-
-            <label> Bootstrap (iterations) </label>
-            <select id='bootstrap_iterations' class="target">
-            </select>
-
-            <label> Data </label>
-            <select id='data_select' class="data_select target">
-            </select>
-          </form>
+  <header>
+    <div class="navbar-fixed">
+      <nav class="strong z-depth-0">
+        <div class="nav-wrapper">
+          <ul class="right hide-on-med-and-down">
+            <li><a href="sass.html">Home</a></li>
+            <li><a href="badges.html">About</a></li>
+            <li><a href="badges.html">Contact</a></li>
+            <li><a href="badges.html">Source</a></li>
+          </ul>
         </div>
-
-        <div id="aira-algorithms" class="col-md-6">
-          <form action="">
-            <div class="checkbox">
-              <label>
-                <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold"> Threshold
-                estimation
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input id="chk-stability" type="checkbox" name="algorithm" value="Stability"> Stability
-                estimation
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency"> Frequency
-                estimation
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap"> Bootstrap
-              </label>
-            </div>
-          </form>
-        </div>
+      </nav>
+    </div>
+    <div class="section">
+      <div class="container">
+        <h1 class="text_h center header headline">
+            <span><b>aira</b></span>
+            <br>
+            <span class="cd-words-wrapper waiting">
+              Automated Impulse Response Analysis
+            </span>
+          </h1>
       </div>
     </div>
+  </header>
+  <main>
+    <ul class="collapsible" data-collapsible="accordion">
+      <li>
+        <div class="collapsible-header">Options</div>
+        <div class="collapsible-body">
+          <form action="#">
+            <div class="input-field col s12">
+              <select id='prediction' class="target browser-default">
+              </select>
+              <label> Horizon </label>
+            </div>
 
-    <div class="row aira-result col-md-12">
-      <div class="result-item advice col-md-6">
-        <h2>Advice</h2>
+            <div class="input-field col s12">
+              <select id='interpolation' class="target browser-default">
+              </select>
+              <label> Interpolation </label>
+            </div>
 
-        <div class="content">
+            <div class="input-field col s12">
+              <select id='threshold' class="target browser-default">
+              </select>
+              <label> Threshold </label>
+            </div>
+
+            <div class="input-field col s12">
+              <select id='improvement' class="target browser-default">
+              </select>
+              <label> Improvement (percentage) </label>
+            </div>
+            <div class="input-field col s12">
+              <select id='bootstrap_iterations' class="target browser-default">
+              </select>
+              <label> Bootstrap (iterations) </label>
+            </div>
+            <div class="input-field col s12">
+              <select id='data_select' class="data_select target browser-default">
+              </select>
+              <label> Data </label>
+            </div>
+          </form>
         </div>
-      </div>
-
-      <div class="result-item effect col-md-6">
-        <h2>Net effect</h2>
-
-        <div class="content">
+      </li>
+      <li>
+        <div class="collapsible-header">Flags</div>
+        <div class="collapsible-body">
+          <form action="">
+            <p>
+              <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold">
+              <label for='chk-threshold'> Threshold estimation </label>
+            </p>
+            <p>
+              <input id="chk-stability" type="checkbox" name="algorithm" value="Stability">
+              <label for="chk-stability"> Stability estimation </label>
+            </p>
+            <p>
+              <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency">
+              <label for="chk-frequency"> Frequency estimation </label>
+            </p>
+            <p>
+              <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap">
+              <label for="chk-bootstrap"> Bootstrap </label>
+            </p>
+          </form>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
+    <div class="warm" style="height:100%;">
+      <div id="aira-container-fluid">
+        <div class="row" id="aira-controls">
+          <div class="input-group">
+            <div id="aira-buttons" class="col-md-12"></div>
 
-    <div class="row" style="min-height:500px">
-      <div class="col-md-4">
-        <div id="netDynamisch" class="svg-container centered-svg">
-          <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
+            <div id="panel" class="col-md-6">
+            </div>
+
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div id="netFullDynamisch" class="svg-container centered-svg">
+
+        <div class="row aira-result col-md-12">
+          <div class="result-item advice col-md-6">
+            <h2>Advice</h2>
+
+            <div class="content">
+            </div>
+          </div>
+
+          <div class="result-item effect col-md-6">
+            <h2>Net effect</h2>
+
+            <div class="content">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row">
+            <div id="simulation-buttons">
+              <form action="#">
+
+
+              <input class="btn waves-effect waves-light button_previous" name="previous" type="button" value="<<<<" id="button_previous" />
+              <input class="btn waves-effect waves-light button_pause" name="pause" type="button" value="||" id="button_pause" />
+              <input class="btn waves-effect waves-light button_play" name="play" type="button" value=">" id="button_play" />
+              <input class="btn waves-effect waves-light button_next" name="next" type="button" value=">>>>" id="button_next" />
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col l6 s12">
+            <div class="card blue-grey lighten-5">
+              <div class="card-content grey-text">
+                <div id="netDynamisch" class="svg-container centered-svg">
+                  <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
+                  </div>
+                </div>
+                <span class="card-title">Dynamic Network</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+              </div>
+              <div class="card-action">
+                <a href="#">This is a link</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col l6 s12">
+            <div class="card blue-grey lighten-5">
+              <div class="card-content grey-text">
+                <div id="netFullDynamisch" class="svg-container centered-svg">
+                </div>
+                <span class="card-title">Full Dynamic Network</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+              </div>
+              <div class="card-action">
+                <a href="#">This is a link</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="bubble_chart" id="bubble_chart"></div>
+          <div class="effect_list" id="effect_list"><span class=''>.</span></div>
+          <div class="percentage_advice" id="percentage_advice"><span class=''>.</span></div>
         </div>
       </div>
-      <div class="col-md-4">
+    </div>
+  </main>
 
-        <div class="bubble_chart" id="bubble_chart"></div>
-        <div class="effect_list" id="effect_list"><span class=''></span></div>
-        <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Footer Content</h5>
+          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Links</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div id="container" style="min-width: 310px; height: 400px;"></div>
-      <div id="simulation-buttons">
-        <input class="button light button_previous" name="previous" type="button" value="<<<<"
-               id="button_previous"/>
-        <input class="button light button_pause" name="pause" type="button" value="||" id="button_pause"/>
-        <input class="button light button_play" name="play" type="button" value=">" id="button_play"/>
-        <input class="button light button_next" name="next" type="button" value=">>>>" id="button_next"/>
+    <div class="footer-copyright">
+      <div class="container">
+        © 2014 Copyright Text
+        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
       </div>
     </div>
-  </div>
-</div>
+  </footer>
 
-<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-<script src='bower_components/mathjs/dist/math.min.js'></script>
-<script src='src/bubbleChartVisualization.js'></script>
-<script src='src/d3hgi.js'></script>
-<script src='src/d3hgi_render.js'></script>
-<script src='src/variableMapping.js'></script>
-<script src='src/jsonParser.js'></script>
-<script src='src/viewModel.js'></script>
-<script src='src/varModel.js'></script>
-<script src='src/visualization.js'></script>
-<script src='src/mathHelpers.js'></script>
-<script src='src/variableMapping.js'></script>
-<script src='src/var.js'></script>
-<script src='src/impulseResponseCalculator.js'></script>
-<script src='src/aira.js'></script>
-<script src='src/airaOptimalVariableFinder.js'></script>
-<script src='src/simulation.js'></script>
-<script src='src/searchers.js'></script>
-<script src='src/gui.js'></script>
-<script src='src/initializer.js'></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+  <script src='bower_components/mathjs/dist/math.min.js'></script>
+  <script src='src/bubbleChartVisualization.js'></script>
+  <script src='src/d3hgi.js'></script>
+  <script src='src/d3hgi_render.js'></script>
+  <script src='src/variableMapping.js'></script>
+  <script src='src/jsonParser.js'></script>
+  <script src='src/viewModel.js'></script>
+  <script src='src/varModel.js'></script>
+  <script src='src/visualization.js'></script>
+  <script src='src/mathHelpers.js'></script>
+  <script src='src/variableMapping.js'></script>
+  <script src='src/var.js'></script>
+  <script src='src/impulseResponseCalculator.js'></script>
+  <script src='src/aira.js'></script>
+  <script src='src/airaOptimalVariableFinder.js'></script>
+  <script src='src/simulation.js'></script>
+  <script src='src/searchers.js'></script>
+  <script src='src/gui.js'></script>
+  <script src='src/initializer.js'></script>
 
 
 </body>
+
 </html>
