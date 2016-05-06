@@ -32,10 +32,10 @@ var Optimizers = (function () {
       var total = 0;
 
       // The number of steps
-      var length = cumulative_irf.length;
+      var steps = cumulative_irf.length;
 
       // The cumulative effect the variable has on the variable to improve
-      var net_effect = cumulative_irf[length - 1];
+      var net_effect = cumulative_irf[steps - 1];
 
       // If the effect is to extremely low, skip this variable, it is not suitable
       if (Math.abs(net_effect) < 0.01) return {
@@ -46,7 +46,8 @@ var Optimizers = (function () {
       };
 
       // The average of the variable to improve should differ with x%.
-      var needed_difference = options.variable_to_improve_summary.average * (options.wanted_increase / 100);
+      var needed_difference = options.variable_to_improve_summary.average * steps;
+      needed_difference *= (options.wanted_increase / 100) * options.variable_summary.sd;
 
       // In order to induce this difference the current variable should differ with:
       needed_difference /= net_effect;
@@ -55,7 +56,7 @@ var Optimizers = (function () {
       needed_difference /= options.variable_summary.average;
 
       // Count the number of sign switches
-      for (i = 0; i < length; i++) {
+      for (i = 0; i < steps; i++) {
         if (prev !== undefined) {
           if (sign(irf[i]) != sign(prev)) {
             sign_switches++;
