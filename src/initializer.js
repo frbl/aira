@@ -50,6 +50,7 @@ Initializer = (function () {
     var data_select = $('.data_select');
     data_select.find("option[value='extra network 2']").attr('selected', 'selected');
     data_select.trigger('change');
+    $('select').material_select();
   };
 
   var _startSimulation = function (json_data) {
