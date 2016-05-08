@@ -12,7 +12,7 @@ Gui = (function () {
     location.unbind();
     for (var i = 0; i < node_names.length; i++) {
       var node = node_names[i];
-      var html = $('<input class="button light button_' + node + '" name="' + node + '" type="button" value="' + variable_mapping.get_value(node) + '" id="button_' + node + '"/>');
+      var html = $('<input class="btn waves-effect waves-light button_' + node + '" name="' + node + '" type="button" value="' + variable_mapping.get_value(node) + '" id="button_' + node + '"/>');
 
       location.append(html);
       location.on("click", ".button_" + node, {
@@ -25,17 +25,17 @@ Gui = (function () {
       });
     }
 
-    location.append($('<input class="button red button_all" name="button_all" type="button" value="Shock ALL!" id="button_button_all"/>'));
+    location.append($('<input class="btn waves-effect waves-light orange button_all" name="button_all" type="button" value="Shock ALL!" id="button_button_all"/>'));
     location.on("click", ".button_all", function () {
       _clickNode('All', -1);
     });
 
-    location.append($('<input class="button green button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
+    location.append($('<input class="btn waves-effect waves-light red  button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
     location.on("click", ".button_reset", function () {
       simulation.clear();
     });
 
-    location.append($('<input class="button dark button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
+    location.append($('<input class="btn waves-effect waves-light blue-grey  button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
     location.on("click", ".button_optimize", function () {
 
       var netEffectOptimizer = new NetEffectOptimizer({

@@ -54,8 +54,12 @@ Simulation = (function () {
     _step %= _steps_to_run;
   };
 
+  Simulation.prototype.pause = function () {
+    for (var i = 0; i < _intervals.length; i++) clearTimeout(_intervals[i]);
+  };
+
   Simulation.prototype.clear = function () {
-    _pause();
+    this.pause();
     _step = 0;
     _resetNodes(_node_names);
   };
@@ -72,9 +76,6 @@ Simulation = (function () {
     }
   };
 
-  var _pause = function () {
-    for (var i = 0; i < _intervals.length; i++) clearTimeout(_intervals[i]);
-  };
 
   var _plotValue = function (node, value) {
     // Convert node back to network node
@@ -97,7 +98,6 @@ Simulation = (function () {
   };
 
   // Expose private methods as _ variables, for testing.
-  Simulation.prototype._pause = _pause;
   Simulation.prototype._resetNodes = _resetNodes;
   Simulation.prototype._plotValue = _plotValue;
 
