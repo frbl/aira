@@ -38,14 +38,6 @@ blockquote {
 }
 
 /* line 42, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
-blockquote:before {
-  color: #1C0835;
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  margin-right: 0.25em;
-  vertical-align: -0.4em;
-}
 
 /* line 50, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
 blockquote p {
@@ -53,21 +45,6 @@ blockquote p {
 }
 
 /* line 54, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
-#notices {
-  opacity: 0.8;
-  text-align: center;
-  position: fixed;
-  font-size: 140%;
-  right: 0;
-  left: 0;
-  margin-top: 25px;
-  margin-right: auto;
-  margin-left: auto;
-  /* give it dimensions */
-  width: 30%;
-  z-index: 101;
-  pointer-events: none;
-}
 
 /* =========
    Variables
@@ -88,10 +65,6 @@ textarea {
 }
 
 /* line 27, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-body {
-  font-size: 1em;
-  line-height: 1.4;
-}
 
 /* line 32, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
 ::-moz-selection {
@@ -142,44 +115,6 @@ textarea {
 
 
 /* line 328, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-/* fonts */
-@font-face {
-  font-family: 'bold';
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'medium';
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* site */
-/* line 401, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-
-/* line 405, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-
-/* lightbox (login.html) */
-/* line 412, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-.full-width {
-  width: 100%;
-}
-
-/* line 416, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-#login-box #content {
-  padding: 0px;
-}
-
-/* line 420, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
-#login-box {
-  width: 330px;
-  height: 400px;
-  padding: 35px;
-  background: #F4F6ED;
-  border-radius: 10px;
-  overflow: hidden;
-}
 
 /* line 430, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
 #login-box input {

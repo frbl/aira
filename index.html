@@ -10,19 +10,18 @@
   <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
 
 
   <style>
-    html {
-      font-family: GillSans, Calibri, Trebuchet, sans-serif;
-    }
+    html {}
 
     #netDynamisch {
       padding-bottom: 50px;
       -webkit-transform: scale(0.767354368932039, 0.767354368932039);
       transform: scale(0.767354368932039, 0.767354368932039);
-      height: 245.553398058252px;
+      height: 300px;
     }
 
     #container {
@@ -52,25 +51,42 @@
     }
 
     header {
-      background-image: url('images/banner.jpg');
+      background-image: url('images/banner_person.jpg');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
       width: "100%";
-      height: 500px;
+      height: 100%;
+      position: relative;
+    }
+
+    .header {
+      font-weight: 300;
+    }
+
+    .headline {
+      font-weight: 200;
+    }
+
+    .header-content {
+      bottom: 100;
+      position: absolute;
+      -ms-transform: rotate(90deg);
+      /* IE 9 */
+      -webkit-transform: rotate(90deg);
+      /* Safari */
+      transform: rotate(90deg);
+      left: 50%;
+      right: 50%;
     }
 
     #banner > .container {
       height: "800px";
     }
 
-    #headertitle {
-      color: #222;
-    }
-
     body {
       display: flex;
-      min-height: 100vh;
+      min-height: 100;
       flex-direction: column;
     }
 
@@ -81,9 +97,94 @@
     nav {
       background-color: rgba(255, 255, 255, 0.1);
     }
+    nav .brand-logo {
+      padding-left:10px;
+        font-weight:200;
+    }
 
     nav ul li a {
       color: #222;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #777;
+    }
+
+    .bounce {
+      -moz-animation: bounce 2s infinite;
+      -webkit-animation: bounce 2s infinite;
+      animation: bounce 2s infinite;
+    }
+
+    @-moz-keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        -moz-transform: translateX(0);
+        transform: translateX(0);
+      }
+      40% {
+        -moz-transform: translateX(-30px);
+        transform: translateX(-30px);
+      }
+      60% {
+        -moz-transform: translateX(-15px);
+        transform: translateX(-15px);
+      }
+    }
+
+    @-webkit-keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+      }
+      40% {
+        -webkit-transform: translateX(-30px);
+        transform: translateX(-30px);
+      }
+      60% {
+        -webkit-transform: translateX(-15px);
+        transform: translateX(-15px);
+      }
+    }
+
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+      }
+      40% {
+        -moz-transform: translateX(-30px);
+        -ms-transform: translateX(-30px);
+        -webkit-transform: translateX(-30px);
+        transform: translateX(-30px);
+      }
+      60% {
+        -moz-transform: translateX(-15px);
+        -ms-transform: translateX(-15px);
+        -webkit-transform: translateX(-15px);
+        transform: translateX(-15px);
+      }
     }
   </style>
 
@@ -94,177 +195,230 @@
     <div class="navbar-fixed">
       <nav class="strong z-depth-0">
         <div class="nav-wrapper">
+          <a href="#" class="brand-logo grey-text text-darken-3">aira</a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="sass.html">Home</a></li>
-            <li><a href="badges.html">About</a></li>
-            <li><a href="badges.html">Contact</a></li>
-            <li><a href="badges.html">Source</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#example">Example</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="https://github.com/compsy/aira" target='_blank'>Source</a></li>
           </ul>
         </div>
       </nav>
     </div>
     <div class="section">
-      <div class="container">
-        <h1 class="text_h center header headline">
-            <span><b>aira</b></span>
+      <div class="container center-align center">
+        <h1 class="">
+            <span class='header'>AIRA</span>
             <br>
-            <span class="cd-words-wrapper waiting">
+            <span class="headline cd-words-wrapper waiting grey-text text-ligthen-1">
               Automated Impulse Response Analysis
             </span>
           </h1>
+        <div class="header-content hide-on-small-only">
+          <a href="#home">
+            <i class="white-text large material-icons bounce">play_circle_outline</i>
+          </a>
+        </div>
       </div>
     </div>
   </header>
   <main>
-    <div class="container">
-      <ul class="collapsible" data-collapsible="accordion">
-        <li>
-          <div class="collapsible-header">Options</div>
-          <div class="collapsible-body">
-            <div class="container">
-              <form action="#">
-                <div class="input-field">
-                  <select id='prediction' class="target">
-                  </select>
-                  <label for='prediction'> Horizon </label>
-                </div>
-
-                <div class="input-field col s12">
-                  <select id='interpolation' class="target">
-                  </select>
-                  <label> Interpolation </label>
-                </div>
-
-                <div class="input-field col s12">
-                  <select id='threshold' class="target">
-                  </select>
-                  <label> Threshold </label>
-                </div>
-
-                <div class="input-field col s12">
-                  <select id='improvement' class="target">
-                  </select>
-                  <label> Improvement (percentage) </label>
-                </div>
-                <div class="input-field col s12">
-                  <select id='bootstrap_iterations' class="target">
-                  </select>
-                  <label> Bootstrap (iterations) </label>
-                </div>
-                <div class="input-field col s12">
-                  <select id='data_select' class="data_select target">
-                  </select>
-                  <label> Data </label>
-                </div>
-              </form>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="collapsible-header">Flags</div>
-          <div class="collapsible-body">
-            <form action="">
-              <p>
-                <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold">
-                <label for='chk-threshold'> Threshold estimation </label>
-              </p>
-              <p>
-                <input id="chk-stability" type="checkbox" name="algorithm" value="Stability">
-                <label for="chk-stability"> Stability estimation </label>
-              </p>
-              <p>
-                <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency">
-                <label for="chk-frequency"> Frequency estimation </label>
-              </p>
-              <p>
-                <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap">
-                <label for="chk-bootstrap"> Bootstrap </label>
-              </p>
-            </form>
-          </div>
-        </li>
-      </ul>
-
-
-      <div class="row aira-result col-md-12">
-        <div class="result-item advice col-md-6">
-          <div class="content">
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
+    <section id='home' class='grey lighten-4'>
+      <div class="container center-align">
         <div class="row">
-          <div id="simulation-buttons">
-            <input class="btn waves-effect waves-light button_previous" name="previous" type="button" value="<<<<" id="button_previous" />
-            <input class="btn waves-effect waves-light button_pause" name="pause" type="button" value="||" id="button_pause" />
-            <input class="btn waves-effect waves-light button_play" name="play" type="button" value=">" id="button_play" />
-            <input class="btn waves-effect waves-light button_next" name="next" type="button" value=">>>>" id="button_next" />
+          <div class="col s6 offset-s3">
+            <h1 class="">Automated Impulse Response analysis</h1>
+            <p class=' flow-text'>Amet sequi natus eum nam sit? Fugiat ratione hic quas doloremque soluta sapiente eos optio quibusdam placeat incidunt reprehenderit explicabo? Aut commodi vitae ad debitis dolores dolore. Dolor possimus voluptates.</p>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col l6 s12">
-          <div class="card blue-grey lighten-5">
-            <div class="card-content grey-text">
-              <div id="netDynamisch" class="svg-container centered-svg">
-                <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
+    </section>
+    <section id='about'>
+      <div class="container">
+        <div class="row">
+          <div class="col s8 offset-s2">
+            <h1 class="center">A match made in heaven</h1>
+            <p class="center flow-text">Aira is one of the most afvanced methods to provide feedback on EMA data.</p>
+          </div>
+        </div>
+        <div class="row center">
+          <div class="col m4 s12">
+            <i class="large material-icons orange-text">person_pin </i>
+            <h4>Personalized</h4>
+            <p class="center flow-text">The results are based entirely on the individual, no group averages needed.</p>
+          </div>
+          <div class="col m4 s12">
+            <i class="large material-icons orange-text">dashboard</i>
+            <h4>Cross platform</h4>
+            <p class="center flow-text">Aira runs completely separate from the EMA plaform. Both mobile and desktop devices can use it.</p>
+          </div>
+          <div class="col m4 s12">
+            <i class="large material-icons orange-text">chat_bubble</i>
+            <h4>Human readable</h4>
+            <p class="center flow-text">The adviced is presented in a human readbale, no jibber-jabber language.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id='example' class='grey lighten-4'>
+      <div class="container">
+        <div class="row">
+          <div class="col s6 offset-s3">
+            <h1 class="center">Example</h1>
+          </div>
+        </div>
+
+        <div class="row">
+          <ul class="collapsible" data-collapsible="accordion">
+            <li>
+              <div class="collapsible-header">Options</div>
+              <div class="collapsible-body">
+                <div class="container">
+                  <form action="#">
+                    <div class="input-field">
+                      <select id='prediction' class="target">
+                      </select>
+                      <label for='prediction'> Horizon </label>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <select id='interpolation' class="target">
+                      </select>
+                      <label> Interpolation </label>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <select id='threshold' class="target">
+                      </select>
+                      <label> Threshold </label>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <select id='improvement' class="target">
+                      </select>
+                      <label> Improvement (percentage) </label>
+                    </div>
+                    <div class="input-field col s12">
+                      <select id='bootstrap_iterations' class="target">
+                      </select>
+                      <label> Bootstrap (iterations) </label>
+                    </div>
+                    <div class="input-field col s12">
+                      <select id='data_select' class="data_select target">
+                      </select>
+                      <label> Data </label>
+                    </div>
+                  </form>
                 </div>
               </div>
-              <span class="card-title">Dynamic Network</span>
+            </li>
+            <li>
+              <div class="collapsible-header">Flags</div>
+              <div class="collapsible-body">
+                <form action="">
+                  <p>
+                    <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold">
+                    <label for='chk-threshold'> Threshold estimation </label>
+                  </p>
+                  <p>
+                    <input id="chk-stability" type="checkbox" name="algorithm" value="Stability">
+                    <label for="chk-stability"> Stability estimation </label>
+                  </p>
+                  <p>
+                    <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency">
+                    <label for="chk-frequency"> Frequency estimation </label>
+                  </p>
+                  <p>
+                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap">
+                    <label for="chk-bootstrap"> Bootstrap </label>
+                  </p>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="row aira-result col-md-12">
+          <div class="result-item advice col-md-6">
+            <div class="content">
             </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="row">
+            <div id="simulation-buttons">
+              <input class="btn waves-effect waves-light button_previous" name="previous" type="button" value="<<<<" id="button_previous" />
+              <input class="btn waves-effect waves-light button_pause" name="pause" type="button" value="||" id="button_pause" />
+              <input class="btn waves-effect waves-light button_play" name="play" type="button" value=">" id="button_play" />
+              <input class="btn waves-effect waves-light button_next" name="next" type="button" value=">>>>" id="button_next" />
             </div>
-            <div class="card-action">
-              <div class="row" id="aira-controls">
-                <div class="input-group">
-                  <div id="aira-buttons" class="col-md-12"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col l6 s12">
+            <div class="card blue-grey lighten-5">
+              <div class="card-content grey-text">
+                <div id="netDynamisch" class="svg-container centered-svg">
+                  <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
+                  </div>
                 </div>
+                <span class="card-title">Dynamic Network</span>
+              </div>
+              <div class="card-content">
+                <p>The dynamic network is a network representation of the Granger causal effects as found in the VAR analysis.</p>
+              </div>
+              <div class="card-action">
+                <div class="row" id="aira-controls">
+                  <div class="input-group">
+                    <div id="aira-buttons" class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col l6 s12">
+            <div class="card blue-grey lighten-5">
+              <div class="card-content grey-text">
+                <div id="netFullDynamisch" class="svg-container centered-svg">
+                </div>
+                <span class="card-title">Full Dynamic Network</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+              </div>
+              <div class="card-action">
+                <a href="#">This is a link</a>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col l6 s12">
-          <div class="card blue-grey lighten-5">
-            <div class="card-content grey-text">
-              <div id="netFullDynamisch" class="svg-container centered-svg">
+        <div class="row">
+          <div class="col l6 s12">
+            <div class="card blue-grey lighten-5">
+              <div class="card-content grey-text">
+                <div class="bubble_chart" id="bubble_chart"></div>
+                <span class="card-title">Personal advice</span>
               </div>
-              <span class="card-title">Full Dynamic Network</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
+              <div class="card-content">
+                <div class="result-item effect col-md-6">
+                  <p class="content">
+                  </p>
+                </div>
+                <div class="effect_list" id="effect_list"><span class=''></span></div>
+                <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
+              </div>
+              <div class="card-action">
+                <a href="#">This is a link</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col l6 s12">
-          <div class="card blue-grey lighten-5">
-            <div class="card-content grey-text">
-              <div class="bubble_chart" id="bubble_chart"></div>
-              <span class="card-title">Personal advice</span>
-            </div>
-            <div class="card-content">
-              <div class="result-item effect col-md-6">
-                <p class="content">
-                </p>
-              </div>
-              <div class="effect_list" id="effect_list"><span class=''></span></div>
-              <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   </main>
 
   <footer class="page-footer blue-grey darken-4">
@@ -315,6 +469,14 @@
   <script src='src/searchers.js'></script>
   <script src='src/gui.js'></script>
   <script src='src/initializer.js'></script>
+  <script type="text/javascript" charset="utf-8">
+    $('a').click(function() {
+      $('html, body').animate({
+        scrollTop: $($.attr(this, 'href')).offset().top
+      }, 500, 'easeOutCirc');
+      return false;
+    });
+  </script>
 </body>
 
 </html>
