@@ -10,7 +10,8 @@
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^1.1.1",
     "karma-htmlfile-reporter": "^0.2.1",
-    "karma-jasmine": "^0.3.6"
+    "karma-jasmine": "^0.3.6",
+    "codeclimate-test-reporter": "*"
   },
   "scripts": {
     "test": "karma start --single-run"
