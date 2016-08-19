@@ -44,8 +44,20 @@ VarModel = (function () {
     this._number_of_exogen_variables = this.getVarCoefficients()[0].length - this.getLags() * this.getNumberOfVariables();
     this._number_of_exogen_variables = this._number_of_exogen_variables > 0 ? this._number_of_exogen_variables : 0;
     this._data_summary = this.calculateDataSummary();
+    this._addSummaryToVarmodel();
   }
 
+  VarModel.prototype._addSummaryToVarmodel = function () {
+    var self = this,
+      current_summary;
+
+    self._significant_network.nodes.forEach(function(node) {
+      node_key = variable_mapping.get_key(node.name);
+      current_summary = self._data_summary[node_key];
+      node.sd = current_summary.sd;
+      node.average = current_summary.average;
+    });
+  };
 
   VarModel.prototype.getExogenCoefficients = function () {
     return this._exogen_coefficients;
@@ -217,13 +229,17 @@ VarModel = (function () {
    */
   VarModel.prototype.to_json = function () {
     var links = [];
-    var nodes = [];
+    var nodes = [],
+      node= null;
     for (var k = 0; k < this.getLags(); k++) {
       for (var i = 0; i < this.getNumberOfVariables(); i++) {
         if (k === 0) {
+          node = this.getNodeNames()[i];
           nodes.push({
             "index": i,
-            "name": this.getVariableMapping().get_value(this.getNodeNames()[i]),
+            "average": this.getDataSummary()[node].average,
+            "sd": this.getDataSummary()[node].sd,
+            "name": this.getVariableMapping().get_value(node),
             "type": "Positief"
           });
         }

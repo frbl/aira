@@ -72,8 +72,8 @@ Visualization.prototype._removePlotLine = function () {
 };
 
 Visualization.prototype.setPlotlineLocation = function (x_value) {
-  //this._removePlotLine();
-  //this._addPlotLine(x_value);
+  this._removePlotLine();
+  this._addPlotLine(x_value);
 };
 
 
@@ -114,48 +114,48 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
     }
   }
 
-  //this.chart = new Highcharts.Chart({
-    //chart: {
-      //renderTo: 'container',
-      //type: 'spline'
-    //},
-    //plotOptions: {
-      //series: {
-        //marker: {
-          //enabled: false
-        //}
-      //}
-    //},
+  this.chart = new Highcharts.Chart({
+    chart: {
+      renderTo: 'container',
+      type: 'spline'
+    },
+    plotOptions: {
+      series: {
+        marker: {
+          enabled: false
+        }
+      }
+    },
 
-    //title: {
-      //text: 'Impulse response graph',
-      //x: -20 //center
-    //},
-    //subtitle: {
-      //text: 'Calculated using AIRA',
-      //x: -20
-    //},
-    //credits: {
-      //enabled: false
-    //},
-    //xAxis: {
-      //allowDecimals: false,
-      //minTickInterval: 1,
-      //maxTickInterval: 1,
-      //title: {
-        //text: 'Horizon (time steps)'
-      //}
-    //},
-    //yAxis: {
-      //title: {
-        //text: 'Response (Y<sub>t</sub> - d)'
-      //},
-      //plotLines: [{
-        //value: 0,
-        //width: 1,
-        //color: '#808080'
-      //}]
-    //},
-    //series: series_var
-  //});
+    title: {
+      text: 'Impulse response graph',
+      x: -20 //center
+    },
+    subtitle: {
+      text: 'Calculated using AIRA',
+      x: -20
+    },
+    credits: {
+      enabled: false
+    },
+    xAxis: {
+      allowDecimals: false,
+      minTickInterval: 1,
+      maxTickInterval: 1,
+      title: {
+        text: 'Horizon (time steps)'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Response (Y<sub>t</sub> - d)'
+      },
+      plotLines: [{
+        value: 0,
+        width: 1,
+        color: '#808080'
+      }]
+    },
+    series: series_var
+  });
 };

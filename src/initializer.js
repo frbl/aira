@@ -36,7 +36,7 @@ Initializer = (function () {
     _gui.generateSelectOptions(0, 3000, 100, '#bootstrap_iterations');
 
     prediction_select.find("option[value='" + (10 > max_steps ? max_steps : 10) + "']").attr('selected', 'selected');
-    interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 300) + "']").attr('selected', 'selected');
+    interpolation_select.find("option[value='" + (25 > max_interpolation ? max_interpolation : 150) + "']").attr('selected', 'selected');
     threshold_select.find("option[value='" + (0.1 > max_threshold ? max_threshold : 0.1) + "']").attr('selected', 'selected');
     improvement_select.find("option[value='10']").attr('selected', 'selected');
 
@@ -88,7 +88,7 @@ Initializer = (function () {
 
     _gui.injectButtons(node_names);
     console.log(node_names);
-    simulation = new Simulation(node_names);
+    simulation = new Simulation(var_model);
     impulse_response_calculator = new ImpulseResponseCalculator(var_model);
     aira = new Aira(impulse_response_calculator, var_model, view_model);
     visualization_engine = new Visualization(node_names);
