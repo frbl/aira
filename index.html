@@ -1,13 +1,13 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
   <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <script src="http://code.highcharts.com/highcharts.js"></script>
   <script src="http://code.highcharts.com/highcharts-more.js"></script>
   <script src="http://code.highcharts.com/modules/exporting.js"></script>
-  <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true" />
+  <link rel="stylesheet" media="all" href="layout/application.css" data-turbolinks-track="true"/>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,246 +17,278 @@
 
 </head>
 
-<body>
-  <header>
-    <div class="navbar-fixed">
-      <nav class="strong z-depth-0">
-        <div class="nav-wrapper">
-          <a href="#" class="brand-logo grey-text text-darken-3">aira</a>
-          <ul class="right hide-on-med-and-down">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#example">Example</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="https://github.com/compsy/aira" target='_blank'>Source</a></li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-    <div class="section">
-      <div class="container center-align center">
-        <h1 class="">
-            <span class='header'>AIRA</span>
-            <br>
-            <span class="headline cd-words-wrapper waiting grey-text text-ligthen-1">
+<body class="blue-grey darken-2">
+<header>
+  <div class="navbar-fixed">
+    <nav class="strong z-depth-0">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo grey-text text-darken-3">aira</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#example">Example</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="https://github.com/compsy/aira" target='_blank'>Source</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="section">
+    <div class="container center-align center">
+      <h1 class="">
+        <span class='header'>AIRA</span>
+        <br>
+        <span class="headline cd-words-wrapper waiting grey-text text-ligthen-1">
               Automated Impulse Response Analysis
             </span>
-          </h1>
-        <div class="header-content hide-on-small-only">
-          <a href="#home">
-            <i class="white-text large material-icons bounce">play_circle_outline</i>
-          </a>
+      </h1>
+      <div class="header-content hide-on-small-only">
+        <a href="#home">
+          <i class="white-text large material-icons bounce">play_circle_outline</i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <section id='home' class='grey lighten-4'>
+    <div class="container center-align">
+      <div class="row">
+        <div class="col s6 offset-s3">
+          <h1 class="">Automated Impulse Response analysis</h1>
+          <p class=' flow-text'>The attention for the personalization of mental health advice is thriving, and AIRA's
+            job is to
+            make it <i>understandable</i> and <i>interesting</i>.</p>
         </div>
       </div>
     </div>
-  </header>
-  <main>
-    <section id='home' class='grey lighten-4'>
-      <div class="container center-align">
-        <div class="row">
-          <div class="col s6 offset-s3">
-            <h1 class="">Automated Impulse Response analysis</h1>
-            <p class=' flow-text'>Amet sequi natus eum nam sit? Fugiat ratione hic quas doloremque soluta sapiente eos optio quibusdam placeat incidunt reprehenderit explicabo? Aut commodi vitae ad debitis dolores dolore. Dolor possimus voluptates.</p>
+  </section>
+
+  <section id='about' class='white'>
+    <div class="container">
+      <div class="row">
+        <div class="col s8 offset-s2">
+          <h1 class="center">A match made in heaven</h1>
+          <p class="center flow-text">Aira is one of the most afvanced methods to provide feedback on EMA data.</p>
+        </div>
+      </div>
+      <div class="row center">
+        <div class="col m4 s12">
+          <i class="large material-icons orange-text">person_pin </i>
+          <h4>Personalized</h4>
+          <p class="center flow-text">The results are based entirely on the individual, no group averages needed.</p>
+        </div>
+        <div class="col m4 s12">
+          <i class="large material-icons orange-text">dashboard</i>
+          <h4>Cross platform</h4>
+          <p class="center flow-text">Aira runs completely separate from the EMA plaform. Both mobile and desktop
+            devices can use it.</p>
+        </div>
+        <div class="col m4 s12">
+          <i class="large material-icons orange-text">chat_bubble</i>
+          <h4>Human readable</h4>
+          <p class="center flow-text">The adviced is presented in a human readbale, no jibber-jabber language.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id='example' class='grey lighten-4'>
+    <div class="container">
+      <div class="row  center-align">
+        <div class="col s6 offset-s3">
+          <h1 class="center">Example</h1>
+          <p class='flow-text'>Below is an example of what AIRA could display for a participant. Note that the results
+            might (and will) be different for each <i>individual</i>.</p>
+        </div>
+      </div>
+
+      <div class="row aira-result col-md-12">
+        <div class="result-item advice col-md-6">
+          <div class="content">
           </div>
         </div>
       </div>
-    </section>
-    <section id='about'>
-      <div class="container">
-        <div class="row">
-          <div class="col s8 offset-s2">
-            <h1 class="center">A match made in heaven</h1>
-            <p class="center flow-text">Aira is one of the most afvanced methods to provide feedback on EMA data.</p>
-          </div>
-        </div>
-        <div class="row center">
-          <div class="col m4 s12">
-            <i class="large material-icons orange-text">person_pin </i>
-            <h4>Personalized</h4>
-            <p class="center flow-text">The results are based entirely on the individual, no group averages needed.</p>
-          </div>
-          <div class="col m4 s12">
-            <i class="large material-icons orange-text">dashboard</i>
-            <h4>Cross platform</h4>
-            <p class="center flow-text">Aira runs completely separate from the EMA plaform. Both mobile and desktop devices can use it.</p>
-          </div>
-          <div class="col m4 s12">
-            <i class="large material-icons orange-text">chat_bubble</i>
-            <h4>Human readable</h4>
-            <p class="center flow-text">The adviced is presented in a human readbale, no jibber-jabber language.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id='example' class='grey lighten-4'>
-      <div class="container">
-        <div class="row">
-          <div class="col s6 offset-s3">
-            <h1 class="center">Example</h1>
+
+      <div class="row">
+        <div class="col l6 s12">
+          <div class="card blue-grey lighten-5">
+            <div class="card-content grey-text">
+              <div id="netDynamisch" class="network svg-container centered-svg">
+              </div>
+              <span class="card-title">Dynamic Network</span>
+            </div>
+            <div class="card-content">
+              <p>The dynamic network is a network representation of the Granger causal effects as found in the VAR
+                analysis.</p>
+            </div>
+            <div class="card-action">
+            </div>
           </div>
         </div>
 
-        <div class="row">
+        <div class="col l6 s12">
+          <div class="card blue-grey lighten-5">
+            <div class="card-content grey-text">
+              <div id="netFullDynamisch" class="network svg-container centered-svg">
+              </div>
+              <span class="card-title">Full Dynamic Network</span>
+            </div>
+            <div class="card-content">
+              <p>The full dynamic network represents the total VAR model. This model is used to
+                determine the actual advice can be more cluttered than the other network.</p>
+            </div>
+            <div class="card-action">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="aira-controls">
+
+      </div>
+      <div class="row">
+        <h4>Controls</h4>
+        <div class="row col s12">
+          <div class="input-group">
+            <div id="aira-buttons" class=""></div>
+          </div>
+        </div>
+        <div class="row col s12">
+          <div id="simulation-buttons">
+            <a class="btn waves-effect waves-light button_previous"
+               id="button_previous"><i class="small material-icons">fast_rewind</i></a>
+            <a class="btn waves-effect waves-light button_pause"
+               id="button_pause"><i class="small material-icons">pause</i></a>
+            <a class="btn waves-effect waves-light button_play"
+               id="button_play"><i class="small material-icons">play_arrow</i></a>
+            <a class="btn waves-effect waves-light button_next"
+               id="button_next"><i class="small material-icons">fast_forward</i></a>
+          </div>
+        </div>
+        <div class="row  col s12">
           <ul class="collapsible" data-collapsible="accordion">
             <li>
               <div class="collapsible-header">Options</div>
               <div class="collapsible-body">
                 <div class="container">
-                  <form action="#">
-                    <div class="input-field">
-                      <select id='prediction' class="target">
-                      </select>
-                      <label for='prediction'> Horizon </label>
-                    </div>
+                  <div class="row">
+                    <form action="#">
+                      <div class="input-field col s12">
+                        <select id='prediction' class="target">
+                        </select>
+                        <label for='prediction'> Horizon </label>
+                      </div>
 
-                    <div class="input-field col s12">
-                      <select id='interpolation' class="target">
-                      </select>
-                      <label> Interpolation </label>
-                    </div>
+                      <div class="input-field col s12">
+                        <select id='interpolation' class="target">
+                        </select>
+                        <label> Interpolation </label>
+                      </div>
 
-                    <div class="input-field col s12">
-                      <select id='threshold' class="target">
-                      </select>
-                      <label> Threshold </label>
-                    </div>
+                      <div class="input-field col s12">
+                        <select id='threshold' class="target">
+                        </select>
+                        <label> Threshold </label>
+                      </div>
 
-                    <div class="input-field col s12">
-                      <select id='improvement' class="target">
-                      </select>
-                      <label> Improvement (percentage) </label>
-                    </div>
-                    <div class="input-field col s12">
-                      <select id='bootstrap_iterations' class="target">
-                      </select>
-                      <label> Bootstrap (iterations) </label>
-                    </div>
-                    <div class="input-field col s12">
-                      <select id='data_select' class="data_select target">
-                      </select>
-                      <label> Data </label>
-                    </div>
-                  </form>
+                      <div class="input-field col s12">
+                        <select id='improvement' class="target">
+                        </select>
+                        <label> Improvement (percentage) </label>
+                      </div>
+                      <div class="input-field col s12">
+                        <select id='bootstrap_iterations' class="target">
+                        </select>
+                        <label> Bootstrap (iterations) </label>
+                      </div>
+                      <div class="input-field col s12">
+                        <select id='data_select' class="data_select target">
+                        </select>
+                        <label> Data </label>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </li>
             <li>
               <div class="collapsible-header">Flags</div>
               <div class="collapsible-body">
-                <form action="">
-                  <p>
-                    <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold">
-                    <label for='chk-threshold'> Threshold estimation </label>
-                  </p>
-                  <p>
-                    <input id="chk-stability" type="checkbox" name="algorithm" value="Stability">
-                    <label for="chk-stability"> Stability estimation </label>
-                  </p>
-                  <p>
-                    <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency">
-                    <label for="chk-frequency"> Frequency estimation </label>
-                  </p>
-                  <p>
-                    <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap">
-                    <label for="chk-bootstrap"> Bootstrap </label>
-                  </p>
-                </form>
+                <div class="container">
+                  <div class="row">
+                    <form action="">
+                      <p>
+                        <input id="chk-threshold" type="checkbox" name="algorithm" value="Threshold">
+                        <label for='chk-threshold'> Threshold estimation </label>
+                      </p>
+                      <p>
+                        <input id="chk-stability" type="checkbox" name="algorithm" value="Stability">
+                        <label for="chk-stability"> Stability estimation </label>
+                      </p>
+                      <p>
+                        <input id="chk-frequency" type="checkbox" name="algorithm" value="Frequency">
+                        <label for="chk-frequency"> Frequency estimation </label>
+                      </p>
+                      <p>
+                        <input id="chk-bootstrap" type="checkbox" name="algorithm" value="Bootstrap">
+                        <label for="chk-bootstrap"> Bootstrap </label>
+                      </p>
+                    </form>
+                  </div>
+                </div>
               </div>
             </li>
           </ul>
         </div>
+      </div>
 
-        <div class="row aira-result col-md-12">
-          <div class="result-item advice col-md-6">
-            <div class="content">
+      <div class="row">
+        <div class="col l12 s12">
+          <div class="card blue-grey lighten-5">
+            <div class="card-content grey-text">
+              <div class="bubble_chart" id="bubble_chart"></div>
+              <span class="card-title">Personal advice</span>
             </div>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="row">
-            <div id="simulation-buttons">
-              <input class="btn waves-effect waves-light button_previous" name="previous" type="button" value="<<<<" id="button_previous" />
-              <input class="btn waves-effect waves-light button_pause" name="pause" type="button" value="||" id="button_pause" />
-              <input class="btn waves-effect waves-light button_play" name="play" type="button" value=">" id="button_play" />
-              <input class="btn waves-effect waves-light button_next" name="next" type="button" value=">>>>" id="button_next" />
+            <div class="card-content">
+              <div class="result-item effect col-md-6">
+                <p class="content">
+                </p>
+              </div>
+              <div class="effect_list" id="effect_list"><span class=''></span></div>
+              <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col l6 s12">
-            <div class="card blue-grey lighten-5">
-              <div class="card-content grey-text">
-                <div id="netDynamisch" class="svg-container centered-svg">
-                  <div id="shock-div" style="height:30px;"><span id="shock">!SHOCK!</span>
-                  </div>
-                </div>
-                <span class="card-title">Dynamic Network</span>
-              </div>
-              <div class="card-content">
-                <p>The dynamic network is a network representation of the Granger causal effects as found in the VAR analysis.</p>
-              </div>
-              <div class="card-action">
-                <div class="row" id="aira-controls">
-                  <div class="input-group">
-                    <div id="aira-buttons" class="col-md-12"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col l6 s12">
-            <div class="card blue-grey lighten-5">
-              <div class="card-content grey-text">
-                <div id="netFullDynamisch" class="svg-container centered-svg">
-                </div>
-                <span class="card-title">Full Dynamic Network</span>
-              </div>
-              <div class="card-content">
-                <p>The full dynamic network represents the total vector autregressive model. This model is used to determine the actual advice but might be more cluttered than the granger causal network.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col l6 s12">
-            <div class="card blue-grey lighten-5">
-              <div class="card-content grey-text">
-                <div class="bubble_chart" id="bubble_chart"></div>
-                <span class="card-title">Personal advice</span>
-              </div>
-              <div class="card-content">
-                <div class="result-item effect col-md-6">
-                  <p class="content">
-                  </p>
-                </div>
-                <div class="effect_list" id="effect_list"><span class=''></span></div>
-                <div class="percentage_advice" id="percentage_advice"><span class=''></span></div>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-              </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <div class="valign-wrapper">
-        <div id="container" class="valign center" style="min-width: 310px; height: 400px;">
-          <h1>Click one of the buttons above to see the result here!</h1>
+  <section class='white'>
+    <div class="valign-wrapper">
+      <div id="container" class="valign center" style="min-width: 310px; height: 400px;">
+        <h1>Click one of the buttons above to see the result here!</h1>
+      </div>
+    </div>
+  </section>
+
+  <section id='contact' class="grey lighten-4">
+    <div class="container">
+      <div class="row">
+        <div class="col s8 offset-s2">
+          <h1 class="center">Contact us</h1>
+          <h2 class="center"><a href="https://twitter.com/frbl">@frbl</a> // <a href="https://twitter.com/hashtag/aira">#aira</a>
+          </h2>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 
-  <footer class="page-footer blue-grey darken-4">
+<footer class="page-footer blue-grey darken-3">
+  <div class="footer-head blue-grey darken-3">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -264,54 +296,46 @@
           <p class="grey-text text-lighten-4">Automated Impulse Response Analysis</p>
         </div>
         <div class="col l4 offset-l2 s12">
-          <h5 class="white-text">Links</h5>
-          <ul>
-            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-          </ul>
         </div>
       </div>
     </div>
-    <div class="footer-copyright">
-      <div class="container">
-        &copy; 2016 - frbl / Compsy / University of Groningen
-        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-      </div>
+  </div>
+  <div class="footer-copyright blue-grey darken-4">
+    <div class="container">
+      &copy; 2016 - frbl / Compsy / University of Groningen
     </div>
-  </footer>
+  </div>
+</footer>
 
-
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-  <script src='bower_components/mathjs/dist/math.min.js'></script>
-  <script src='src/bubbleChartVisualization.js'></script>
-  <script src='src/d3hgi.js'></script>
-  <script src='src/d3hgi_render.js'></script>
-  <script src='src/variableMapping.js'></script>
-  <script src='src/jsonParser.js'></script>
-  <script src='src/viewModel.js'></script>
-  <script src='src/varModel.js'></script>
-  <script src='src/visualization.js'></script>
-  <script src='src/mathHelpers.js'></script>
-  <script src='src/variableMapping.js'></script>
-  <script src='src/var.js'></script>
-  <script src='src/impulseResponseCalculator.js'></script>
-  <script src='src/aira.js'></script>
-  <script src='src/airaOptimalVariableFinder.js'></script>
-  <script src='src/simulation.js'></script>
-  <script src='src/searchers.js'></script>
-  <script src='src/gui.js'></script>
-  <script src='src/initializer.js'></script>
-  <script type="text/javascript" charset="utf-8">
-    $('a').click(function() {
-      $('html, body').animate({
-        scrollTop: $($.attr(this, 'href')).offset().top
-      }, 500, 'easeOutCirc');
-      return false;
-    });
-  </script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+<script src='bower_components/mathjs/dist/math.min.js'></script>
+<script src='src/bubbleChartVisualization.js'></script>
+<script src='src/d3hgi.js'></script>
+<script src='src/d3hgi_render.js'></script>
+<script src='src/variableMapping.js'></script>
+<script src='src/jsonParser.js'></script>
+<script src='src/viewModel.js'></script>
+<script src='src/varModel.js'></script>
+<script src='src/visualization.js'></script>
+<script src='src/mathHelpers.js'></script>
+<script src='src/variableMapping.js'></script>
+<script src='src/var.js'></script>
+<script src='src/impulseResponseCalculator.js'></script>
+<script src='src/aira.js'></script>
+<script src='src/airaOptimalVariableFinder.js'></script>
+<script src='src/simulation.js'></script>
+<script src='src/searchers.js'></script>
+<script src='src/gui.js'></script>
+<script src='src/initializer.js'></script>
+<script type="text/javascript" charset="utf-8">
+  $('a').click(function () {
+    $('html, body').animate({
+      scrollTop: $($.attr(this, 'href')).offset().top
+    }, 500, 'easeOutCirc');
+    return false;
+  });
+</script>
 </body>
 
 </html>

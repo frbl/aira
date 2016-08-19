@@ -1,82 +1,5 @@
 html {}
 
-#netDynamisch {
-  padding-bottom: 50px;
-  -webkit-transform: scale(0.767354368932039, 0.767354368932039);
-  transform: scale(0.767354368932039, 0.767354368932039);
-  height: 300px;
-}
-
-#container {
-  position: static !important;
-  margin-top: 100px;
-  bottom: 0;
-  width: 100%;
-}
-
-.highcharts-container {
-  position: static !important;
-}
-
-#shock {
-  font-size: 150%;
-  display: none;
-  background-color: #ff0000;
-}
-
-.line {
-  visibility: hidden;
-}
-
-.visible-line-hover,
-.visible-line-click {
-  visibility: visible;
-}
-
-header {
-  background-image: url('images/banner_person.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: "100%";
-  height: 100%;
-  position: relative;
-}
-
-.header {
-  font-weight: 300;
-}
-
-.headline {
-  font-weight: 200;
-}
-
-.header-content {
-  bottom: 100;
-  position: absolute;
-  -ms-transform: rotate(90deg);
-  /* IE 9 */
-  -webkit-transform: rotate(90deg);
-  /* Safari */
-  transform: rotate(90deg);
-  left: 50%;
-  right: 50%;
-}
-
-#banner > .container {
-  height: "800px";
-}
-
-body {
-  display: flex;
-  min-height: 100;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
 nav {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -99,6 +22,78 @@ h1 {
 
 p {
   color: #777;
+}
+
+#netDynamisch, #netFullDynamisch {
+  padding-bottom: 50px;
+  -webkit-transform: scale(0.767354368932039, 0.767354368932039);
+  transform: scale(0.767354368932039, 0.767354368932039);
+  height: 300px;
+}
+
+#container {
+  position: static !important;
+  margin-top: 100px;
+  bottom: 0;
+  width: 100%;
+}
+
+.highcharts-container {
+  position: static !important;
+}
+
+.line {
+  visibility: hidden;
+}
+
+.visible-line-hover,
+.visible-line-click {
+  visibility: visible;
+}
+
+header {
+  background-image: url('images/banner_person.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+
+.header {
+  font-weight: 300;
+}
+
+.headline {
+  font-weight: 200;
+}
+
+.header-content {
+  bottom: 100;
+  position: absolute;
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Safari */
+  transform: rotate(90deg);
+  left: 50%;
+  right: 50%;
+}
+
+#banner > .container {
+  height: 800px;
+}
+
+body {
+  display: flex;
+  min-height: 100;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 .bounce {
@@ -168,4 +163,9 @@ p {
     -webkit-transform: translateX(-15px);
     transform: translateX(-15px);
   }
+}
+
+.network {
+  width:515px;
+  height:320px;
 }
