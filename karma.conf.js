@@ -1,14 +1,12 @@
 // karma.conf.js
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
     browsers: ['Chrome'],
     autoWatch: true,
     singleRun: false,
-
     timeout: 120000,
     browserNoActivityTimeout: 120000,
-
     files: [
       'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',
       'https://code.jquery.com/jquery-2.1.4.min.js',
@@ -17,7 +15,14 @@ module.exports = function (config) {
       'src/**.js',
       'spec/**.js',
       'spec/factories/**.js'
-    ]
+    ],
+    preprocessors: {
+      'src/*.js': 'coverage'
+    },
+    reporters: ['progress', 'coverage'],
+    coverageReporter: {
+      type: 'lcovonly',
+      dir: 'coverage'
+    }
   });
 };
-
