@@ -21,7 +21,32 @@ describe("VarModel", function () {
         exogen_values = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, 0]],
         node_names = ['beweging', 'onrust', 'hier_en_nu'],
         exogen_names = ['ochtend', 'middag', 'avond'],
-        significant_network = 'significant_network',
+        significant_network = {
+          "links": [
+            {
+              "source": 0,
+              "target": 1,
+              "coef": "-0.177779650515062"
+            }
+          ],
+          "nodes": [
+            {
+              "index": 0,
+              "name": "Beweging",
+              "type": "Positief"
+            },
+            {
+              "index": 1,
+              "name": "Onrust",
+              "type": "Positief"
+            },
+            {
+              "index": 2,
+              "name": "In het hier en nu leven",
+              "type": "Positief"
+            }
+          ]
+        },
         variable_mapping = new VariableMapping();
 
     });
@@ -146,13 +171,18 @@ describe("VarModel", function () {
         "nodes": [
           {
             "index": 0,
-            "name": "SomBewegUur",
-            "type": "Neutraal"
+            "name": "Beweging",
+            "type": "Positief"
           },
           {
             "index": 1,
-            "name": "SomPHQ",
-            "type": "Neutraal"
+            "name": "Concentratie",
+            "type": "Positief"
+          },
+          {
+            "index": 2,
+            "name": "In het hier en nu leven",
+            "type": "Positief"
           }
         ]
       };
@@ -176,10 +206,10 @@ describe("VarModel", function () {
     describe("dataSummaryFromJson", function () {
       it('can give a datasummary based on a set of node_names', function () {
         var values = [
-            [18, 13, 47, 33, 67, 32],
-            [32, 41, 90, 90, 10, 84]
+            [18, 13, 47],
+            [32, 41, 90]
           ],
-          node_names = ["humor", "onrust", "iets_betekenen", "ontspanning", "hier_en_nu", "concentratie"];
+          node_names = ['beweging', 'concentratie', 'hier_en_nu'];
 
         varmodel = new VarModel(
           var_coefficients, exogen_var_coefficients,
@@ -192,29 +222,17 @@ describe("VarModel", function () {
 
         var result = varmodel.calculateDataSummary();
         var expected = {
-          "humor": {
+          "beweging": {
             "average": (values[0][0] + values[1][0]) / 2,
             "sd": standardDeviation([values[0][0], values[1][0]], (values[0][0] + values[1][0]) / 2)
           },
-          "onrust": {
+          "concentratie": {
             "average": (values[0][1] + values[1][1]) / 2,
             "sd": standardDeviation([values[0][1], values[1][1]], (values[0][1] + values[1][1]) / 2)
           },
-          "iets_betekenen": {
+          "hier_en_nu": {
             "average": (values[0][2] + values[1][2]) / 2,
             "sd": standardDeviation([values[0][2], values[1][2]], (values[0][2] + values[1][2]) / 2)
-          },
-          "ontspanning": {
-            "average": (values[0][3] + values[1][3]) / 2,
-            "sd": standardDeviation([values[0][3], values[1][3]], (values[0][3] + values[1][3]) / 2)
-          },
-          "hier_en_nu": {
-            "average": (values[0][4] + values[1][4]) / 2,
-            "sd": standardDeviation([values[0][4], values[1][4]], (values[0][4] + values[1][4]) / 2)
-          },
-          "concentratie": {
-            "average": (values[0][5] + values[1][5]) / 2,
-            "sd": standardDeviation([values[0][5], values[1][5]], (values[0][5] + values[1][5]) / 2)
           }
         };
         expect(result).toEqual(expected);

@@ -49,11 +49,11 @@ VarModel = (function () {
 
   VarModel.prototype._addSummaryToVarmodel = function () {
     var self = this,
-      current_summary;
-
+      current_summary,
+      data_summary = self._data_summary;
     self._significant_network.nodes.forEach(function(node) {
       node_key = variable_mapping.get_key(node.name);
-      current_summary = self._data_summary[node_key];
+      current_summary = data_summary[node_key];
       node.sd = current_summary.sd;
       node.average = current_summary.average;
     });

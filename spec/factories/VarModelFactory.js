@@ -45,7 +45,7 @@ var fabricateVarModel = function (make_positive) {
 
     var node_names = ["uw_eigen_factor", "opgewektheid", "onrust", "concentratie", "piekeren", "eigenwaarde"];
     var exogen_names = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-    var significant_network = fabricateHoegekisSignificantNetwork;
+    var significant_network = fabricateHoegekisSignificantNetwork();
     var variable_mapping = new VariableMapping();
 
     return new VarModel(
@@ -254,7 +254,7 @@ var fabricateRealP1Model = function (make_positive) {
         [1, 0, 0]
     ];
 
-    var node_names = ["SomBewegUur", "SomBewegUur"];
+    var node_names = ["SomBewegUur", "SomPHQ"];
     var exogen_names = ['const', 'UitbijterPHQ', 'UitbijterBeweg'];
     var significant_network = {
         "links": [
@@ -310,11 +310,11 @@ var fabricateSimpleVarModel = function () {
         }],
         "nodes": [{
             "index": 0,
-            "name": node_names[0],
+            "name": "Onrust",
             "type": "Negatief"
         }, {
             "index": 1,
-            "name": node_names[1],
+            "name": "Concentratie",
             "type": "positifief"
         }]
     };
