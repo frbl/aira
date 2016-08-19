@@ -31,6 +31,9 @@ Visualization.prototype.updateAdvice = function (effects) {
   }
 };
 
+Visualization.prototype.showShock = function(step){
+  if (step === 0) Materialize.toast('Shocked!', 1000);
+};
 
 Visualization.prototype.updateNetEffect = function (effects, variable_id_to_improve) {
   var number_of_options = 0;

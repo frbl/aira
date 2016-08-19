@@ -43,10 +43,8 @@ Simulation = (function () {
   };
 
   Simulation.prototype.simulateStep = function (direction) {
-    var shockdiv = $("#shock");
     visualization_engine.setPlotlineLocation(((_step / _steps_to_run) * view_model.get_steps()));
-    if (_step === 0) shockdiv.show();
-    else shockdiv.fadeOut("slow");
+    visualization_engine.showShock(_step);
 
     var node_id, sd, average;
     for (node_id = 0; node_id < _node_names.length; node_id++) {
@@ -96,9 +94,10 @@ Simulation = (function () {
     if (!_use_absolute_value) {
       var class_posneg = value >= 0 ? positive_class : negative_class;
       network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg);
+      value = isNaN(value) ? 0 : Math.abs(value);
+    } else {
+      value = isNaN(value) ? 0 : value;
     }
-
-    value = isNaN(value) ? 0 : Math.abs(value);
 
     node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
     network.find('g .node').parent().find('#' + node).parent().children().attr('r', value);
