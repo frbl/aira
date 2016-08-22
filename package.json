@@ -5,13 +5,16 @@
   "main": "index.html",
   "dependencies": {},
   "devDependencies": {
+    "browser-sync": "^2.14.0",
+    "codeclimate-test-reporter": "0.3.3",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2",
     "jasmine-core": "^2.3.4",
-    "karma": "^0.12.37",
-    "karma-chrome-launcher": "^0.2.0",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.1.1",
-    "karma-htmlfile-reporter": "^0.2.1",
-    "karma-jasmine": "^0.3.6",
-    "codeclimate-test-reporter": "*"
+    "karma-htmlfile-reporter": "^0.3.4",
+    "karma-jasmine": "^1.0.2"
   },
   "scripts": {
     "test": "karma start --single-run"
@@ -29,7 +32,7 @@
     "aira"
   ],
   "author": "Frank Blaauw",
-  "license": "Not yet licensed ",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/frbl/aira/issues"
   },

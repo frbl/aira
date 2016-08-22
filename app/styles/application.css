@@ -1,0 +1,1564 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+
+
+
+
+
+
+
+*/
+/* line 16, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
+/* line 21, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
+.loading-notice-text {
+  font-family: medium, sans-serif;
+  background: #b3d4fc;
+  border-bottom: 1px solid #71a1c0;
+  border-bottom-left-radius: 5px;
+  border-left: 1px solid #71a1c0;
+  border-right: 1px solid #71a1c0;
+  border-bottom-right-radius: 5px;
+  width: 200px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+/* line 36, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
+blockquote {
+  border-left: 1px solid #B3D4FC;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+/* line 42, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
+/* line 50, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
+blockquote p {
+  display: inline; }
+
+/* line 54, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/application.css.scss */
+/* =========
+   Variables
+   ========= */
+/* ==========================================================================
+   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+   ========================================================================== */
+/* line 19, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+html,
+button,
+textarea {
+  color: #222; }
+
+/* line 23, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.checkbox-label {
+  padding-top: 8px; }
+
+/* line 27, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 32, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+/* line 37, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+::selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+/* line 42, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0; }
+
+/* line 51, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+img {
+  vertical-align: middle; }
+
+/* line 55, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+/* line 61, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+textarea {
+  resize: vertical; }
+
+/* line 65, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0; }
+
+/* line 328, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 430, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#login-box input {
+  width: 300px; }
+
+/* line 434, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#login-box .button {
+  width: 330px; }
+
+/* line 438, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#login-box form {
+  margin-top: 40px; }
+
+/* header */
+/* line 444, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header {
+  min-height: 143px;
+  display: block;
+  width: 100%;
+  background: url(/assets/bg-header.png) repeat-x bottom; }
+
+/* line 451, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header #logo {
+  width: 297px;
+  display: block;
+  float: left;
+  margin-top: 31px;
+  height: 77px;
+  background: url(/assets/logo.png) no-repeat; }
+
+/* line 460, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header #logo.suprised {
+  background-position: 0px 0px; }
+
+/* line 464, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header #logo.confused {
+  background-position: 0px -77px; }
+
+/* line 468, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header #logo.angry {
+  background-position: 0px -154px; }
+
+/* line 472, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header #logo.sad {
+  background-position: 0px -231px; }
+
+/* line 476, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header #logo.happy {
+  background-position: 0px -308px; }
+
+/* line 480, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+header .simple-link {
+  font-style: italic; }
+
+/* line 486, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column .link-topic {
+  padding-top: 20px; }
+
+/* line 491, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.separated-paragraphs > .column > p,
+.separated-paragraphs > .left > p, .separated-paragraphs > .right > p,
+.separated-paragraphs > .left-mirrored > p, .separated-paragraphs > .right-mirrored > p {
+  margin-bottom: 20px !important; }
+
+/* line 495, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 503, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 509, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+nav ul {
+  float: left;
+  margin-left: 2px; }
+
+/* line 514, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+nav ul li {
+  display: inline; }
+
+/* line 518, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+nav ul li a {
+  margin-right: 15px;
+  line-height: 50px;
+  display: block;
+  float: left;
+  font-size: 116%;
+  font-weight: normal;
+  color: #fff;
+  text-decoration: none; }
+
+/* line 530, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+nav ul li.active a, nav ul li a:hover {
+  color: #1C0835; }
+
+/* line 534, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+nav ul li.last a {
+  float: left;
+  margin-right: 0px; }
+
+/* movie homepage */
+/* line 541, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#movie {
+  height: 470px; }
+
+/* line 545, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 553, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 557, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#movie h3 {
+  font-size: 150%;
+  margin-bottom: 5px;
+  color: white; }
+
+/* line 563, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 611, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.ajaxloader {
+  display: none;
+  position: fixed;
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  margin: -25px auto auto -25px;
+  z-index: 100;
+  background: black url(/assets/loader.gif) no-repeat center;
+  text-align: center; }
+
+/* line 624, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.spinner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 32px; }
+
+/* content and subfooter */
+/* also some central text (paragraph and heading) definitions */
+/* line 633, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content, #subfooter {
+  padding: 60px 0px 60px 0px; }
+
+/* line 637, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#subfooter {
+  padding-bottom: 40px; }
+
+/* line 641, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.white {
+  background: #fff; }
+
+/* line 645, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm {
+  background: #fff; }
+
+/* line 649, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .thin-single-col {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto; }
+
+/* line 655, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 671, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.press-message {
+  padding-left: 30px;
+  padding-right: 30px;
+  background: #Fff;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #D4D6ED; }
+
+/* line 679, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .press-subtitle {
+  line-height: 16px;
+  margin-bottom: 8px; }
+
+/* line 684, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#cta h4 {
+  font-size: 161.6%;
+  background: none;
+  padding-bottom: 0px;
+  text-align: left;
+  margin: 0px; }
+
+/* line 692, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm .inner-content {
+  padding-top: 20px; }
+
+/* line 696, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm .left {
+  width: 625px;
+  float: left; }
+
+/* line 700, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm .right-mirrored {
+  width: 625px;
+  float: right; }
+
+/* line 705, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm .full {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto; }
+
+/* line 711, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.slightly-down {
+  margin-top: 20px !important; }
+
+/* line 714, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.error-text {
+  color: red !important; }
+
+/* line 718, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .full p {
+  text-align: justify;
+  padding-bottom: 20px; }
+
+/* line 723, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#movie .right {
+  width: 500px;
+  float: right; }
+
+/* line 728, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm .right {
+  width: 405px;
+  float: right; }
+
+/* line 732, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm .left-mirrored {
+  width: 405px;
+  float: left; }
+
+/* line 738, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm h1 {
+  color: #1E0733;
+  font-size: 277.2%; }
+
+/* line 743, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.warm h1.smaller {
+  padding-top: 30px;
+  font-size: 161.6%; }
+
+/* line 748, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content h2.smaller {
+  font-size: 150%; }
+
+/* line 752, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content p.smaller {
+  font-size: 80%;
+  line-height: 20px;
+  margin-top: 10px;
+  text-align: center; }
+
+/* line 759, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content p.alignleft, #content .press-message.item p.alignleft {
+  text-align: justify; }
+
+/* line 763, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#movie p.alignleft {
+  text-align: justify; }
+
+/* line 767, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .form p {
+  text-align: justify; }
+
+/* line 771, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#subfooter h3 {
+  color: #66B2CC;
+  background: url(/assets/underline-dark.png) no-repeat center bottom; }
+
+/* line 776, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .press-message.item p {
+  text-align: center; }
+
+/* line 777, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .press-message p.date {
+  text-align: center; }
+
+/* line 779, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 788, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+svg text {
+  font-size: 100%; }
+
+/* line 792, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#subfooter p, #cta .text p {
+  color: #fff; }
+
+/* line 796, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#cta .text p {
+  text-align: left; }
+
+/* line 800, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .left p {
+  text-align: justify;
+  padding-bottom: 20px; }
+
+/* line 805, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#subfooter .button {
+  margin: 25px auto 0px auto;
+  display: block; }
+
+/* line 810, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .button-group {
+  margin: 25px auto 0px auto; }
+
+/* cta */
+/* line 816, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#cta {
+  position: relative;
+  padding: 50px 0px 20px 0px; }
+
+/* line 821, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#cta .text {
+  width: 657px;
+  float: left; }
+
+/* line 826, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+div.bulletgraph .graphcontainer {
+  padding: 10px 0px 5px 0px;
+  font-size: 90%; }
+
+/* line 831, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.bulletgraph .graph {
+  display: block;
+  height: 50px;
+  padding-top: 10px; }
+
+/* styled images */
+/* line 837, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+img.image {
+  display: block;
+  padding: 8px;
+  background: #fff;
+  box-shadow: 0px 0px 3px #EBEDE5;
+  overflow: hidden;
+  border-radius: 5px; }
+
+/* line 845, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.header-image {
+  positition: relative;
+  float: right; }
+
+/* line 850, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+/* line 856, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+img.smaller {
+  max-width: 475px;
+  max-height: 436px; }
+
+/* invite form */
+/* line 863, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .form p {
+  margin-bottom: 30px; }
+
+/* line 867, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .form h2 {
+  font-size: 161.6%; }
+
+/* line 871, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .form .left {
+  width: 405px;
+  float: left; }
+
+/* line 876, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#movie .left {
+  padding-top: 50px;
+  width: 550px;
+  float: left; }
+
+/* line 882, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .form .right {
+  width: 625px;
+  float: right; }
+
+/* form styling */
+/* line 889, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+form fieldset {
+  padding: 0px 0px 24px 0px; }
+
+/* line 893, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+form label {
+  display: block;
+  margin-bottom: 12px;
+  font-family: "medium", sans-serif;
+  color: #8D8E8B;
+  font-size: 108%; }
+
+/* line 901, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+form a, #sign-up, form i {
+  font-family: "medium", sans-serif; }
+
+/* line 1047, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column > ul {
+  list-style: none;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  list-style: none; }
+
+/* line 1054, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column > ul > li {
+  padding: 0px 0px 0px 16px;
+  background: url(/assets/bullet.png) no-repeat left 6px; }
+
+/* line 1058, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ul li {
+  text-align: justify; }
+
+/* line 1062, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ul li span, .column ol li span {
+  font-family: "medium", sans-serif;
+  color: #1E0633;
+  font-size: 116%; }
+
+/* line 1067, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ol {
+  font-family: "medium", sans-serif;
+  color: #1E0633; }
+
+/* line 1072, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ul li ul {
+  list-style: none;
+  padding: 13px 0px 0px 0px;
+  margin: 0px; }
+
+/* line 1078, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ul li ul li {
+  display: inline;
+  padding: 0px;
+  margin: 0px; }
+
+/* line 1084, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ul ul li a, .timeline .inner-item a {
+  text-decoration: underline;
+  color: #8C8C8B;
+  font-size: 100%;
+  font-family: "medium", sans-serif;
+  line-height: 24px;
+  margin-bottom: 13px; }
+
+/* line 1093, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .inner-item a {
+  text-decoration: none;
+  color: #428bca;
+  font-family: inherit;
+  line-height: inherit;
+  margin-bottom: 0px; }
+
+/* line 1100, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .inner-item a:hover, .timeline.press .inner-item a:focus {
+  color: #2a6496;
+  text-decoration: underline; }
+
+/* line 1105, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .inner-item {
+  margin-bottom: 0px;
+  padding-top: 13px; }
+
+/* line 1110, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column .no-title ul li a {
+  margin-bottom: 0px; }
+
+/* line 1114, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column > ul > .no-title {
+  background-position: left 9px; }
+
+/* line 1118, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column ul li.no-title ul {
+  padding-top: 0px; }
+
+/* weetjes */
+/* line 1124, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline {
+  z-index: 1000;
+  padding-bottom: 20px; }
+
+/* line 1129, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .item {
+  width: 521px;
+  height: 122px;
+  float: left;
+  margin: 0px 18px 18px 0px;
+  position: relative;
+  border-radius: 5px;
+  position: relative; }
+
+/* line 1138, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .item {
+  width: 493px;
+  height: 142px;
+  margin: 0px 0px 20px 0px;
+  padding: 0px 10px 0px 10px;
+  float: none;
+  border-radius: 10px; }
+
+/* line 1147, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .even {
+  margin-right: 0px; }
+
+/* line 1151, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .inner-item {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 0;
+  width: 491px;
+  height: 92px;
+  box-shadow: 0px 0px 5px #E7E9E1;
+  overflow: hidden;
+  padding: 15px;
+  background: #fff;
+  border-radius: 5px; }
+
+/* line 1164, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .inner-item {
+  width: 493px;
+  padding: 0px 10px 0px 10px;
+  border-radius: 10px;
+  height: 112px; }
+
+/* line 1171, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .item.hover {
+  position: relative;
+  z-index: 150; }
+
+/* line 1175, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .item .info {
+  cursor: pointer; }
+
+/* line 1179, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .item.hover .inner-item {
+  height: auto;
+  border-style: solid;
+  border-color: #66B2CC;
+  border-width: 1px;
+  left: -1px;
+  top: -1px;
+  cursor: default; }
+
+/* line 1189, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .item.hover .overlay-item {
+  display: none; }
+
+/* line 1193, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .item p {
+  margin: 0px;
+  text-align: left;
+  color: #1E0733; }
+
+/* line 1198, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content .item .overlay-item p {
+  text-align: center; }
+
+/* line 1202, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .overlay-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url(/assets/overlay.png?v2) repeat-x left bottom;
+  position: absolute;
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  top: 0px;
+  left: 0px; }
+
+/* line 1215, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .overlay-item {
+  border-radius: 10px; }
+
+/* line 1219, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline .overlay-item span {
+  display: block;
+  position: relative;
+  color: #66B2CC;
+  font-size: 100%;
+  font-family: "medium", sans-serif;
+  left: 15px;
+  top: 95px; }
+
+/* line 1228, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .overlay-item span {
+  top: 115px;
+  left: 10px; }
+
+/* line 1232, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.timeline.press .overlay-item p {
+  position: absolute;
+  bottom: 0px;
+  left: 42%; }
+
+/* buttons and button group basics */
+/* line 1240, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button {
+  display: inline-block;
+  width: 184px;
+  height: 44px;
+  font-weight: normal;
+  font-family: "bold", sans-serif;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 44px;
+  font-size: 116%;
+  color: #fff; }
+
+/* line 1254, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.center-button {
+  margin: 20px auto;
+  display: block; }
+
+/* line 1259, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.light {
+  background: #6EB1CF; }
+
+/* line 1263, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.disabled {
+  background: #bbb;
+  pointer-events: none;
+  cursor: default; }
+
+/* line 1269, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.dark {
+  background: #1E1138; }
+
+/* line 1273, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.red {
+  background: #DF513E; }
+
+/* line 1277, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.red:hover {
+  color: #8C2315; }
+
+/* line 1281, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.green {
+  background: #2EA74E; }
+
+/* line 1285, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button.white {
+  background: #fff;
+  color: #201236; }
+
+/* line 1290, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button:hover {
+  text-decoration: none; }
+
+/* line 1294, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button-group {
+  display: block;
+  padding-bottom: 30px; }
+
+/* line 1299, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button-group.two-buttons {
+  width: 440px;
+  display: block; }
+
+/* line 1304, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button-group .button {
+  margin-right: 35px; }
+
+/* line 1308, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.lt-ie8 .button-group {
+  position: relative; }
+
+/* line 1312, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.lt-ie8 .button-group .button {
+  position: absolute;
+  left: 0px;
+  top: 0px; }
+
+/* line 1318, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.button-group .last {
+  margin-right: 0px; }
+
+/* line 1322, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.lt-ie8 .button-group .last {
+  right: 0px;
+  left: auto; }
+
+/* explanation frame */
+/* line 1329, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.explanation {
+  width: 93%;
+  margin-left: auto;
+  margin-right: auto; }
+
+/* line 1334, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.column.explanation {
+  width: 475px; }
+
+/* line 1337, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.explanation.centered-paragraph {
+  margin-top: 10%; }
+
+/* line 1340, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.explanation {
+  border: 2px solid #66b2cc;
+  padding: 20px 20px 17px;
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
+/* line 1346, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.explanation > img {
+  float: right;
+  width: 48px;
+  height: 48px;
+  top: -35px;
+  position: relative;
+  margin-bottom: -35px; }
+
+/* tables */
+/* line 1357, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-collapse: separate;
+  border-spacing: 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 18px;
+  font-family: "medium", sans-serif;
+  font-size: 116%;
+  font-weight: normal;
+  color: #1C0835; }
+
+/* line 1373, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table thead:first-child th:first-child, .table tbody:first-child td:first-child {
+  -webkit-border-top-left-radius: 4px;
+  -moz-border-top-left-radius: 4px;
+  border-top-left-radius: 4px; }
+
+/* line 1378, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table th {
+  font-weight: bold; }
+
+/* line 1381, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table td, .table th {
+  vertical-align: middle;
+  padding: 8px;
+  line-height: 1.4em;
+  text-align: left;
+  border-top: 1px solid #ddd; }
+
+/* line 1388, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table thead:first-child th, .table tbody:first-child td {
+  border-top: 0; }
+
+/* line 1391, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table tbody tr:nth-child(odd) td, .table tbody tr:nth-child(odd) th {
+  background-color: #f9f9f9; }
+
+/* line 1394, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table.buttons-table tbody tr:nth-child(odd) td, .table.buttons-table tbody tr:nth-child(odd) th {
+  background-color: transparent; }
+
+/* line 1397, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table.buttons-table {
+  background-color: transparent;
+  margin-bottom: 60px;
+  border: 0; }
+
+/* line 1402, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table.buttons-table td, .table.buttons-table th {
+  text-align: center; }
+
+/* line 1405, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.table.buttons-table a {
+  display: block;
+  padding: 14px 10px 7px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #bbb;
+  color: #fff;
+  text-decoration: none; }
+
+/* activerecord errors */
+/* line 1418, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.field_with_errors {
+  display: inline; }
+
+/* footer */
+/* line 1424, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+/* line 1432, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+footer ul, footer li {
+  display: inline;
+  padding: 0px;
+  margin: 0px;
+  color: #9893a4;
+  padding-right: 20px;
+  font-family: "medium", sans-serif; }
+
+/* line 1441, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+footer li {
+  display: block;
+  float: left; }
+
+/* line 1446, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+footer ul li a {
+  color: #9893a4;
+  text-decoration: none; }
+
+/* line 1451, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+footer ul li.last {
+  float: right;
+  padding-right: 0px; }
+
+/* line 1456, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+footer ul li a:hover {
+  text-decoration: underline; }
+
+/* Tooltips */
+/* line 1461, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.tooltip {
+  border-bottom: 1px dotted #000000;
+  color: #8D8E8B;
+  outline: none;
+  cursor: help;
+  text-decoration: none;
+  position: relative; }
+
+/* line 1467, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.noborder {
+  border: none; }
+
+/* line 1471, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.tooltip span {
+  margin-left: -999em;
+  position: absolute; }
+
+/* line 1475, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.tooltip:hover span {
+  border-radius: 5px 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  left: 1em;
+  top: 2em;
+  z-index: 99;
+  margin-left: 0;
+  width: 400px; }
+
+/* line 1482, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.classic {
+  padding: 0.8em 1em; }
+
+/* line 1483, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.crop {
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+/* line 1484, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.custom {
+  padding: 0.5em 0.8em 0.8em 2em; }
+
+/* line 1485, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.classic {
+  background: #fff;
+  border: 1px solid #66B2CC; }
+
+/* SVG */
+/* line 1490, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.svg-container {
+  text-align: center; }
+
+/* line 1493, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.svg-container, .resizable-table {
+  transform-origin: left top 0;
+  -webkit-transform-origin: left top 0;
+  -ms-transform-origin: left top 0; }
+
+/* line 1498, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.svg-container > svg {
+  overflow: visible; }
+
+/* line 1501, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.centered-svg {
+  transform-origin: left 50% 0;
+  -webkit-transform-origin: left 50% 0;
+  -ms-transform-origin: left 50% 0; }
+
+/* line 1506, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content div p.svg-label {
+  text-align: center;
+  font-weight: bold;
+  position: relative;
+  top: 15px; }
+
+/* line 1512, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#content div p.svg-tightlabel {
+  text-align: center;
+  font-weight: bold;
+  position: relative;
+  top: 15px; }
+
+/* line 1518, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.responsive-frame {
+  padding: 0px 45px 45px 45px; }
+
+/* ==========================================================================
+   Highcharts additions
+   ========================================================================== */
+/* line 1526, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.highcharts-tooltip > span {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid silver;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px #888;
+  padding: 8px;
+  z-index: 2; }
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/* line 1554, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px; }
+
+/* line 1561, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%; }
+
+/* line 1568, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden; }
+
+/* line 1573, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+/* line 1585, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+
+/* line 1594, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.invisible {
+  visibility: hidden; }
+
+/* line 1599, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table; }
+
+/* line 1604, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.clearfix:after {
+  clear: both; }
+
+/* line 1608, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+.clearfix {
+  *zoom: 1; }
+
+/* line 1612, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+#post_subscription_faq {
+  padding-top: 50px; }
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+@media print {
+  /* line 1621, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important; }
+  /* line 1629, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  a,
+  a:visited {
+    text-decoration: underline; }
+  /* line 1633, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  a[href]:after {
+    content: " (" attr(href) ")"; }
+  /* line 1637, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  abbr[title]:after {
+    content: " (" attr(title) ")"; }
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  /* line 1647, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: ""; }
+  /* line 1652, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+  /* line 1657, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */ }
+  /* line 1662, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  tr,
+  img {
+    page-break-inside: avoid; }
+  /* line 1666, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  img {
+    max-width: 100% !important; }
+  @page {
+    margin: 0.5cm; }
+  /* line 1676, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+  /* line 1682, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/main.css.scss */
+  h2,
+  h3 {
+    page-break-after: avoid; } }
+
+/* line 1, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+svg {
+  -webkit-backface-visibility: hidden; }
+
+/* line 5, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.axis path, .axis line {
+  fill: none;
+  stroke: #666;
+  shape-rendering: crispEdges; }
+
+/* line 11, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.axis text {
+  stroke: #444;
+  stroke-width: 0.1px; }
+
+/* line 15, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.overlay {
+  fill: none;
+  pointer-events: all; }
+
+@media only screen and (max-width: 1060px) {
+  /* line 17, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+  .overlay {
+    display: none; } }
+
+/* hgiNetwork */
+/* line 21, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.network line {
+  stroke-width: 1.5px;
+  stroke: #7f7f7f;
+  opacity: 0.5; }
+
+/* line 22, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.labelNode text {
+  font-size: 90%;
+  fill: #333; }
+
+/* line 23, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.link text.positive {
+  font: 18px Courier New;
+  fill: #333; }
+
+/*green; }*/
+/* line 24, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.link text.negative {
+  font: 18px Courier New;
+  fill: #333; }
+
+/*#862A51; }*/
+/* line 25, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.node.Positief {
+  fill: green; }
+
+/* line 26, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.node.Negatief {
+  fill: #862A51; }
+
+/* ea8e55 */
+/* line 27, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.node.Neutraal {
+  fill: #1447E7; }
+
+/* line 28, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.link path.arrow {
+  fill: #666;
+  opacity: 1; }
+
+/* line 29, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.link path.arclink {
+  fill: none;
+  stroke: #7f7f7f;
+  stroke-width: 1.5px;
+  opacity: 0.5; }
+
+/* hgiPie */
+/* line 34, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.arc {
+  transition: transform 100ms linear;
+  -moz-transition-property: transform 250ms linear;
+  -webkit-transition-property: transform 250ms linear;
+  -o-transition-property: transform 250ms linear; }
+
+/* line 35, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.arc:hover {
+  transform: scale(1.05); }
+
+/* line 36, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.pie text.label {
+  text-anchor: middle;
+  fill: white;
+  font-size: 116%; }
+
+/* line 37, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.pie text.legend {
+  stroke: #ccc;
+  stroke-width: 0.2px; }
+
+/* hgiBar */
+/* line 40, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barOpgewektheid .bar {
+  fill: #1E6C22; }
+
+/* line 41, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barOpgewektheid .bar:hover {
+  fill: steelblue; }
+
+/* line 42, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barTekortSchieten .bar {
+  fill: #CC1100; }
+
+/* line 43, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barTekortSchieten .bar:hover {
+  fill: steelblue; }
+
+/* line 45, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barBijzonder .title {
+  font-weight: bold; }
+
+/* line 46, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barBijzonder .bar {
+  fill: #99182c; }
+
+/* line 47, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#barBijzonder .bar:hover {
+  fill: steelblue; }
+
+/* hgiPairedHistogram */
+/* line 52, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bar1, .legend1 {
+  fill: #0A56B6; }
+
+/* line 53, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bar2, .legend2 {
+  fill: #862A51; }
+
+/* line 54, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bar1:hover, .bar2:hover {
+  fill: red; }
+
+/* line 55, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bars text.label {
+  fill: white;
+  font-size: 116%; }
+
+/* line 56, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bars line.errorbar {
+  stroke: #444; }
+
+/* line 60, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#pairedPositief .bar1, #pairedPositief .legend1 {
+  fill: #1E6C22; }
+
+/* line 61, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#pairedPositief .bar2, #pairedPositief .legend2 {
+  fill: #9ccb19; }
+
+/* line 62, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#pairedNegatief .bar1, #pairedNegatief .legend1 {
+  fill: #0A56B6; }
+
+/* line 63, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#pairedNegatief .bar2, #pairedNegatief .legend2 {
+  fill: #862A51; }
+
+/* line 65, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#pairedPositief .bar1:hover, #pairedPositief .bar2:hover {
+  fill: steelblue; }
+
+/* line 66, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#pairedNegatief .bar1:hover, #pairedNegatief .bar2:hover {
+  fill: red; }
+
+/* hgiHistogram */
+/* line 72, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bar {
+  fill: steelblue; }
+
+/* line 73, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bar:hover {
+  fill: red; }
+
+/* line 74, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#histSlaap .bar {
+  fill: palevioletred; }
+
+/* line 75, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#histSlaap .bar:hover {
+  fill: red; }
+
+/* line 76, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.errorbar {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px; }
+
+/* hgiLine */
+/* line 82, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.line, .y1 .line {
+  fill: none;
+  stroke: #1f77b4;
+  stroke-width: 1.5px; }
+
+/* line 83, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.line, .y2 .line {
+  fill: none;
+  stroke: #aec7e8;
+  stroke-width: 1.5px; }
+
+/* line 85, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.dot1 {
+  fill: #1f77b4;
+  stroke: #1f77b4;
+  stroke-width: 1px;
+  transition: stroke-width 250ms linear;
+  -moz-transition-property: stroke-width 250ms linear;
+  -webkit-transition-property: stroke-width 250ms linear;
+  -o-transition-property: stroke-width 250ms linear; }
+
+/* line 86, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.dot2 {
+  fill: #aec7e8;
+  stroke: #aec7e8;
+  stroke-width: 1px;
+  transition: stroke-width 250ms linear;
+  -moz-transition-property: stroke-width 250ms linear;
+  -webkit-transition-property: stroke-width 250ms linear;
+  -o-transition-property: stroke-width 250ms linear; }
+
+/* line 87, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.hover {
+  stroke-width: 5px !important; }
+
+/* line 89, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.y1 text {
+  fill: #1f77b4; }
+
+/* line 90, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.y2 text {
+  fill: #aec7e8; }
+
+/* line 92, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+line.verticalLine {
+  stroke: #999;
+  stroke-width: 1px;
+  shape-rendering: crispEdges; }
+
+/* line 93, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+text.verticalLine {
+  stroke: #444;
+  stroke-width: 0.1px;
+  font-size: 14px; }
+
+/* line 95, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+rect.verticalLineBGLabel {
+  fill: #F4F6EE; }
+
+/* line 96, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineNegatief .y1 .line {
+  stroke: #0A56B6; }
+
+/* line 97, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineNegatief .y2 .line {
+  stroke: #862A51; }
+
+/* line 98, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineNegatief .y1 text {
+  fill: #0A56B6; }
+
+/* line 99, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineNegatief .y2 text {
+  fill: #862A51; }
+
+/* line 100, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineNegatief .dot1 {
+  fill: #0A56B6;
+  stroke: #0A56B6;
+  stroke-width: 1px; }
+
+/* line 101, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineNegatief .dot2 {
+  fill: #862A51;
+  stroke: #862A51;
+  stroke-width: 1px; }
+
+/* line 103, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#linePositief .y1 .line {
+  stroke: #1E6C22; }
+
+/* line 104, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#linePositief .y1 text {
+  fill: #1E6C22; }
+
+/* line 105, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#linePositief .y2 .line {
+  stroke: #9ccb19; }
+
+/* line 106, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#linePositief .y2 text {
+  fill: #9ccb19; }
+
+/* line 107, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#linePositief .dot1 {
+  fill: #1E6C22;
+  stroke: #1E6C22;
+  stroke-width: 1px; }
+
+/* line 108, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#linePositief .dot2 {
+  fill: #9ccb19;
+  stroke: #9ccb19;
+  stroke-width: 1px; }
+
+/* line 111, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineEigenwaarde .y2 .line {
+  stroke: darkorange; }
+
+/* line 112, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineEigenwaarde .y1 .line {
+  stroke: #E3170D; }
+
+/* line 113, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineEigenwaarde .y2 text {
+  fill: darkorange; }
+
+/* line 114, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineEigenwaarde .y1 text {
+  fill: #E3170D; }
+
+/* line 115, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineEigenwaarde .dot2 {
+  fill: darkorange;
+  stroke: darkorange;
+  stroke-width: 1px; }
+
+/* line 116, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineEigenwaarde .dot1 {
+  fill: #E3170D;
+  stroke: #E3170D;
+  stroke-width: 1px; }
+
+/* line 118, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineOngemak .y1 .line {
+  stroke: #99182c; }
+
+/* line 119, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineOngemak .y2 .line {
+  stroke: #FF3300; }
+
+/* line 120, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineOngemak .y1 text {
+  fill: #99182c; }
+
+/* line 121, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineOngemak .y2 text {
+  fill: #FF3300; }
+
+/* line 122, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineOngemak .dot1 {
+  fill: #99182c;
+  stroke: #99182c;
+  stroke-width: 1px; }
+
+/* line 123, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineOngemak .dot2 {
+  fill: #FF3300;
+  stroke: #FF3300;
+  stroke-width: 1px; }
+
+/* line 125, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineHoeGaatHet .y1 .line {
+  stroke: #ffcc11; }
+
+/* line 126, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineHoeGaatHet .y2 .line {
+  stroke: #dd7500; }
+
+/* line 127, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineHoeGaatHet .y1 text {
+  fill: #ffcc11; }
+
+/* line 128, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineHoeGaatHet .y2 text {
+  fill: #dd7500; }
+
+/* line 129, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineHoeGaatHet .dot1 {
+  fill: #ffcc11;
+  stroke: #ffcc11;
+  stroke-width: 1px; }
+
+/* line 130, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#lineHoeGaatHet .dot2 {
+  fill: #dd7500;
+  stroke: #dd7500;
+  stroke-width: 1px; }
+
+/* hgiBubble */
+/* line 133, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.bubble {
+  fill: steelblue; }
+
+/* line 134, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#bubbleEigenwaarde .bubble {
+  fill: darkorange; }
+
+/* hgiScatter */
+/* line 138, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.scatter path.line {
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 1.5px; }
+
+/* line 140, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#scatterHoeGaatHet .bubble {
+  fill: #dd7500;
+  stroke: #dd7500;
+  stroke-width: 1px; }
+
+/* line 141, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+#scatterOnrust .bubble {
+  fill: #862A51;
+  stroke: #862A51;
+  stroke-width: 1px; }
+
+/* line 144, /Users/frbl/Workspace/roqua/hoe_gek_is/app/assets/stylesheets/d3hgi.css.scss */
+.percentage {
+  fill: #666;
+  font-size: 30px; }

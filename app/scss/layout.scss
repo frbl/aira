@@ -1,13 +1,14 @@
 nav {
   background-color: rgba(255, 255, 255, 0.1);
-}
-nav .brand-logo {
-  padding-left:10px;
-  font-weight:200;
-}
 
-nav ul li a {
-  color: #222;
+  .brand-logo {
+    padding-left: 10px;
+    font-weight: 200;
+  }
+
+  ul li a {
+    color: #222;
+  }
 }
 
 section {
@@ -24,8 +25,8 @@ p {
 
 #netDynamisch, #netFullDynamisch {
   padding-bottom: 50px;
-  -webkit-transform: scale(0.767354368932039, 0.767354368932039);
-  transform: scale(0.767354368932039, 0.767354368932039);
+  -webkit-transform: scale(0.76735, 0.76735);
+  transform: scale(0.76735, 0.76735);
   height: 300px;
 }
 
@@ -46,7 +47,7 @@ p {
 }
 
 header {
-  background-image: url('images/banner_person.jpg');
+  background-image: url("../images/banner_person.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -54,7 +55,6 @@ header {
   height: 100%;
   position: relative;
 }
-
 
 .header {
   font-weight: 300;
@@ -68,8 +68,10 @@ header {
   bottom: 100;
   position: absolute;
   -ms-transform: rotate(90deg);
+
   /* IE 9 */
   -webkit-transform: rotate(90deg);
+
   /* Safari */
   transform: rotate(90deg);
   left: 50%;
@@ -90,6 +92,11 @@ main {
   flex: 1 0 auto;
 }
 
+.network {
+  width: 515px;
+  height: 320px;
+}
+
 .bounce {
   -moz-animation: bounce 2s infinite;
   -webkit-animation: bounce 2s infinite;
@@ -105,10 +112,12 @@ main {
     -moz-transform: translateX(0);
     transform: translateX(0);
   }
+
   40% {
     -moz-transform: translateX(-30px);
     transform: translateX(-30px);
   }
+
   60% {
     -moz-transform: translateX(-15px);
     transform: translateX(-15px);
@@ -124,10 +133,12 @@ main {
     -webkit-transform: translateX(0);
     transform: translateX(0);
   }
+
   40% {
     -webkit-transform: translateX(-30px);
     transform: translateX(-30px);
   }
+
   60% {
     -webkit-transform: translateX(-15px);
     transform: translateX(-15px);
@@ -145,12 +156,14 @@ main {
     -webkit-transform: translateX(0);
     transform: translateX(0);
   }
+
   40% {
     -moz-transform: translateX(-30px);
     -ms-transform: translateX(-30px);
     -webkit-transform: translateX(-30px);
     transform: translateX(-30px);
   }
+
   60% {
     -moz-transform: translateX(-15px);
     -ms-transform: translateX(-15px);
@@ -159,7 +172,3 @@ main {
   }
 }
 
-.network {
-  width:515px;
-  height:320px;
-}
