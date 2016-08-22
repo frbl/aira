@@ -12,12 +12,12 @@ module.exports = function(config) {
       'https://code.jquery.com/jquery-2.1.4.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js',
       'bower_components/mathjs/dist/math.min.js',
-      'src/**.js',
+      'app/script/**.js',
       'spec/**.js',
       'spec/factories/**.js'
     ],
     preprocessors: {
-      'src/*.js': 'coverage'
+      'app/script/*.js': 'coverage'
     },
     reporters: ['progress', 'coverage'],
     coverageReporter: {
