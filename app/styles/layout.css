@@ -46,7 +46,7 @@ p {
 }
 
 header {
-  background-image: url('images/banner_person.jpg');
+  background-image: url('../images/banner_person.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
