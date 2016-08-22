@@ -106,7 +106,8 @@ function hgiNetwork() {
     coefMarkerOffset = 12,
     isDirectedGraph = false,
     addGradients = true,
-    doWeightedCharge = false;
+    doWeightedCharge = false,
+    scaling_factor = 0.5;
 
 
   //// D3 Helper functions
@@ -409,13 +410,9 @@ function hgiNetwork() {
         })
         // Radius nodes depends on number of links
         .attr("r", function (d) {
-          if (noLinks) {
-            d.radius = 15;
-          } else {
-            d.radius = (10 + 10 * (d.weight / centerNode.weight));
-          }
+          d.radius = d.average * scaling_factor;
           return d.radius;
-        })
+        });
 
       if (!addGradients) {
         gNodes.append("circle")

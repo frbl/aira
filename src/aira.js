@@ -61,12 +61,11 @@ Aira = (function () {
   };
 
   /**
+   * Determines the optimal node using an optimizer past into it. See AiraOptimalVariableFinder for details
    *
-   * @param var_model
-   * @param variable_to_improve
-   * @param lags
-   * @param optimizers
-   * @params options
+   * @param variable_to_improve the variable a participant would like to improve
+   * @param optimizer the optimizer to use for the optimization
+   * @param options extra options needed for the optimizer
    * @returns {{}}
    */
   Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optimizer, options) {
@@ -75,8 +74,9 @@ Aira = (function () {
       cumulative = {},
       effects = {};
 
+    // Should we take the shocked variable into account?
     var consider_shocked_variable = false;
-    variable_to_improve_name = this.var_model.get_node_name(variable_to_improve);
+    var variable_to_improve_name = this.var_model.get_node_name(variable_to_improve);
 
     if (DEBUG > 0) console.log('Determining best shock for variable ' + variable_to_improve + ' (out of ' + this.var_model.getNumberOfVariables() + ')');
 
@@ -124,10 +124,22 @@ Aira = (function () {
     return effects;
   };
 
+/**
+ * description
+ * @param variable_to_shock the variable that receives the shock
+ * @param variable_to_respond the variable that should respon
+ * @param measurement_interval the interval between the measurements in minutes
+ */
+  Aira.prototype.determineLengthOfEffect = function (variable_to_shock, variable_to_respond, measurement_interval) {
+
+  };
+
   /**
+   * This method determines the freequency of an intervention. Note that this method is higly under construction and should not be used
+   * until thouroughly validated
    *
-   * @param variable_to_improve
-   * @param options
+   * @param variable_to_improve the variable to improve in the present model
+   * @param options extra options such as a threshold and whether or not a degredation of the effect should be modelled
    * @returns {{}}
    */
   Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {

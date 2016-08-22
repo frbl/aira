@@ -7,16 +7,20 @@ Simulation = (function () {
     _frame_rate,
     _step,
     _intervals,
-    _use_absolute_value;
+    _use_absolute_value,
+    _var_model,
+    _scaling_factor;
 
-  function Simulation(node_names) {
-    _node_names = node_names;
+  function Simulation(var_model) {
+    _var_model = var_model;
+    _node_names = var_model.getNodeNames();
     _default_size = 20;
-    _size_factor = 50;
+    _size_factor = 1;
+    _scaling_factor = 0.5;
     _frame_rate = 60;
     _step = 0;
     _intervals = [];
-    _use_absolute_value = false;
+    _use_absolute_value = true;
   }
 
   Simulation.prototype.run = function (clear_all) {
@@ -39,16 +43,17 @@ Simulation = (function () {
   };
 
   Simulation.prototype.simulateStep = function (direction) {
-    var shockdiv = $("#shock");
     visualization_engine.setPlotlineLocation(((_step / _steps_to_run) * view_model.get_steps()));
-    if (_step === 0) shockdiv.show();
-    else shockdiv.fadeOut("slow");
+    visualization_engine.showShock(_step);
 
-    var node_id;
+    var node_id, sd, average;
     for (node_id = 0; node_id < _node_names.length; node_id++) {
-      var value = (_irf[node_id][_step]) * _size_factor;
+      node = _node_names[node_id];
+      sd = _var_model.getDataSummary()[node].sd;
+      average = _var_model.getDataSummary()[node].average * _scaling_factor;
+      var value = average + (_irf[node_id][_step]) * sd * _size_factor;
 
-      _plotValue(_node_names[node_id], value);
+      this._plotValue(_node_names[node_id], value);
     }
     _step += direction;
     _step %= _steps_to_run;
@@ -61,23 +66,24 @@ Simulation = (function () {
   Simulation.prototype.clear = function () {
     this.pause();
     _step = 0;
-    _resetNodes(_node_names);
+    this._resetNodes(_node_names);
   };
 
   /*
    * Private methods
    */
-  var _resetNodes = function (nodes_to_stop) {
+  Simulation.prototype._resetNodes = function (nodes_to_stop) {
     var node;
+    var summary = _var_model.getDataSummary();
     for (node in nodes_to_stop) {
       if (nodes_to_stop.hasOwnProperty(node)) {
-        _plotValue(nodes_to_stop[node], _default_size);
+        this._plotValue(nodes_to_stop[node], summary[nodes_to_stop[node]].average  * _scaling_factor);
       }
     }
   };
 
 
-  var _plotValue = function (node, value) {
+  Simulation.prototype._plotValue = function (node, value) {
     // Convert node back to network node
 
     var positive_class = "Positief";
@@ -88,18 +94,16 @@ Simulation = (function () {
     if (!_use_absolute_value) {
       var class_posneg = value >= 0 ? positive_class : negative_class;
       network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg);
+      value = isNaN(value) ? 0 : Math.abs(value);
+    } else {
+      value = isNaN(value) ? 0 : value;
     }
-
-    value = isNaN(value) ? 0 : Math.abs(value);
 
     node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
     network.find('g .node').parent().find('#' + node).parent().children().attr('r', value);
 
   };
 
-  // Expose private methods as _ variables, for testing.
-  Simulation.prototype._resetNodes = _resetNodes;
-  Simulation.prototype._plotValue = _plotValue;
 
   return Simulation;
 })();

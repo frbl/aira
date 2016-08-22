@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "description": "Automated impulse response analysis (AIRA), an algorithm and platform to automatically analyze intensive individual longitudinal data by means of impulse response functions (IRF) and simulation",
   "main": "index.html",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "jasmine-core": "^2.3.4",
     "karma": "^0.12.37",
     "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^1.1.1",
     "karma-htmlfile-reporter": "^0.2.1",
-    "karma-jasmine": "^0.3.6"
+    "karma-jasmine": "^0.3.6",
+    "codeclimate-test-reporter": "*"
   },
   "scripts": {
     "test": "karma start --single-run"
