@@ -1,6 +1,6 @@
 dependencies:
   override:
-    - npm install -g npm
+    - npm install -g npm codeclimate-test-reporte
     - npm install --only=dev:
         timeout: 6000
     - bower install --dev:
