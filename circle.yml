@@ -1,9 +1,11 @@
 dependencies:
   override:
-    - npm install -g npm
+    - npm install -g npm codeclimate-test-reporter
     - npm install --only=dev:
         timeout: 6000
     - bower install --dev:
         timeout: 6000
-
+test:
+  post:
+    - "mv coverage/*/lcov.info .; codeclimate-test-reporter < lcov.info"
 

@@ -16,13 +16,14 @@ module.exports = function(config) {
       'spec/**.js',
       'spec/factories/**.js'
     ],
-    preprocessors: {
-      'app/script/*.js': 'coverage'
-    },
     reporters: ['progress', 'coverage'],
+
+    preprocessors: {
+      'app/script/**/*.js': 'coverage'
+    },
     coverageReporter: {
       type: 'lcovonly',
-      dir: 'coverage'
+      dir: 'coverage/'
     }
   });
 };
