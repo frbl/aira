@@ -8,6 +8,7 @@
     "browser-sync": "^2.14.0",
     "codeclimate-test-reporter": "*",
     "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
     "gulp-ruby-sass": "^2.1.0",
     "gulp-sass": "^2.3.2",
     "jasmine-core": "^2.3.4",
