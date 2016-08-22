@@ -6,7 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.14.0",
-    "codeclimate-test-reporter": "*",
+    "codeclimate-test-reporter": "0.3.3",
     "gulp": "^3.9.1",
     "gulp-sass": "^2.3.2",
     "jasmine-core": "^2.3.4",
@@ -32,7 +32,7 @@
     "aira"
   ],
   "author": "Frank Blaauw",
-  "license": "Not yet licensed ",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/frbl/aira/issues"
   },
