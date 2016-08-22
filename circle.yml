@@ -5,5 +5,7 @@ dependencies:
         timeout: 6000
     - bower install --dev:
         timeout: 6000
-
+test:
+  post:
+    - codeclimate-test-reporter < coverage/lcov.info
 
