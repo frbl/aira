@@ -1,7 +1,7 @@
 dependencies:
   override:
     - npm install -g npm
-    - npm install --dev:
+    - npm install --only=dev:
         timeout: 6000
     - bower install --dev:
         timeout: 6000
