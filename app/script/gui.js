@@ -1,12 +1,19 @@
 var Gui;
 
 Gui = (function () {
+  var _simulation;
+
   function Gui() {
 
   }
 
+  Gui.prototype.setSimulation = function(simulation) {
+    this._simulation = simulation;
+  };
+
   Gui.prototype.injectButtons = function (node_names) {
     _injectSimulationFunctionality();
+    var self = this;
     var location = $('#aira-buttons');
     location.html('');
     location.unbind();
@@ -32,7 +39,7 @@ Gui = (function () {
 
     location.append($('<input class="btn waves-effect waves-light red  button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
     location.on("click", ".button_reset", function () {
-      simulation.clear();
+      self._simulation.clear();
     });
 
     location.append($('<input class="btn waves-effect waves-light blue-grey  button_optimize" name="button_optimize" type="button" value="Find optimal node" id="button_button_reset"/>'));
@@ -81,26 +88,26 @@ Gui = (function () {
   };
 
   var _injectSimulationFunctionality = function () {
+    var self = this;
     var location = $('#simulation-buttons');
 
     location.on("click", ".button_pause", function () {
-      simulation.pause();
+      self._simulation.pause();
     });
     location.on("click", ".button_play", function () {
-      simulation.run();
+      self._simulation.run();
     });
     location.on("click", ".button_next", function () {
-      simulation.simulateStep(1);
+      self._simulation.simulateStep(1);
     });
     location.on("click", ".button_previous", function () {
-      simulation.simulateStep(-1);
+      self._simulation.simulateStep(-1);
     });
   };
 
   var _clickNode = function (node_name_id, node_id) {
     if (DEBUG >= 1) console.log('Impulse given on: ' + node_name_id + ' (' + node_id + ')');
 
-    console.log(node_id + " < id and name > " + node_name_id);
     var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
     var bootstrapped_irf;
     if (view_model.get_chk_bootstrap()) {
@@ -119,9 +126,9 @@ Gui = (function () {
     irf = linearInterpolation(irf, view_model.get_interpolation());
 
     var interpolation = view_model.get_interpolation() === 0 ? 1 : view_model.get_interpolation();
-    simulation.setStepsToRun(view_model.get_steps() * interpolation);
-    simulation.setIrf(irf);
-    simulation.run(true);
+    this._simulation.setStepsToRun(view_model.get_steps() * interpolation);
+    this._simulation.setIrf(irf);
+    this._simulation.run(true);
 
     if (node_id != -1) {
       var thresholdOptimizer = new ThresholdOptimizer({

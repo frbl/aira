@@ -213,11 +213,16 @@ VarModel = (function () {
    * Negative effects should be inverted (i.e. onrust is negative, -onrust is positive.
    */
   VarModel.prototype.convert_coefficients = function () {
-    var multiplier = 0;
+    var multiplier = 0,
+      row_is_negative = 0,
+      col_is_negative = 0;
     for (var k = 0; k < this.getLags(); k++) {
       for (var i = 0; i < this.getNumberOfVariables(); i++) {
         for (var j = 0; j < this.getNumberOfVariables(); j++) {
-          multiplier = this.getVariableMapping().get_type(this.getNodeNames()[i]) == 'Negatief' ? -1 : 1;
+          row_is_negative = this.getVariableMapping().get_type(this.getNodeNames()[i]) == 'Negatief' ? -1 : 1;
+          col_is_negative = this.getVariableMapping().get_type(this.getNodeNames()[j]) == 'Negatief' ? -1 : 1;
+
+          multiplier = col_is_negative * row_is_negative;
           this.set_coefficient(k, j, i, multiplier * this.get_coefficient(k, j, i));
         }
       }

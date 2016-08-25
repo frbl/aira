@@ -50,26 +50,10 @@ var Optimizers = (function () {
       needed_difference *= (options.wanted_increase / 100) * options.variable_summary.sd;
 
       // In order to induce this difference the current variable should differ with:
-      needed_difference /= net_effect;
-
       // Which is x percentage of its average
-      needed_difference /= options.variable_summary.average;
-
-      // Count the number of sign switches
-      for (i = 0; i < steps; i++) {
-        if (prev !== undefined) {
-          if (sign(irf[i]) != sign(prev)) {
-            sign_switches++;
-          }
-          total++;
-        }
-        prev = irf[i];
-      }
+      needed_difference /= options.variable_summary.average * net_effect * options.variable_summary.sd;
 
       return {
-        net_effect: net_effect,
-        sign_switches: sign_switches,
-        stability: 1 - (sign_switches / total),
         needed_difference: needed_difference
       };
     },

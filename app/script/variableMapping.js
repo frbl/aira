@@ -19,7 +19,7 @@ VariableMapping = (function () {
         "translation": "Physical discomfort",
         "type": "Negatief"
       },
-      "uw_eigen_factor": {"name": "Mijn eigen factor", "translation": "Personal factor", "type": "Neutraal"},
+      "uw_eigen_factor": {"name": "Mijn eigen factor", "translation": "Personal factor", "type": "Negatief"},
       "onrust": {"name": "Onrust", "translation": "Agitation", "type": "Negatief"},
       "ontspanning": {"name": "Ontspanning", "translation": "Relaxation", "type": "Positief"},
       "opgewektheid": {"name": "Opgewektheid", "translation": "Cheerfulness", "type": "Positief"},
@@ -65,6 +65,7 @@ VariableMapping = (function () {
 
   VariableMapping.prototype.get_translation = function (key) {
     result = this.get_entry(key);
+    if (result === undefined) throw('Key "'+key+'" not found!');
     if (result.constructor === Array) {
       return result.map(function (current, id) {
         return current.translation;

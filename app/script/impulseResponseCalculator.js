@@ -24,6 +24,8 @@ ImpulseResponseCalculator = (function () {
 
     var nr_of_variables = this._var_model.getVarCoefficients().length;
 
+    // Actually we want to generate from step 0 till step steps, which is steps + 1
+    steps++;
     var shocks;
     if (variable_to_shock == -1) {
       shocks = createMatrix(shock_size, nr_of_variables, steps, false);
@@ -32,7 +34,6 @@ ImpulseResponseCalculator = (function () {
       shocks[variable_to_shock] = makeFilledArray(steps, shock_size);
     }
     shocks = transpose(shocks);
-
     var C = this.estimateVmaCoefficients(steps);
     var result = this.calculateImpulseResponse(shocks, C);
 
@@ -119,7 +120,7 @@ ImpulseResponseCalculator = (function () {
         irfs_ci_low[i][variable_id] = getQuantile(irf_at_time[variable_id], lower_bound);
       }
     }
-    console.log({'low': irfs_ci_low, 'high': irfs_ci_high});
+    if(DEBUG > 2) console.log({'low': irfs_ci_low, 'high': irfs_ci_high});
     return {'low': irfs_ci_low, 'high': irfs_ci_high};
   };
 

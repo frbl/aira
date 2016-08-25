@@ -31,7 +31,8 @@ Aira = (function () {
 
       var only_significant = this.view_model.get_chk_bootstrap(),
         bootstrap_iterations = this.view_model.get_bootstrap_iterations(),
-        confidence = .95;
+        confidence = 0.95;
+
       // Shock the current variable in the loop
       if (only_significant) {
         irf = this.impulse_response_calculator.significantImpulseResponseCalculation(variable, 1, this.view_model.get_steps(),
@@ -105,7 +106,7 @@ Aira = (function () {
         options
       );
 
-      effects[variable_mapping.get_translation(name)] = airaOptimalVariableFinder.execute(optimizer);
+      effects[this.var_model.getVariableMapping().get_translation(name)] = airaOptimalVariableFinder.execute(optimizer);
     }
 
     if (DEBUG > 1) {
@@ -131,7 +132,34 @@ Aira = (function () {
  * @param measurement_interval the interval between the measurements in minutes
  */
   Aira.prototype.determineLengthOfEffect = function (variable_to_shock, variable_to_respond, measurement_interval) {
+    var variable, irf,
+      result = {},
+      effects = {};
 
+    // Should we take the shocked variable into account?
+    var variable_to_shock_name = this.var_model.get_node_name(variable_to_shock);
+    var variable_to_respond_name = this.var_model.get_node_name(variable_to_respond);
+    if (DEBUG > 0) console.log('Determining length of effect for variable ' + variable_to_shock + ' (out of ' + this.var_model.getNumberOfVariables() + ')');
+
+    irf = transpose(this.impulse_response_calculator.runImpulseResponseCalculation(variable_to_shock, 1, this.view_model.get_steps()));
+
+    result[variable_to_respond_name] = irf[variable_to_respond];
+
+
+    if (DEBUG > 1) {
+      console.log('Effects found for variable: ' + variable_to_improve);
+      var interval;
+      console.log(effects);
+      for (var effect in effects) {
+        if (effects.hasOwnProperty(effect)) {
+
+          for (interval = 0; interval < effects[effect].length; interval++) {
+            console.log(effect + ':' + effects[effect][interval]);
+          }
+        }
+      }
+    }
+    return result;
   };
 
   /**
@@ -222,7 +250,7 @@ Aira = (function () {
 
     data.forEach(function (entry) {
       result.nodes.push({
-        "name": variable_mapping.get_translation(entry.name),
+        "name": this.var_model.getVariableMapping().get_translation(entry.name),
         "key": entry.name,
         "val": entry.val
       });

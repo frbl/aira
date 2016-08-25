@@ -1,5 +1,5 @@
-describe("VarModel", function () {
-  describe("VarModel constructor", function () {
+describe("VarModel", function() {
+  describe("VarModel constructor", function() {
     var first_value,
       second_value,
       var_coefficients,
@@ -11,47 +11,51 @@ describe("VarModel", function () {
       significant_network,
       variable_mapping;
 
-    beforeEach(function () {
+    beforeEach(function() {
       first_value = 0.5,
         second_value = 0.2,
         var_coefficients = [createMatrix(first_value, 3, 3, false),
-          createMatrix(second_value, 3, 3, false)],
+          createMatrix(second_value, 3, 3, false)
+        ],
         exogen_var_coefficients = createMatrix(first_value, 3, 3, false),
-        y_values = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]],
-        exogen_values = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, 0]],
+        y_values = [
+          [1, 2, 3],
+          [1, 2, 3],
+          [1, 2, 3],
+          [1, 2, 3]
+        ],
+        exogen_values = [
+          [1, 0, 0],
+          [0, 1, 0],
+          [0, 0, 1],
+          [0, 0, 0]
+        ],
         node_names = ['beweging', 'onrust', 'hier_en_nu'],
         exogen_names = ['ochtend', 'middag', 'avond'],
         significant_network = {
-          "links": [
-            {
-              "source": 0,
-              "target": 1,
-              "coef": "-0.177779650515062"
-            }
-          ],
-          "nodes": [
-            {
-              "index": 0,
-              "name": "Beweging",
-              "type": "Positief"
-            },
-            {
-              "index": 1,
-              "name": "Onrust",
-              "type": "Positief"
-            },
-            {
-              "index": 2,
-              "name": "In het hier en nu leven",
-              "type": "Positief"
-            }
-          ]
+          "links": [{
+            "source": 0,
+            "target": 1,
+            "coef": "-0.177779650515062"
+          }],
+          "nodes": [{
+            "index": 0,
+            "name": "Beweging",
+            "type": "Positief"
+          }, {
+            "index": 1,
+            "name": "Onrust",
+            "type": "Positief"
+          }, {
+            "index": 2,
+            "name": "In het hier en nu leven",
+            "type": "Positief"
+          }]
         },
         variable_mapping = new VariableMapping();
-
     });
 
-    it("should set the correct things in the variables", function () {
+    it("should set the correct things in the variables", function() {
       var make_positive = false;
 
       var varmodel = new VarModel(
@@ -80,8 +84,8 @@ describe("VarModel", function () {
       }
     });
 
-    describe("converts coefficients if needed", function () {
-      it("should not call the convert_coefficients function if it make positive = false", function () {
+    describe("converts coefficients if needed", function() {
+      it("should not call the convert_coefficients function if it make positive = false", function() {
         make_positive = false;
 
         spyOn(VarModel.prototype, 'convert_coefficients');
@@ -96,7 +100,7 @@ describe("VarModel", function () {
         expect(VarModel.prototype.convert_coefficients).not.toHaveBeenCalled();
       });
 
-      it("should call the convert_coefficients function if it make positive = true", function () {
+      it("should call the convert_coefficients function if it make positive = true", function() {
         var make_positive = true;
         spyOn(VarModel.prototype, 'convert_coefficients');
         new VarModel(
@@ -113,7 +117,7 @@ describe("VarModel", function () {
     });
   });
 
-  describe("with a created varmodel", function () {
+  describe("with a created varmodel", function() {
     var varmodel,
       node_names,
       significant_network,
@@ -127,13 +131,15 @@ describe("VarModel", function () {
       variable_mapping,
       y_values, exogen_values;
 
-    beforeEach(function () {
+    beforeEach(function() {
       first_value = 0.5;
       second_value = 0.2;
       exo_value = 0.1;
 
-      var_coefficients = [createMatrix(first_value, 3, 3, false),
-        createMatrix(second_value, 3, 3, false)];
+      var_coefficientsl1 = createMatrix(first_value, 3, 3, false);
+      var_coefficientsl2 = createMatrix(second_value, 3, 3, false);
+
+      var_coefficients = [var_coefficientsl1, var_coefficientsl2];
 
       exogen_var_coefficients = createMatrix(exo_value, 3, 7, false);
 
@@ -161,30 +167,24 @@ describe("VarModel", function () {
       node_names = ['beweging', 'concentratie', 'hier_en_nu'];
       exogen_names = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
       significant_network = {
-        "links": [
-          {
-            "source": 0,
-            "target": 1,
-            "coef": "-0.177779650515062"
-          }
-        ],
-        "nodes": [
-          {
-            "index": 0,
-            "name": "Beweging",
-            "type": "Positief"
-          },
-          {
-            "index": 1,
-            "name": "Concentratie",
-            "type": "Positief"
-          },
-          {
-            "index": 2,
-            "name": "In het hier en nu leven",
-            "type": "Positief"
-          }
-        ]
+        "links": [{
+          "source": 0,
+          "target": 1,
+          "coef": "-0.177779650515062"
+        }],
+        "nodes": [{
+          "index": 0,
+          "name": "Beweging",
+          "type": "Positief"
+        }, {
+          "index": 1,
+          "name": "Concentratie",
+          "type": "Positief"
+        }, {
+          "index": 2,
+          "name": "In het hier en nu leven",
+          "type": "Positief"
+        }]
       };
 
 
@@ -203,8 +203,8 @@ describe("VarModel", function () {
 
     });
 
-    describe("dataSummaryFromJson", function () {
-      it('can give a datasummary based on a set of node_names', function () {
+    describe("dataSummaryFromJson", function() {
+      it('can give a datasummary based on a set of node_names', function() {
         var values = [
             [18, 13, 47],
             [32, 41, 90]
@@ -239,45 +239,45 @@ describe("VarModel", function () {
       });
 
     });
-    describe("get_node_name", function () {
-      it("returns the node name based on id", function () {
+    describe("get_node_name", function() {
+      it("returns the node name based on id", function() {
         expect(varmodel.get_node_name(0)).toEqual('beweging');
         expect(varmodel.get_node_name(1)).toEqual('concentratie');
         expect(varmodel.get_node_name(2)).toEqual('hier_en_nu');
       });
 
-      it("returns undifined if not found", function () {
+      it("returns undifined if not found", function() {
         expect(varmodel.get_node_name(9)).toBeUndefined();
       });
     });
 
-    describe("convert_coefficients", function () {
+    describe("convert_coefficients", function() {
 
     });
 
-    describe("to_json", function () {
+    describe("to_json", function() {
 
     });
 
-    describe("set_coefficient", function () {
+    describe("set_coefficient", function() {
 
     });
 
-    describe("get_coefficient", function () {
+    describe("get_coefficient", function() {
 
     });
 
 
-    describe("getSignificantEdges", function () {
-      it('should determine the correct significant edges in a var_model', function () {
+    describe("getSignificantEdges", function() {
+      it('should determine the correct significant edges in a var_model', function() {
         var result = varmodel.getSignificantEdges();
         expect(result).not.toBeUndefined();
         expect(result).toEqual(significant_network.links);
       });
     });
 
-    describe("getResiduals", function () {
-      it('should determine the correct residuals in a var_model', function () {
+    describe("getResiduals", function() {
+      it('should determine the correct residuals in a var_model', function() {
         var result = varmodel.getResiduals();
 
         var expected = [
@@ -296,29 +296,58 @@ describe("VarModel", function () {
         }
       });
 
-      it('should determine the correct have the correct length (nr of measurements - lags)', function () {
+      it('should determine the correct have the correct length (nr of measurements - lags)', function() {
         var result = varmodel.getResiduals();
         expect(result.length).toEqual(varmodel.getNumberOfMeasurements() - varmodel.getLags())
       });
     });
 
-    describe("get_coefficients", function () {
-      it('can retrieve the coefficient matrix for each lag', function () {
+    describe("get_coefficients", function() {
+      it('has the rows and cols for the coefficients correct', function() {
+        var adder = 0;
+        var_coefficientsl1 = var_coefficientsl1.map(function(r) {
+          return r.map(function(c) {
+            adder++;
+            return c + adder;
+          });
+        });
+
+        var_coefficients = [var_coefficientsl1, var_coefficientsl2];
+        varmodel = new VarModel(
+          var_coefficients, exogen_var_coefficients,
+          node_names, exogen_names,
+          y_values, exogen_values,
+          significant_network,
+          make_possitive,
+          variable_mapping
+        );
+
+        // The rows should equal the variables
+        expect(varmodel.getCoefficients(1)[0]).toEqual(var_coefficientsl1[0]);
+        expect(varmodel.getCoefficients(1)[1]).toEqual(var_coefficientsl1[1]);
+        expect(varmodel.getCoefficients(1)[2]).toEqual(var_coefficientsl1[2]);
+
+        expect(varmodel.getCoefficients(2)[0]).toEqual(var_coefficientsl2[0]);
+        expect(varmodel.getCoefficients(2)[1]).toEqual(var_coefficientsl2[1]);
+        expect(varmodel.getCoefficients(2)[2]).toEqual(var_coefficientsl2[2]);
+
+      });
+      it('can retrieve the coefficient matrix for each lag', function() {
         expect(varmodel.getCoefficients(1)).toEqual(var_coefficients[0]);
         expect(varmodel.getCoefficients(2)).toEqual(var_coefficients[1]);
       });
 
-      it('throws if the lag is higher than the model lag', function () {
+      it('throws if the lag is higher than the model lag', function() {
         lag = 10;
-        var func = function () {
+        var func = function() {
           varmodel.getCoefficients(lag);
         };
         expect(func).toThrow();
       });
 
-      it('throws if the lag is lower than the model lag', function () {
+      it('throws if the lag is lower than the model lag', function() {
         lag = 0;
-        var func = function () {
+        var func = function() {
           varmodel.getCoefficients(lag);
         };
         expect(func).toThrow();
@@ -326,18 +355,26 @@ describe("VarModel", function () {
     });
 
 
-    describe("calculateNewOutput", function () {
-      it('can detect that the endogen dimensions are incorrect', function () {
-        var endogen = [[1, 2, 3, 4, 5, 6]];
-        var exogen = [[1, 2, 3, 4, 5, 6], [6, 5, 4, 3, 2, 1]];
-        var func = function () {
+    describe("calculateNewOutput", function() {
+      it('can detect that the endogen dimensions are incorrect', function() {
+        var endogen = [
+          [1, 2, 3, 4, 5, 6]
+        ];
+        var exogen = [
+          [1, 2, 3, 4, 5, 6],
+          [6, 5, 4, 3, 2, 1]
+        ];
+        var func = function() {
           varmodel.calculateNewOutput(endogen, exogen);
         };
         expect(func).toThrow();
       });
 
-      it('can calculate a new output', function () {
-        var endogen = [[1, 2, 3], [6, 5, 4]];
+      it('can calculate a new output', function() {
+        var endogen = [
+          [1, 2, 3],
+          [6, 5, 4]
+        ];
         var exogen = [1, 0, 0, 0, 0, 0, 0];
         var result = varmodel.calculateNewOutput(endogen, exogen);
         // E <- matrix(c(0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.2, 0.2, 0.2), nrow = 3, ncol = 6, byrow=TRUE)
@@ -347,7 +384,10 @@ describe("VarModel", function () {
         // Z <- c(1,2,3,6,5,4,1,0,0,0,0,0,0)
         // print(B %*% Z)
         expect(result.length).toEqual(varmodel.getNumberOfVariables());
-        expect(result).toEqual(arraySum([[3.05, 3.05, 3.05], [3.05, 3.05, 3.05]]));
+        expect(result).toEqual(arraySum([
+          [3.05, 3.05, 3.05],
+          [3.05, 3.05, 3.05]
+        ]));
         expect(result).toEqual([6.1, 6.1, 6.1])
       });
     });
