@@ -1,7 +1,7 @@
 "use strict";
-var lags, number_of_variables, aira, visualization_engine, impulse_response_calculator, view_model;
-var synthetic = false;
-var data;
+var lags,
+
+view_model;
 var variable_mapping;
 var data_directedNetwerk;
 
@@ -9,11 +9,10 @@ class Initializer {
 
   constructor() {
     this._gui = new Gui();
-    this._simulation = null;
   }
 
   main(json_data) {
-    data = json_data;
+    var data = json_data;
     view_model = new ViewModel();
     variable_mapping = new VariableMapping();
     var self = this;
@@ -41,7 +40,6 @@ class Initializer {
     improvement_select.find("option[value='10']").attr('selected', 'selected');
 
     $('body').on("change", ".data_select", function () {
-      if (this._simulation !== null && this._simulation !== undefined) this._simulation.clear();
       $('#netDynamisch').html('');
       $('#netFullDynamisch').html('');
       self.startSimulation(data[$('#data_select').val()]);
@@ -57,7 +55,6 @@ class Initializer {
     var json_parser = new JsonParser(json_data, variable_mapping);
     var node_names = json_parser.nodeKeysFromJson();
     var exogen_names = json_parser.exogenKeysFromJson();
-
     var significant_network = json_parser.getSignificantNetworkFromJson();
 
     // Var coefficients
@@ -86,13 +83,11 @@ class Initializer {
     data_directedNetwerk = var_model.to_json();
     render_netDynamisch('#netFullDynamisch');
 
-    this._simulation = new Simulation(var_model);
-
-    this._gui.setSimulation(this._simulation);
+    var impulse_response_calculator = new ImpulseResponseCalculator(var_model);
+    this._gui.simulation = new Simulation(var_model, new Visualization(node_names));
     this._gui.injectButtons(node_names);
-    impulse_response_calculator = new ImpulseResponseCalculator(var_model);
-    aira = new Aira(impulse_response_calculator, var_model, view_model, convert_to_positive);
-    visualization_engine = new Visualization(node_names);
+    this._gui.aira = new Aira(impulse_response_calculator, var_model, view_model, convert_to_positive);
+    this._gui.irfCalculator = impulse_response_calculator
   };
 }
 
