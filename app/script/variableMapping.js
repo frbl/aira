@@ -1,18 +1,19 @@
 var VariableMapping;
 
 VariableMapping = (function () {
+  "use strict";
   var _mapping;
 
   function VariableMapping() {
     _mapping = {
-      "beweging": {"name": "Beweging", "translation": "Physical activity", "type": "Positief"},
+      "beweging": {"name": "Beweging", "translation": "Being physically active", "type": "Positief"},
       "buiten_zijn": {"name": "Buiten zijn", "translation": "Being outside", "type": "Positief"},
-      "concentratie": {"name": "Concentratie", "translation": "Concentration", "type": "Positief"},
-      "eenzaamheid": {"name": "Eenzaamheid", "translation": "Loneliness", "type": "Negatief"},
+      "concentratie": {"name": "Concentratie", "translation": "Concentrating", "type": "Positief"},
+      "eenzaamheid": {"name": "Eenzaamheid", "translation": "Feeling Lonely", "type": "Negatief"},
       "eigenwaarde": {"name": "Eigenwaarde", "translation": "Self-esteem", "type": "Positief"},
-      "humor": {"name": "Humor", "translation": "Humor", "type": "Positief"},
-      "iets_betekenen": {"name": "Iets betekenen", "translation": "Mean something", "type": "Positief"},
-      "hier_en_nu": {"name": "In het hier en nu leven", "translation": "Mindfulness", "type": "Positief"},
+      "humor": {"name": "Humor", "translation": "Feeling humorous", "type": "Positief"},
+      "iets_betekenen": {"name": "Iets betekenen", "translation": "Meaning something", "type": "Positief"},
+      "hier_en_nu": {"name": "In het hier en nu leven", "translation": "Feeling mindful", "type": "Positief"},
       "levenslust": {"name": "Levenslust", "translation": "", "type": "Positief"},
       "lichamelijk_ongemak": {
         "name": "Lichamelijk ongemak",
@@ -20,13 +21,13 @@ VariableMapping = (function () {
         "type": "Negatief"
       },
       "uw_eigen_factor": {"name": "Mijn eigen factor", "translation": "Personal factor", "type": "Neutraal"},
-      "onrust": {"name": "Onrust", "translation": "Agitation", "type": "Negatief"},
-      "ontspanning": {"name": "Ontspanning", "translation": "Relaxation", "type": "Positief"},
-      "opgewektheid": {"name": "Opgewektheid", "translation": "Cheerfulness", "type": "Positief"},
-      "piekeren": {"name": "Piekeren", "translation": "Rumination", "type": "Negatief"},
+      "onrust": {"name": "Onrust", "translation": "Feeling agitated", "type": "Negatief"},
+      "ontspanning": {"name": "Ontspanning", "translation": "Being relaxed", "type": "Positief"},
+      "opgewektheid": {"name": "Opgewektheid", "translation": "Being cheerful", "type": "Positief"},
+      "piekeren": {"name": "Piekeren", "translation": "Ruminating", "type": "Negatief"},
       "SomBewegUur": {"name": "SomBewegUur", "translation": "Activity", "type": "Positief"},
       "SomPHQ": {"name": "SomPHQ", "translation": "Depression", "type": "Negatief"},
-      "somberheid": {"name": "Somberheid", "translation": "Sadness", "type": "Negatief"},
+      "somberheid": {"name": "Somberheid", "translation": "Feeling sad", "type": "Negatief"},
       "tekortschieten": {
         "name": "Tekortschieten",
         "translation": "Falling short on something",
@@ -65,6 +66,7 @@ VariableMapping = (function () {
 
   VariableMapping.prototype.get_translation = function (key) {
     result = this.get_entry(key);
+    if (result === undefined) throw('Key "'+key+'" not found!');
     if (result.constructor === Array) {
       return result.map(function (current, id) {
         return current.translation;

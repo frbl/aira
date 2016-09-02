@@ -1,6 +1,8 @@
 var JsonParser;
 
 JsonParser = (function () {
+  "use strict";
+
   var _data,
     _variable_mapping,
     _SIGNIFICANT_NETWORK_LOCATION,
@@ -67,7 +69,6 @@ JsonParser = (function () {
   };
 
   JsonParser.prototype.getSignificantNetworkFromJson = function () {
-    console.log(_data[_SIGNIFICANT_NETWORK_LOCATION]);
     return _data[_SIGNIFICANT_NETWORK_LOCATION];
   };
 

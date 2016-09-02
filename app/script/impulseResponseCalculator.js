@@ -1,6 +1,9 @@
+
+
 var ImpulseResponseCalculator;
 
 ImpulseResponseCalculator = (function () {
+  "use strict";
 
   function ImpulseResponseCalculator(var_model) {
     this._var_model = var_model;
@@ -24,6 +27,8 @@ ImpulseResponseCalculator = (function () {
 
     var nr_of_variables = this._var_model.getVarCoefficients().length;
 
+    // Actually we want to generate from step 0 till step steps, which is steps + 1
+    steps++;
     var shocks;
     if (variable_to_shock == -1) {
       shocks = createMatrix(shock_size, nr_of_variables, steps, false);
@@ -32,7 +37,6 @@ ImpulseResponseCalculator = (function () {
       shocks[variable_to_shock] = makeFilledArray(steps, shock_size);
     }
     shocks = transpose(shocks);
-
     var C = this.estimateVmaCoefficients(steps);
     var result = this.calculateImpulseResponse(shocks, C);
 
@@ -61,7 +65,7 @@ ImpulseResponseCalculator = (function () {
       vector_autoregressor = new Var(),
       upper_bound = Math.max(confidence / 2, 1),
       lower_bound = Math.min((1 - confidence / 2 ), 0),
-      i, p, iteration;
+      i, p, iteration, irf_at_time;
 
     // Bootstrap the var model
     for (iteration = 0; iteration < bootstrap_iterations; iteration++) {
@@ -70,7 +74,6 @@ ImpulseResponseCalculator = (function () {
       indices = sample(indices);
       current_endo = [];
       y_sampled = [];
-
       for (p = 0; p < var_orig.getLags(); p++) {
         current_y_values = var_orig.getYValues()[p];
         current_endo.unshift(current_y_values);
@@ -83,7 +86,7 @@ ImpulseResponseCalculator = (function () {
         temp = var_orig.calculateNewOutput(current_endo, current_exo);
 
         // Add random residual to the result
-        // TODO check whether these should be the residuals or the lutkepohl method
+        // TODO: check whether these should be the residuals or the lutkepohl method
         temp = math.add(temp, residuals[indices[i - var_orig.getLags()]]);
 
         y_sampled.push(temp);
@@ -104,10 +107,10 @@ ImpulseResponseCalculator = (function () {
 
       this._var_model = var_orig;
     }
-
+    steps++;
     // fabricate the 95% conf interval
-    irfs_ci_high = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
-    irfs_ci_low = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
+    var irfs_ci_high = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
+    var irfs_ci_low = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
 
     // Transpose the irfs matrix, so we have a matrix where each row is a moment in time, each column is an irf
     irfs = transpose(irfs);
@@ -119,7 +122,7 @@ ImpulseResponseCalculator = (function () {
         irfs_ci_low[i][variable_id] = getQuantile(irf_at_time[variable_id], lower_bound);
       }
     }
-    console.log({'low': irfs_ci_low, 'high': irfs_ci_high});
+    if(DEBUG > 2) console.log({'low': irfs_ci_low, 'high': irfs_ci_high});
     return {'low': irfs_ci_low, 'high': irfs_ci_high};
   };
 

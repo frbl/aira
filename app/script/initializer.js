@@ -1,4 +1,4 @@
-var lags, number_of_variables, aira, simulation, visualization_engine, impulse_response_calculator, view_model;
+var lags, number_of_variables, aira, visualization_engine, impulse_response_calculator, view_model;
 var synthetic = false;
 var data;
 var variable_mapping;
@@ -6,7 +6,10 @@ var variable_mapping;
 var Initializer;
 
 Initializer = (function () {
+  "use strict";
+
   var _gui;
+  var _simulation;
 
   function Initializer() {
     _gui = new Gui();
@@ -41,7 +44,7 @@ Initializer = (function () {
     improvement_select.find("option[value='10']").attr('selected', 'selected');
 
     $('body').on("change", ".data_select", function () {
-      if (simulation != null) simulation.clear();
+      if (this._simulation !== null && this._simulation !== undefined) this._simulation.clear();
       $('#netDynamisch').html('');
       $('#netFullDynamisch').html('');
       _startSimulation(data[$('#data_select').val()]);
@@ -86,18 +89,19 @@ Initializer = (function () {
     data_directedNetwerk = var_model.to_json();
     render_netDynamisch('#netFullDynamisch');
 
+    this._simulation = new Simulation(var_model);
+
+    _gui.setSimulation(this._simulation);
     _gui.injectButtons(node_names);
-    console.log(node_names);
-    simulation = new Simulation(var_model);
     impulse_response_calculator = new ImpulseResponseCalculator(var_model);
-    aira = new Aira(impulse_response_calculator, var_model, view_model);
+    aira = new Aira(impulse_response_calculator, var_model, view_model, convert_to_positive);
     visualization_engine = new Visualization(node_names);
   };
 
   Initializer.prototype._startSimulation = _startSimulation;
 
-
   return Initializer;
+
 })();
 
 $(document).ready(function () {
@@ -106,9 +110,9 @@ $(document).ready(function () {
     type: "GET",
     dataType: 'json',
     error: function (xhr, ajaxOptions, thrownError) {
-      console.log(xhr.status);
-      console.log(thrownError);
-      console.log('Error!');
+      //console.log(xhr.status);
+      //console.log(thrownError);
+      //console.log('Error!');
     },
     success: function (data, text) {
       console.log('Successfully loaded network data');

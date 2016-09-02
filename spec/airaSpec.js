@@ -72,6 +72,20 @@ describe("Aira", function () {
 
   });
 
+  describe("determineLengthOfEffect", function () {
+    beforeEach(function () {
+      var_model = fabricateVarModel(true);
+      view_model = fabricateViewModelMock(5, 1, 300, 0.1, 0, false);
+      impulse_response_calculator = new ImpulseResponseCalculator(var_model);
+      aira = new Aira(impulse_response_calculator, var_model, view_model);
+    });
+
+    it('should contain the correct list of nodes', function () {
+      a = aira.determineLengthOfEffect(0,1,6*60);
+      console.log(a.opgewektheid);
+    });
+  });
+
   describe("determineOptimalNodeSimple", function () {
     pending();
   });

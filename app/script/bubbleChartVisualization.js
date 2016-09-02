@@ -1,4 +1,6 @@
 var BubbleChartVisualization = (function () {
+  "use strict";
+
   var width = 400,
     height = 400,
     max_size = 40,
@@ -6,7 +8,9 @@ var BubbleChartVisualization = (function () {
     min = 999999,
     max = -99999,
     default_wanted_increase = 10,
-    graph, optimizer;
+    graph, optimizer,
+    more_node_network_label='Meer ',
+    less_node_network_label='Minder ';
 
   var bubble_force_layout = d3.layout.force()
     .charge(-10000)
@@ -24,6 +28,7 @@ var BubbleChartVisualization = (function () {
 
   var determineMinMax = function () {
     var val;
+    // Node.val is the total effect of a node on the network (in terms of standard deviations).
     graph.nodes.forEach(function (node) {
       val = Math.log(1 + Math.abs(node.val));
       min = min < val ? min : val;
@@ -31,14 +36,14 @@ var BubbleChartVisualization = (function () {
     });
   };
 
-  var get_radius = function (d) {
+  var getRadius = function (d) {
     if (d.val === 0) return min_size;
     return ((Math.log(1 + Math.abs(d.val)) - min) / (max - min)) * (max_size - min_size) + min_size;
   };
 
   var get_direction = function (d, higher, lower) {
     var res = lower;
-    if (Math.sign(d.val) == 1) res = higher;
+    if (Math.sign(d.val) == 1 && d.inverted == false) res = higher;
     if (Math.sign(d.val) == 0) res = '';
     return res + d.name.toLowerCase();
   };
@@ -94,6 +99,7 @@ var BubbleChartVisualization = (function () {
 
   var renderPercentagesText = function (d) {
     var wanted_increase = Math.sign(d.val) >= 0 ? default_wanted_increase : -1 * default_wanted_increase;
+    var wanted_increase = d.inverted == false ? wanted_increase : -1 * wanted_increase;
     var number_of_options = 0;
     var result = '';
     var percentages = aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
@@ -122,7 +128,7 @@ var BubbleChartVisualization = (function () {
 
   var renderNodesFromNodePerspective = function (d) {
     var result_text = [];
-    result_text.push(get_direction(d, 'more ', 'less '));
+    result_text.push(get_direction(d, more_node_network_label.toLowerCase(), less_node_network_label.toLowerCase()));
 
     // remove nulls from the array (and undefined and "" false)
     result_text = result_text.filter(Boolean);
@@ -144,10 +150,10 @@ var BubbleChartVisualization = (function () {
 
         // Select the node in the HTML to update the nodes from the current node's perspective
         svg.select("#label_" + res.key).text(function (d) {
-          return get_direction(res, 'more ', 'less ');
+          return get_direction(res, more_node_network_label.toLowerCase(), less_node_network_label.toLowerCase());
         });
 
-        result_text.push(get_direction(res, 'more ', 'less '));
+        result_text.push(get_direction(res, more_node_network_label.toLowerCase(), less_node_network_label.toLowerCase()));
       }
     });
 
@@ -210,8 +216,10 @@ var BubbleChartVisualization = (function () {
   }
 
   BubbleChartVisualization.prototype.render = function () {
+    // Remove all elements from the SVG and reset the min and max
     removeAllElements(svg);
 
+    // Determine the minimal and maximal score in the network, in order to scale all variables
     determineMinMax();
     var minx,
       miny,
@@ -231,7 +239,7 @@ var BubbleChartVisualization = (function () {
       })
       .attr("viewBox", "0 -5 10 10")
       .attr("refX", function (d) {
-        return get_radius(findNode(d.target.index)) * (6 / 10) / Math.sqrt(2) + 10;
+        return getRadius(findNode(d.target.index)) * (6 / 10) / Math.sqrt(2) + 10;
       })
       .attr("refY", 0)
       .attr("markerWidth", 6)
@@ -241,7 +249,7 @@ var BubbleChartVisualization = (function () {
       .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5");
 
-    // Add links to the SVG
+    // Add links (arcs) to the SVG
     var link = svg.selectAll(".link")
       .data(graph.links)
       .enter().append("line")
@@ -260,7 +268,7 @@ var BubbleChartVisualization = (function () {
       .data(graph.nodes)
       .enter().append("circle")
       .attr("class", "node")
-      .attr("r", get_radius)
+      .attr("r", getRadius)
       .style("fill", "#3397da")
       .on({
         "mouseenter": onNodeEnter,
@@ -279,17 +287,19 @@ var BubbleChartVisualization = (function () {
       })
       .style("text-anchor", "middle")
       .text(function (d) {
-        var r = get_direction(d, 'More ', 'Less ');
+        var r = get_direction(d, more_node_network_label, less_node_network_label);
         return (r === null ? d.name.toLowerCase() : r);
       });
 
 
+    // Initialize the force bubble field creation
     bubble_force_layout.start();
-
     bubble_force_layout.on("tick", function () {
+
+      // This is run in each tick
       link.attr("x1", function (d) {
-          return d.source.x;
-        })
+        return d.source.x;
+      })
         .attr("y1", function (d) {
           return d.source.y;
         })
@@ -305,6 +315,8 @@ var BubbleChartVisualization = (function () {
       miny = 10000;
       maxx = -10000;
       maxy = -10000;
+
+      // Determine the node positions
       graph.nodes.forEach(function (node) {
         if (node.x < minx) minx = node.x;
         if (node.x > maxx) maxx = node.x;
@@ -312,32 +324,32 @@ var BubbleChartVisualization = (function () {
         if (node.y > maxy) maxy = node.y;
       });
 
+      // Scale the min / max positions of the nodes.
+
+      // What should be the minimal offset for the nodes from the edges of the image?
+      var minimal_offset_on_axes = 100;
       graph.nodes.forEach(function (node) {
-        if (maxx - minx > 0.05) node.x = 100 + (width - 200) * (node.x - minx) / (maxx - minx);
-        if (maxy - miny > 0.05) node.y = 100 + (height - 200) * (node.y - miny) / (maxy - miny);
+        if (maxx - minx > 0.05) node.x = minimal_offset_on_axes + (width - 2 * minimal_offset_on_axes) * (node.x - minx) / (maxx - minx);
+        if (maxy - miny > 0.05) node.y = minimal_offset_on_axes + (height - 2 * minimal_offset_on_axes) * (node.y - miny) / (maxy - miny);
       });
 
+      // Take care nodes will never fall of the image.
       node.attr("cx", function (d) {
-          d.x = Math.max(get_radius(d), Math.min(width - get_radius(d), d.x));
-          return d.x;
-        })
-        .attr("cy", function (d) {
-          d.y = Math.max(get_radius(d), Math.min(height - get_radius(d), d.y));
-          return d.y;
-        });
+        d.x = Math.max(getRadius(d), Math.min(width - getRadius(d), d.x));
+        return d.x;
+      }).attr("cy", function (d) {
+        d.y = Math.max(getRadius(d), Math.min(height - getRadius(d), d.y));
+        return d.y;
+      });
 
-      //.attr("y", function(d){return d.y+ get_radius(d) + 10;});
-
+      // Place the text just above or below the node (depending on the location in the graph.
       var x_offset = 20;
       var y_offset = 3;
-
       text.attr("x", function (d) {
-          return d.x;
-        })
-        //text.attr("x", function(d) { return d.x > width / 2 ? d.x + get_radius(d) + x_offset : d.x - get_radius(d) - x_offset ;})
-        .attr("y", function (d) {
-          return d.y > height / 2 ? d.y + get_radius(d) + x_offset : d.y - get_radius(d) - y_offset;
-        });
+        return d.x;
+      }).attr("y", function (d) {
+        return d.y > height / 2 ? d.y + getRadius(d) + x_offset : d.y - getRadius(d) - y_offset;
+      });
     });
 
     for (var i = 0; i < 400; i++) bubble_force_layout.tick();

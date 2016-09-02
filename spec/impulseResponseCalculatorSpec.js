@@ -135,22 +135,22 @@ describe("ImpulseResponseCalculator", function () {
 
         it("should be able to shock all variables", function () {
           result = impulse_response_calculator.runImpulseResponseCalculation(-1, 1, steps);
-          var expected = createMatrix(1, steps, var_model.getNumberOfVariables());
+          var expected = createMatrix(1, steps + 1, var_model.getNumberOfVariables());
           expect(impulse_response_calculator.calculateImpulseResponse).toHaveBeenCalledWith(expected, jasmine.any(Array));
         });
 
         it("should be able to give a shock with a different magnitude", function () {
           var shock_size = 123;
           result = impulse_response_calculator.runImpulseResponseCalculation(-1, shock_size, steps);
-          var expected = createMatrix(shock_size, steps, var_model.getNumberOfVariables());
+          var expected = createMatrix(shock_size, steps +1, var_model.getNumberOfVariables());
           expect(impulse_response_calculator.calculateImpulseResponse).toHaveBeenCalledWith(expected, jasmine.any(Array));
         });
 
         it("should be able to shock a single variable", function () {
           result = impulse_response_calculator.runImpulseResponseCalculation(2, 1, steps);
-          var expected = createMatrix(0, steps, var_model.getNumberOfVariables());
+          var expected = createMatrix(0, steps +1, var_model.getNumberOfVariables());
           expected = transpose(expected);
-          expected[2] = makeFilledArray(steps, 1);
+          expected[2] = makeFilledArray(steps + 1, 1);
           expected = transpose(expected);
           expect(impulse_response_calculator.calculateImpulseResponse).toHaveBeenCalledWith(expected, jasmine.any(Array));
         });
@@ -159,7 +159,7 @@ describe("ImpulseResponseCalculator", function () {
       it("should return a result", function () {
         result = impulse_response_calculator.runImpulseResponseCalculation(-1, 1, steps);
         expect(result).not.toBeUndefined();
-        expect(result.length).toEqual(steps);
+        expect(result.length).toEqual(steps + 1);
         expect(mergeMatrix(result)).not.toContain(NaN);
       });
 
@@ -217,9 +217,9 @@ describe("ImpulseResponseCalculator", function () {
         var result = impulse_response_calculator.bootstrappedImpulseResponseCalculation(1, 1, horizon, runs);
         expect(result).not.toEqual(undefined);
         expect(result.low).not.toEqual(undefined);
-        expect(result.low.length).toEqual(horizon);
+        expect(result.low.length).toEqual(horizon + 1);
         expect(result.high).not.toEqual(undefined);
-        expect(result.high.length).toEqual(horizon);
+        expect(result.high.length).toEqual(horizon + 1);
       });
     });
   });

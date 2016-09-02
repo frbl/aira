@@ -1,6 +1,7 @@
 var Var;
 
 Var = (function () {
+  "use strict";
 
   var Var = function () {
   };
@@ -27,7 +28,7 @@ Var = (function () {
     // The Z matrix to store the results in
       Z = createMatrix(0, k * lags, T, false),
       result,
-      i, j, t;
+      i, j, t, row, col;
 
     var transposed_exogen_values = transpose(exogen_values);
 

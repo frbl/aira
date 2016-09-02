@@ -1,6 +1,8 @@
 var Simulation;
 
 Simulation = (function () {
+  "use strict";
+
   var _node_names,
     _default_size,
     _size_factor,
@@ -15,7 +17,7 @@ Simulation = (function () {
     _var_model = var_model;
     _node_names = var_model.getNodeNames();
     _default_size = 20;
-    _size_factor = 1;
+    _size_factor = 2;
     _scaling_factor = 0.5;
     _frame_rate = 60;
     _step = 0;
