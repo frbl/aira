@@ -1,4 +1,6 @@
 var BubbleChartVisualization = (function () {
+  "use strict";
+
   var width = 400,
     height = 400,
     max_size = 40,

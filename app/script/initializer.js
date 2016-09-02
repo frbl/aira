@@ -6,6 +6,8 @@ var variable_mapping;
 var Initializer;
 
 Initializer = (function () {
+  "use strict";
+
   var _gui;
   var _simulation;
 

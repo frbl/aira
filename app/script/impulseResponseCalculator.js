@@ -1,6 +1,9 @@
+
+
 var ImpulseResponseCalculator;
 
 ImpulseResponseCalculator = (function () {
+  "use strict";
 
   function ImpulseResponseCalculator(var_model) {
     this._var_model = var_model;
@@ -62,7 +65,7 @@ ImpulseResponseCalculator = (function () {
       vector_autoregressor = new Var(),
       upper_bound = Math.max(confidence / 2, 1),
       lower_bound = Math.min((1 - confidence / 2 ), 0),
-      i, p, iteration;
+      i, p, iteration, irf_at_time;
 
     // Bootstrap the var model
     for (iteration = 0; iteration < bootstrap_iterations; iteration++) {
@@ -83,7 +86,7 @@ ImpulseResponseCalculator = (function () {
         temp = var_orig.calculateNewOutput(current_endo, current_exo);
 
         // Add random residual to the result
-        // TODO check whether these should be the residuals or the lutkepohl method
+        // TODO: check whether these should be the residuals or the lutkepohl method
         temp = math.add(temp, residuals[indices[i - var_orig.getLags()]]);
 
         y_sampled.push(temp);
@@ -106,8 +109,8 @@ ImpulseResponseCalculator = (function () {
     }
     steps++;
     // fabricate the 95% conf interval
-    irfs_ci_high = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
-    irfs_ci_low = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
+    var irfs_ci_high = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
+    var irfs_ci_low = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
 
     // Transpose the irfs matrix, so we have a matrix where each row is a moment in time, each column is an irf
     irfs = transpose(irfs);

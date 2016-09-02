@@ -2,6 +2,7 @@ var DEBUG = 0;
 var Aira;
 
 Aira = (function () {
+  "use strict";
 
   function Aira(impulse_response_calculator, var_model, view_model, convert_to_positive) {
     this.impulse_response_calculator = impulse_response_calculator;

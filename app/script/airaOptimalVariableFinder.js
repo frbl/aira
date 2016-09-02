@@ -1,4 +1,6 @@
 var Optimizers = (function () {
+  "use strict";
+
   return {
     thresholdOptimizer: function (irf, cumulative_irf, options) {
       var threshold_location = 'threshold';
@@ -65,11 +67,13 @@ var Optimizers = (function () {
 })();
 
 var FinderCommand = function (command, options) {
+  "use strict";
   this.options = options;
   this.execute = command;
 };
 
 var AiraOptimalVariableFinder = function (irf, cumulative_irf, variable_to_improve_summary, variable_summary, options) {
+  "use strict";
   return {
     execute: function (command) {
       options = options === undefined ? command.options : options;
@@ -83,13 +87,16 @@ var AiraOptimalVariableFinder = function (irf, cumulative_irf, variable_to_impro
 };
 
 var ThresholdOptimizer = function (options) {
+  "use strict";
   return new FinderCommand(Optimizers.thresholdOptimizer, options);
 };
 
 var NetEffectOptimizer = function (options) {
+  "use strict";
   return new FinderCommand(Optimizers.netEffectOptimizer, options);
 };
 
 var MaximumValueOptimizer = function (options) {
+  "use strict";
   return new FinderCommand(Optimizers.maximumValueOptimizer, options);
 };

@@ -1,6 +1,7 @@
 var VariableMapping;
 
 VariableMapping = (function () {
+  "use strict";
   var _mapping;
 
   function VariableMapping() {

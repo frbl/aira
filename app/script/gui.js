@@ -1,6 +1,8 @@
 var Gui;
 
 Gui = (function () {
+  "use strict";
+
   var _simulation;
 
   function Gui() {

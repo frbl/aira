@@ -1,7 +1,7 @@
 var VarModel;
 
 VarModel = (function () {
-
+  "use strict";
   /**
    * Constructor of the var model.
    * @param var_coefficients a list of beta matrices of coefficients of a var model
@@ -49,7 +49,7 @@ VarModel = (function () {
 
   VarModel.prototype._addSummaryToVarmodel = function () {
     var self = this,
-      current_summary,
+      current_summary, node_key,
       data_summary = self._data_summary;
     self._significant_network.nodes.forEach(function(node) {
       node_key = variable_mapping.get_key(node.name);

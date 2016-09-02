@@ -1,6 +1,8 @@
 var JsonParser;
 
 JsonParser = (function () {
+  "use strict";
+
   var _data,
     _variable_mapping,
     _SIGNIFICANT_NETWORK_LOCATION,

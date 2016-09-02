@@ -1,6 +1,7 @@
 var ViewModel;
 
 ViewModel = (function () {
+  "use strict";
   function ViewModel() {
   }
 

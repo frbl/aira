@@ -1,6 +1,8 @@
 var Simulation;
 
 Simulation = (function () {
+  "use strict";
+
   var _node_names,
     _default_size,
     _size_factor,
