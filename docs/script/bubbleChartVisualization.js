@@ -104,7 +104,7 @@ var BubbleChartVisualization = (function () {
     var result = '';
     var percentages = aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
 
-    var number_of_advices = 0;
+    var number_of_advices = 0, current;
     for (var effect in percentages) {
       current = percentages[effect].needed_difference * 100;
       console.log(percentages[effect].needed_difference);

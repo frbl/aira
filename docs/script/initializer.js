@@ -2,6 +2,7 @@ var lags, number_of_variables, aira, visualization_engine, impulse_response_calc
 var synthetic = false;
 var data;
 var variable_mapping;
+var data_directedNetwerk;
 
 var Initializer;
 
@@ -73,7 +74,7 @@ Initializer = (function () {
 
     var convert_to_positive = true;
 
-    var_model = new VarModel(
+    var var_model = new VarModel(
       var_coefficients, exogen_var_coefficients,
       node_names, exogen_names,
       y_values, exogen_values,

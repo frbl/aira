@@ -37,18 +37,18 @@ Simulation = (function () {
 
 
   Simulation.prototype.setIrf = function (irf) {
-    _irf = irf;
+    this._irf = irf;
   };
 
   Simulation.prototype.setStepsToRun = function (steps_to_run) {
-    _steps_to_run = steps_to_run;
+    this._steps_to_run = steps_to_run;
   };
 
   Simulation.prototype.simulateStep = function (direction) {
     visualization_engine.setPlotlineLocation(((_step / _steps_to_run) * view_model.get_steps()));
     visualization_engine.showShock(_step);
 
-    var node_id, sd, average;
+    var node_id, sd, average, node;
     for (node_id = 0; node_id < _node_names.length; node_id++) {
       node = _node_names[node_id];
       sd = _var_model.getDataSummary()[node].sd;
