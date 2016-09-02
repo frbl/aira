@@ -1,0 +1,10 @@
+{
+  "nodes":[
+    {"name": "onrust", "val": -15.695442450570816},
+    {"name": "uw_eigen_factor", "val": -2.3778043292777675},
+    {"name": "piekeren", "val": 2.3736427124478197},
+    {"name": "concentratie", "val": 1.1899372553252616},
+    {"name": "opgewektheid", "val": -1.1078891632279635},
+    {"name": "eigenwaarde", "val": -0.876250480045563}
+  ], "links":[ {"distance": 0.9, "source":0 , "target":1 }, {"distance": 0.9, "source":1 , "target":2 }, {"distance": 0.9, "source":2 , "target":3 }, {"distance": 0.9, "source":0 , "target":2 }, {"distance": 0.9, "source":5 , "target":1 }, {"distance": 0.9, "source":4 , "target":0 } ]
+}
