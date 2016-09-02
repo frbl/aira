@@ -1,10 +1,9 @@
+"use strict";
+
 var DEBUG = 0;
-var Aira;
+class Aira {
 
-Aira = (function () {
-  "use strict";
-
-  function Aira(impulse_response_calculator, var_model, view_model, convert_to_positive) {
+  constructor(impulse_response_calculator, var_model, view_model, convert_to_positive) {
     this.impulse_response_calculator = impulse_response_calculator;
     this.var_model = var_model;
     this.view_model = view_model;
@@ -18,7 +17,7 @@ Aira = (function () {
    *
    * @returns [] a list of hashes containing each variable and the cumulative effect it has.
    */
-  Aira.prototype.determineBestNodeFromAll = function () {
+  determineBestNodeFromAll() {
     var variable, irf, cumulative_name, name, max, max_var,
       result = {},
       cumulative = {},
@@ -71,7 +70,7 @@ Aira = (function () {
    * @param options extra options needed for the optimizer
    * @returns {{}}
    */
-  Aira.prototype.determineOptimalNodeSimple = function (variable_to_improve, optimizer, options) {
+  determineOptimalNodeSimple(variable_to_improve, optimizer, options) {
     var variable, irf, cumulative_name, name,
       result = {},
       cumulative = {},
@@ -133,7 +132,7 @@ Aira = (function () {
  * @param variable_to_respond the variable that should respon
  * @param measurement_interval the interval between the measurements in minutes
  */
-  Aira.prototype.determineLengthOfEffect = function (variable_to_shock, variable_to_respond, measurement_interval) {
+  determineLengthOfEffect(variable_to_shock, variable_to_respond, measurement_interval) {
     var variable, irf,
       result = {},
       effects = {};
@@ -172,7 +171,7 @@ Aira = (function () {
    * @param options extra options such as a threshold and whether or not a degredation of the effect should be modelled
    * @returns {{}}
    */
-  Aira.prototype.determineOptimalNode = function (variable_to_improve, options) {
+  determineOptimalNode(variable_to_improve, options) {
     var variable, irf, valleys, i, temp_result, sum_array, irf_on_var, impulses, minimum, frequency, range, degradated_value;
     var result = {};
     var consider_shocked_variable = false;
@@ -244,7 +243,8 @@ Aira = (function () {
     return result;
   };
 
-  Aira.prototype.createAiraNetworkJson = function (data) {
+  createAiraNetworkJson(data) {
+    var self = this;
     var result = {
       "nodes": [],
       "links": []
@@ -256,10 +256,10 @@ Aira = (function () {
         "key": entry.name,
         "val": entry.val,
         "type": variable_mapping.get_type(entry.name),
-        "inverted": variable_mapping.get_type(entry.name) == 'Negatief' && this.convert_to_positive
+        "inverted": variable_mapping.get_type(entry.name) == 'Negatief' && self.convert_to_positive
       });
     });
-    edges = this.var_model.getSignificantEdges();
+    var edges = this.var_model.getSignificantEdges();
     edges.forEach(function (entry) {
       result.links.push({
         "weight": entry.coef,
@@ -283,7 +283,7 @@ Aira = (function () {
    * @param max_deviation
    * @returns {Array}
    */
-  var findValleyInMean = function (data, valleys, max_deviation) {
+  findValleyInMean(data, valleys, max_deviation) {
     var i, current;
     var res = [];
     var mean = average(selectionFromArray(data, valleys));
@@ -301,7 +301,7 @@ Aira = (function () {
    *
    * @param options
    */
-  var getDegradationEffect = function (options) {
+  getDegradationEffect(options) {
     var degradation_location = 'degradation';
     if (options.hasOwnProperty(degradation_location) && options[degradation_location].length == this.view_model.get_steps()) {
       console.log('Using degradation effect');
@@ -312,6 +312,4 @@ Aira = (function () {
     }
   };
 
-  return Aira;
-
-})();
+}

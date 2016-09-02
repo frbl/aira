@@ -1,20 +1,15 @@
-var Gui;
-
-Gui = (function () {
-  "use strict";
-
-  var _simulation;
-
-  function Gui() {
-
+"use strict";
+class Gui {
+  constructor() {
+    this._simulation;
   }
 
-  Gui.prototype.setSimulation = function(simulation) {
+  setSimulation(simulation) {
     this._simulation = simulation;
   };
 
-  Gui.prototype.injectButtons = function (node_names) {
-    _injectSimulationFunctionality();
+  injectButtons(node_names) {
+    this._injectSimulationFunctionality();
     var self = this;
     var location = $('#aira-buttons');
     location.html('');
@@ -30,13 +25,13 @@ Gui = (function () {
       }, function (event) {
         var name = event.data.current_node;
         var myid = event.data.current_id;
-        _clickNode(name, myid);
+        self._clickNode(name, myid);
       });
     }
 
     location.append($('<input class="btn waves-effect waves-light orange button_all" name="button_all" type="button" value="Shock ALL!" id="button_button_all"/>'));
     location.on("click", ".button_all", function () {
-      _clickNode('All', -1);
+      self._clickNode('All', -1);
     });
 
     location.append($('<input class="btn waves-effect waves-light red  button_reset" name="button_reset" type="button" value="Reset" id="button_button_reset"/>'));
@@ -52,7 +47,7 @@ Gui = (function () {
       });
 
       var res = aira.determineBestNodeFromAll();
-      _drawTable(res);
+      self._drawTable(res);
       res = aira.createAiraNetworkJson(res);
 
       var bubbleChartVisualization = new BubbleChartVisualization(aira, netEffectOptimizer);
@@ -60,7 +55,7 @@ Gui = (function () {
     });
   };
 
-  Gui.prototype.generateSelectOptions = function (from, to, stepsize, location) {
+  generateSelectOptions(from, to, stepsize, location) {
     var html = $(location);
     for (var i = from; i < to; i += stepsize) {
       html.append($("<option></option>")
@@ -70,7 +65,7 @@ Gui = (function () {
     return html;
   };
 
-  Gui.prototype.appendSelectOptions = function (data, location) {
+  appendSelectOptions(data, location) {
     var html = $(location);
     for (var i = 0; i < data.length; i++) {
       html.append($("<option></option>")
@@ -80,7 +75,7 @@ Gui = (function () {
     return html;
   };
 
-  var _drawTable = function (res) {
+  _drawTable(res) {
     var html = '<ol>';
     for (var i = 0; i < res.length; i++) {
       html = html + '<li><strong>' + res[i].name + '</strong>: ' + res[i].val + '</li>';
@@ -89,7 +84,7 @@ Gui = (function () {
     $(".effect .content").html(html);
   };
 
-  var _injectSimulationFunctionality = function () {
+  _injectSimulationFunctionality() {
     var self = this;
     var location = $('#simulation-buttons');
 
@@ -107,7 +102,7 @@ Gui = (function () {
     });
   };
 
-  var _clickNode = function (node_name_id, node_id) {
+  _clickNode(node_name_id, node_id) {
     if (DEBUG >= 1) console.log('Impulse given on: ' + node_name_id + ' (' + node_id + ')');
 
     var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
@@ -152,8 +147,5 @@ Gui = (function () {
           threshold: view_model.get_threshold()
         });
     }
-
   };
-
-  return Gui;
-})();
+}
