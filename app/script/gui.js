@@ -61,8 +61,8 @@ Gui = (function () {
   };
 
   Gui.prototype.generateSelectOptions = function (from, to, stepsize, location) {
-    html = $(location);
-    for (i = from; i < to; i += stepsize) {
+    var html = $(location);
+    for (var i = from; i < to; i += stepsize) {
       html.append($("<option></option>")
         .attr("value", i)
         .text(roundToPlaces(i, 2)));
@@ -71,8 +71,8 @@ Gui = (function () {
   };
 
   Gui.prototype.appendSelectOptions = function (data, location) {
-    html = $(location);
-    for (i = 0; i < data.length; i++) {
+    var html = $(location);
+    for (var i = 0; i < data.length; i++) {
       html.append($("<option></option>")
         .attr("value", data[i])
         .text(data[i]));
