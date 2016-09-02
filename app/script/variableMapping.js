@@ -43,14 +43,14 @@ VariableMapping = (function () {
 
   VariableMapping.prototype.get_value_from_network = function (id) {
     if (id.length === 0) return id;
-    var regex = new RegExp('_', 'g');
-    return id.charAt(0).toUpperCase() + id.slice(1).replace(regex, ' ');
+    var regex = new RegExp("_", "g");
+    return id.charAt(0).toUpperCase() + id.slice(1).replace(regex, " ");
   };
 
   VariableMapping.prototype.get_network_id_from_value = function (value) {
     if (value.length === 0) return value;
-    var regex = new RegExp(' ', 'g');
-    return value.charAt(0).toLowerCase() + value.slice(1).replace(regex, '_');
+    var regex = new RegExp(" ", "g");
+    return value.charAt(0).toLowerCase() + value.slice(1).replace(regex, "_");
   };
 
   VariableMapping.prototype.get_entry = function (key) {
@@ -65,8 +65,8 @@ VariableMapping = (function () {
 
 
   VariableMapping.prototype.get_translation = function (key) {
-    result = this.get_entry(key);
-    if (result === undefined) throw('Key "'+key+'" not found!');
+    var result = this.get_entry(key);
+    if (result === undefined) throw("Key \""+key+"\" not found!");
     if (result.constructor === Array) {
       return result.map(function (current, id) {
         return current.translation;
@@ -76,7 +76,7 @@ VariableMapping = (function () {
   };
 
   VariableMapping.prototype.get_value = function (key) {
-    result = this.get_entry(key);
+    var result = this.get_entry(key);
     if (result.constructor === Array) {
       return result.map(function (current, id) {
         return current.name;
@@ -96,7 +96,7 @@ VariableMapping = (function () {
   };
 
   VariableMapping.prototype.get_keys = function (value) {
-    result = [];
+    var result = [];
     for (var i = 0; i < value.length; i++) {
       result.push(this.get_key(value[i]));
     }
@@ -126,8 +126,9 @@ VariableMapping = (function () {
   VariableMapping.prototype.get_key_linear = function (value) {
     for (var key in _mapping) {
       if (_mapping.hasOwnProperty(key)) {
-        if (_mapping[key].name === value)
+        if (_mapping[key].name === value) {
           return key;
+        }
       }
     }
     return undefined;
