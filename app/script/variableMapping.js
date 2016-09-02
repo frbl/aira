@@ -19,7 +19,7 @@ VariableMapping = (function () {
         "translation": "Physical discomfort",
         "type": "Negatief"
       },
-      "uw_eigen_factor": {"name": "Mijn eigen factor", "translation": "Personal factor", "type": "Negatief"},
+      "uw_eigen_factor": {"name": "Mijn eigen factor", "translation": "Personal factor", "type": "Neutraal"},
       "onrust": {"name": "Onrust", "translation": "Feeling agitated", "type": "Negatief"},
       "ontspanning": {"name": "Ontspanning", "translation": "Being relaxed", "type": "Positief"},
       "opgewektheid": {"name": "Opgewektheid", "translation": "Being cheerful", "type": "Positief"},

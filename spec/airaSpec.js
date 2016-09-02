@@ -1,4 +1,4 @@
-fdescribe("Aira", function () {
+describe("Aira", function () {
   describe("Constructorn", function () {
     it('set the correct impulse response calculator and var model', function () {
       var var_model = ['varmodel'];
@@ -72,7 +72,7 @@ fdescribe("Aira", function () {
 
   });
 
-  fdescribe("determineLengthOfEffect", function () {
+  describe("determineLengthOfEffect", function () {
     beforeEach(function () {
       var_model = fabricateVarModel(true);
       view_model = fabricateViewModelMock(5, 1, 300, 0.1, 0, false);

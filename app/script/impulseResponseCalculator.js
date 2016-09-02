@@ -71,7 +71,6 @@ ImpulseResponseCalculator = (function () {
       indices = sample(indices);
       current_endo = [];
       y_sampled = [];
-
       for (p = 0; p < var_orig.getLags(); p++) {
         current_y_values = var_orig.getYValues()[p];
         current_endo.unshift(current_y_values);
@@ -105,7 +104,7 @@ ImpulseResponseCalculator = (function () {
 
       this._var_model = var_orig;
     }
-
+    steps++;
     // fabricate the 95% conf interval
     irfs_ci_high = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
     irfs_ci_low = createMatrix(0, steps, this._var_model.getNumberOfVariables(), false);
@@ -247,8 +246,6 @@ ImpulseResponseCalculator = (function () {
       Y[t] = Y_temp;
     }
     Y = transpose(Y);
-    console.log(this._var_model);
-    console.log(Y[0]);
     return Y[0];
   };
 

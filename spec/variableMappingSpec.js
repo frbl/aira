@@ -49,7 +49,7 @@ describe("variableMapping", function () {
       var expected_type1 = "Neutraal";
 
       var expected_name2 = "Concentratie";
-      var expected_translation2 = "Concentration";
+      var expected_translation2 = "Concentrating";
       var expected_type2 = "Positief";
       var result = variable_mapping.get_entry(["uw_eigen_factor", "concentratie"]);
 
@@ -72,7 +72,7 @@ describe("variableMapping", function () {
 
     it('should get the correct entry from the mapping when the key is an array', function () {
       var expected_translation1 = "Personal factor";
-      var expected_translation2 = "Concentration";
+      var expected_translation2 = "Concentrating";
       var result = variable_mapping.get_translation(["uw_eigen_factor", "concentratie"]);
       expect(result[0]).toEqual(expected_translation1);
       expect(result[1]).toEqual(expected_translation2);
