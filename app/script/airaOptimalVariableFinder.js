@@ -51,7 +51,7 @@ var Optimizers = (function () {
 
       // In order to induce this difference the current variable should differ with:
       // Which is x percentage of its average
-      needed_difference /= options.variable_summary.average * net_effect * options.variable_summary.sd;
+      needed_difference /= options.variable_summary.average *  net_effect * options.variable_to_improve_summary.sd;
 
       return {
         needed_difference: needed_difference

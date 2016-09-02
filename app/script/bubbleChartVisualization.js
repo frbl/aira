@@ -6,7 +6,9 @@ var BubbleChartVisualization = (function () {
     min = 999999,
     max = -99999,
     default_wanted_increase = 10,
-    graph, optimizer;
+    graph, optimizer,
+    more_node_network_label='Meer ',
+    less_node_network_label='Minder ';
 
   var bubble_force_layout = d3.layout.force()
     .charge(-10000)
@@ -39,7 +41,7 @@ var BubbleChartVisualization = (function () {
 
   var get_direction = function (d, higher, lower) {
     var res = lower;
-    if (Math.sign(d.val) == 1) res = higher;
+    if (Math.sign(d.val) == 1 && d.inverted == false) res = higher;
     if (Math.sign(d.val) == 0) res = '';
     return res + d.name.toLowerCase();
   };
@@ -95,6 +97,7 @@ var BubbleChartVisualization = (function () {
 
   var renderPercentagesText = function (d) {
     var wanted_increase = Math.sign(d.val) >= 0 ? default_wanted_increase : -1 * default_wanted_increase;
+    var wanted_increase = d.inverted == false ? wanted_increase : -1 * wanted_increase;
     var number_of_options = 0;
     var result = '';
     var percentages = aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
@@ -123,7 +126,7 @@ var BubbleChartVisualization = (function () {
 
   var renderNodesFromNodePerspective = function (d) {
     var result_text = [];
-    result_text.push(get_direction(d, 'more ', 'less '));
+    result_text.push(get_direction(d, more_node_network_label.toLowerCase(), less_node_network_label.toLowerCase()));
 
     // remove nulls from the array (and undefined and "" false)
     result_text = result_text.filter(Boolean);
@@ -145,10 +148,10 @@ var BubbleChartVisualization = (function () {
 
         // Select the node in the HTML to update the nodes from the current node's perspective
         svg.select("#label_" + res.key).text(function (d) {
-          return get_direction(res, 'more ', 'less ');
+          return get_direction(res, more_node_network_label.toLowerCase(), less_node_network_label.toLowerCase());
         });
 
-        result_text.push(get_direction(res, 'more ', 'less '));
+        result_text.push(get_direction(res, more_node_network_label.toLowerCase(), less_node_network_label.toLowerCase()));
       }
     });
 
@@ -282,7 +285,7 @@ var BubbleChartVisualization = (function () {
       })
       .style("text-anchor", "middle")
       .text(function (d) {
-        var r = get_direction(d, 'More ', 'Less ');
+        var r = get_direction(d, more_node_network_label, less_node_network_label);
         return (r === null ? d.name.toLowerCase() : r);
       });
 

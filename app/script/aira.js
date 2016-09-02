@@ -3,10 +3,11 @@ var Aira;
 
 Aira = (function () {
 
-  function Aira(impulse_response_calculator, var_model, view_model) {
+  function Aira(impulse_response_calculator, var_model, view_model, convert_to_positive) {
     this.impulse_response_calculator = impulse_response_calculator;
     this.var_model = var_model;
     this.view_model = view_model;
+    this.convert_to_positive = convert_to_positive;
   }
 
   /**
@@ -247,12 +248,14 @@ Aira = (function () {
       "nodes": [],
       "links": []
     };
-
+    var variable_mapping = this.var_model.getVariableMapping();
     data.forEach(function (entry) {
       result.nodes.push({
-        "name": this.var_model.getVariableMapping().get_translation(entry.name),
+        "name": variable_mapping.get_value(entry.name),
         "key": entry.name,
-        "val": entry.val
+        "val": entry.val,
+        "type": variable_mapping.get_type(entry.name),
+        "inverted": variable_mapping.get_type(entry.name) == 'Negatief' && this.convert_to_positive
       });
     });
     edges = this.var_model.getSignificantEdges();

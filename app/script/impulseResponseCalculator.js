@@ -247,6 +247,8 @@ ImpulseResponseCalculator = (function () {
       Y[t] = Y_temp;
     }
     Y = transpose(Y);
+    console.log(this._var_model);
+    console.log(Y[0]);
     return Y[0];
   };
 

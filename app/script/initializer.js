@@ -92,7 +92,7 @@ Initializer = (function () {
     _gui.setSimulation(this._simulation);
     _gui.injectButtons(node_names);
     impulse_response_calculator = new ImpulseResponseCalculator(var_model);
-    aira = new Aira(impulse_response_calculator, var_model, view_model);
+    aira = new Aira(impulse_response_calculator, var_model, view_model, convert_to_positive);
     visualization_engine = new Visualization(node_names);
   };
 
