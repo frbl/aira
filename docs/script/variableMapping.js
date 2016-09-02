@@ -42,13 +42,17 @@ VariableMapping = (function () {
   };
 
   VariableMapping.prototype.get_value_from_network = function (id) {
-    if (id.length === 0) return id;
+    if (id.length === 0) {
+      return id;
+    }
     var regex = new RegExp("_", "g");
     return id.charAt(0).toUpperCase() + id.slice(1).replace(regex, " ");
   };
 
   VariableMapping.prototype.get_network_id_from_value = function (value) {
-    if (value.length === 0) return value;
+    if (value.length === 0) {
+      return value;
+    }
     var regex = new RegExp(" ", "g");
     return value.charAt(0).toLowerCase() + value.slice(1).replace(regex, "_");
   };
@@ -66,7 +70,7 @@ VariableMapping = (function () {
 
   VariableMapping.prototype.get_translation = function (key) {
     var result = this.get_entry(key);
-    if (result === undefined) throw("Key \""+key+"\" not found!");
+    if (result === undefined) { throw("Key \"" + key + "\" not found!"); }
     if (result.constructor === Array) {
       return result.map(function (current, id) {
         return current.translation;
