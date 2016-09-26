@@ -10,7 +10,8 @@ var BubbleChartVisualization = (function () {
     default_wanted_increase = 10,
     graph, optimizer,
     more_node_network_label='Meer ',
-    less_node_network_label='Minder ';
+    less_node_network_label='Minder ',
+    _aira;
 
   var bubble_force_layout = d3.layout.force()
     .charge(-10000)
@@ -102,7 +103,7 @@ var BubbleChartVisualization = (function () {
     var wanted_increase = d.inverted == false ? wanted_increase : -1 * wanted_increase;
     var number_of_options = 0;
     var result = '';
-    var percentages = aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
+    var percentages = _aira.determineOptimalNodeSimple(d.index, optimizer, {'wanted_increase': wanted_increase});
 
     var number_of_advices = 0, current;
     for (var effect in percentages) {
@@ -210,8 +211,9 @@ var BubbleChartVisualization = (function () {
   };
 
   function BubbleChartVisualization(aira, provided_optimizer) {
-    var res = aira.determineBestNodeFromAll();
-    graph = aira.createAiraNetworkJson(res);
+    _aira = aira;
+    var res = _aira.determineBestNodeFromAll();
+    graph = _aira.createAiraNetworkJson(res);
     optimizer = provided_optimizer;
   }
 

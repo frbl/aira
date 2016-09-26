@@ -127,7 +127,7 @@ ImpulseResponseCalculator = (function () {
   };
 
   ImpulseResponseCalculator.prototype.significantImpulseResponseCalculation = function (variable_to_shock, shock_size, steps, bootstrap_iterations, confidence) {
-    bootrstrapped_response = this.bootstrappedImpulseResponseCalculation(variable_to_shock, shock_size, steps, bootstrap_iterations, confidence);
+    var bootrstrapped_response = this.bootstrappedImpulseResponseCalculation(variable_to_shock, shock_size, steps, bootstrap_iterations, confidence);
 
     var result = [],
       hi,

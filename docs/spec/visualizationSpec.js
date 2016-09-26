@@ -11,7 +11,7 @@ Visualization.prototype.updateAdvice = function (effects) {
 
   var html = '<ol>';
   var i, current;
-  for (var effect in effects) {
+  for (effect in effects) {
     if (effects.hasOwnProperty(effect)) {
       number_of_options += effects[effect].length;
 
@@ -31,9 +31,6 @@ Visualization.prototype.updateAdvice = function (effects) {
   }
 };
 
-Visualization.prototype.showShock = function(step){
-  if (step === 0) Materialize.toast('Shocked!', 1000);
-};
 
 Visualization.prototype.updateNetEffect = function (effects, variable_id_to_improve) {
   var number_of_options = 0;
@@ -43,7 +40,7 @@ Visualization.prototype.updateNetEffect = function (effects, variable_id_to_impr
   var current, text;
   var html = '<ol>';
 
-  for (var effect in effects) {
+  for (effect in effects) {
     if (effects.hasOwnProperty(effect)) {
       current = effects[effect].needed_difference * 100;
       //if(current > 100) continue;
@@ -51,7 +48,7 @@ Visualization.prototype.updateNetEffect = function (effects, variable_id_to_impr
       text = ('<li>You could ' + text + ' your average amount of ' + effect + ' with ' + Math.abs(current.toFixed(0)) + '%</li>');
 
       number_of_options += 1;
-      html += text;
+      html += text
 
     }
   }
@@ -89,38 +86,20 @@ Visualization.prototype.addData = function (name, data) {
   });
 };
 
-Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
+Visualization.prototype.draw = function (transposed_irf) {
   var i;
   var series_var = [];
-
-  var low,
-    high;
-  if (bootstrapped_irf !== undefined) {
-    low = transpose(bootstrapped_irf.low);
-    high = transpose(bootstrapped_irf.high);
-  }
-
   for (i = 0; i < transposed_irf.length; i++) {
     series_var.push({
-      name: variable_mapping.get_translation(this.node_names[i]),
+      name: this.node_names[i],
       data: transposed_irf[i],
       visible: true
-    });
-
-    if (bootstrapped_irf !== undefined) {
-      series_var.push({
-        name: variable_mapping.get_translation(this.node_names[i]) + " error",
-        type: 'areasplinerange',
-        data: _.zip(low[i], high[i]),
-        visible: true
-      });
-    }
+    })
   }
 
   this.chart = new Highcharts.Chart({
     chart: {
-      renderTo: 'container',
-      type: 'spline'
+      renderTo: 'container'
     },
     plotOptions: {
       series: {
@@ -131,7 +110,7 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
     },
 
     title: {
-      text: 'Impulse response graph',
+      text: 'Impulse response',
       x: -20 //center
     },
     subtitle: {
@@ -141,17 +120,9 @@ Visualization.prototype.draw = function (transposed_irf, bootstrapped_irf) {
     credits: {
       enabled: false
     },
-    xAxis: {
-      allowDecimals: false,
-      minTickInterval: 1,
-      maxTickInterval: 1,
-      title: {
-        text: 'Horizon (time steps)'
-      }
-    },
     yAxis: {
       title: {
-        text: 'Response (Y<sub>t</sub> - d)'
+        text: 'Response'
       },
       plotLines: [{
         value: 0,

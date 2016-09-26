@@ -1,12 +1,23 @@
 "use strict";
 class Gui {
   constructor() {
-    this._simulation;
+    this._simulation = null;
+    this._aira = null;
+    this._irfCalculator = null;
   }
 
-  setSimulation(simulation) {
+  set simulation(simulation) {
+    if (this._simulation !== null && this._simulation !== undefined) this._simulation.clear();
     this._simulation = simulation;
-  };
+  }
+
+  set aira(aira) {
+    this._aira = aira;
+  }
+
+  set irfCalculator(irfCalculator) {
+    this._irfCalculator = irfCalculator
+  }
 
   injectButtons(node_names) {
     this._injectSimulationFunctionality();
@@ -46,11 +57,11 @@ class Gui {
         wanted_increase: view_model.get_improvement()
       });
 
-      var res = aira.determineBestNodeFromAll();
+      var res = self._aira.determineBestNodeFromAll();
       self._drawTable(res);
-      res = aira.createAiraNetworkJson(res);
+      res = self._aira.createAiraNetworkJson(res);
 
-      var bubbleChartVisualization = new BubbleChartVisualization(aira, netEffectOptimizer);
+      var bubbleChartVisualization = new BubbleChartVisualization(self._aira, netEffectOptimizer);
       bubbleChartVisualization.render();
     });
   };
@@ -104,22 +115,22 @@ class Gui {
 
   _clickNode(node_name_id, node_id) {
     if (DEBUG >= 1) console.log('Impulse given on: ' + node_name_id + ' (' + node_id + ')');
-
-    var irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
+    var self = this;
+    var irf = transpose(this._irfCalculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
     var bootstrapped_irf;
     if (view_model.get_chk_bootstrap()) {
       var confidence = 0.95,
         iterations = view_model.get_bootstrap_iterations(),
         shock_size = 1;
 
-      bootstrapped_irf = impulse_response_calculator.bootstrappedImpulseResponseCalculation(node_id, shock_size,
+      bootstrapped_irf = this._irfCalculator.bootstrappedImpulseResponseCalculation(node_id, shock_size,
         view_model.get_steps(),
         iterations, confidence);
     }
 
-    visualization_engine.draw(irf, bootstrapped_irf);
+    this._simulation.drawIrf(irf, bootstrapped_irf);
 
-    irf = transpose(impulse_response_calculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
+    irf = transpose(this._irfCalculator.runImpulseResponseCalculation(node_id, 1, view_model.get_steps()));
     irf = linearInterpolation(irf, view_model.get_interpolation());
 
     var interpolation = view_model.get_interpolation() === 0 ? 1 : view_model.get_interpolation();
@@ -131,18 +142,12 @@ class Gui {
       var thresholdOptimizer = new ThresholdOptimizer({
         threshold: view_model.get_threshold()
       });
-      var netEffectOptimizer = new NetEffectOptimizer({
-        wanted_increase: view_model.get_improvement()
-      });
 
       if ($('#chk-threshold').prop('checked'))
-        visualization_engine.updateAdvice(aira.determineOptimalNodeSimple(node_id, thresholdOptimizer));
-
-      if ($('#chk-stability').prop('checked'))
-        visualization_engine.updateNetEffect(aira.determineOptimalNodeSimple(node_id, netEffectOptimizer), node_name_id);
+        self._simulation.update_advice(self._aira.determineOptimalNodeSimple(node_id, thresholdOptimizer));
 
       if ($('#chk-frequency').prop('checked'))
-        aira.determineOptimalNode(node_id, {
+        self._aira.determineOptimalNode(node_id, {
           degradation: [],
           threshold: view_model.get_threshold()
         });

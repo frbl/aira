@@ -94,10 +94,11 @@ class Simulation{
       network.find('g .node').parent().find('#' + node).parent().children().first().attr("class", "node " + class_posneg);
       value = isNaN(value) ? 0 : Math.abs(value);
     } else {
-      value = isNaN(value) ? 0 : value;
+      value = (isNaN(value) || value < 0) ? 0 : value;
     }
 
     node = variable_mapping.get_network_id_from_value(variable_mapping.get_value(node));
+
     network.find('g .node').parent().find('#' + node).parent().children().attr('r', value);
 
   };
